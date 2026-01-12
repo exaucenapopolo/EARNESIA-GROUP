@@ -3,28 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EARNESIA - Ton futur en route</title>
+  <title>EARNESIA - Inscription</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* ===== VARIABLES ET RESET ===== */
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --secondary: #f59e0b;
-      --secondary-dark: #d97706;
-      --accent: #10b981;
-      --dark: #0f172a;
-      --light: #f8fafc;
-      --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-      --gradient-2: linear-gradient(45deg, #f59e0b, #f97316, #ef4444);
-      --gradient-bg: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                     radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
-                     radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                     radial-gradient(circle at 0% 100%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
-      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
-      --shadow-hover: 0 25px 50px rgba(99, 102, 241, 0.25);
-      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      --primary: #3a86ff;
+      --primary-dark: #2667cc;
+      --secondary: #00b4d8;
+      --accent: #00cc88;
+      --light: #ffffff;
+      --light-gray: #f8f9fa;
+      --gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --text: #333333;
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 15px 40px rgba(58, 134, 255, 0.15);
+      --transition: all 0.3s ease;
+      --radius: 12px;
     }
     
     * {
@@ -34,10 +31,26 @@
       font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* ===== ANIMATIONS GLOBALES ===== */
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-15px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     
     @keyframes shimmer {
@@ -45,42 +58,26 @@
       100% { background-position: 200% center; }
     }
     
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
-    }
-    
-    @keyframes slide-up {
-      from { 
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to { 
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    @keyframes successPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 204, 136, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(0, 204, 136, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 204, 136, 0); }
     }
     
     /* ===== STYLES GÉNÉRAUX ===== */
     body {
-      background-color: #0f172a;
-      background-image: var(--gradient-bg);
-      color: var(--light);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      overflow-x: hidden;
       position: relative;
+      overflow-x: hidden;
     }
     
+    /* Effets de fond subtils */
     body::before {
       content: '';
       position: fixed;
@@ -88,179 +85,87 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(58, 134, 255, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0, 180, 216, 0.05) 0%, transparent 20%);
       z-index: -1;
-      animation: gradient-shift 20s ease infinite;
-      background-size: 400% 400%;
-    }
-    
-    .floating-elements {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-    
-    .floating-element {
-      position: absolute;
-      border-radius: 50%;
-      background: var(--gradient-1);
-      opacity: 0.1;
-      filter: blur(40px);
-      animation: float 15s ease-in-out infinite;
-    }
-    
-    .floating-element:nth-child(1) {
-      width: 300px;
-      height: 300px;
-      top: 10%;
-      left: 5%;
-      animation-delay: 0s;
-    }
-    
-    .floating-element:nth-child(2) {
-      width: 200px;
-      height: 200px;
-      top: 60%;
-      right: 10%;
-      animation-delay: 5s;
-      background: var(--gradient-2);
-    }
-    
-    .floating-element:nth-child(3) {
-      width: 150px;
-      height: 150px;
-      bottom: 20%;
-      left: 15%;
-      animation-delay: 10s;
     }
     
     .container {
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       margin: 0 auto;
-      position: relative;
-      z-index: 1;
-      animation: slide-up 0.8s ease-out;
+      animation: fadeIn 0.8s ease-out;
     }
     
     /* ===== HEADER ET LOGO ===== */
     .logo-header {
       text-align: center;
       margin-bottom: 30px;
-      position: relative;
+      animation: fadeIn 0.6s ease-out;
     }
     
-    .logo {
-      font-size: 3.5rem;
-      font-weight: 800;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .logo-container {
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       margin-bottom: 15px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      position: relative;
-      padding: 0 20px;
     }
     
-    .logo::before {
-      content: '';
-      position: absolute;
-      top: -5px;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: var(--gradient-1);
-      border-radius: 10px;
-      animation: pulse-glow 2s infinite;
+    .logo-img {
+      height: 70px;
+      width: auto;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+      transition: var(--transition);
     }
     
-    .coin-container {
-      position: relative;
-      margin-right: 15px;
-      height: 60px;
-      width: 60px;
-      animation: float 4s ease-in-out infinite;
+    .logo-img:hover {
+      transform: scale(1.05) rotate(5deg);
     }
     
-    .coin {
-      position: absolute;
+    .logo-text {
       font-size: 2.5rem;
-      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-    }
-    
-    .coin-1 { 
-      top: 0; 
-      left: 0; 
-      z-index: 4; 
-      color: #f59e0b;
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    .coin-2 { 
-      top: 5px; 
-      left: 5px; 
-      z-index: 3; 
-      color: #10b981;
-      animation: float 3s ease-in-out infinite 0.2s;
-    }
-    
-    .coin-3 { 
-      top: 10px; 
-      left: 10px; 
-      z-index: 2; 
-      color: #6366f1;
-      animation: float 3s ease-in-out infinite 0.4s;
-    }
-    
-    .coin-4 { 
-      top: 15px; 
-      left: 15px; 
-      z-index: 1; 
-      color: #ec4899;
-      animation: float 3s ease-in-out infinite 0.6s;
+      font-weight: 700;
+      color: var(--primary);
+      margin-left: 15px;
+      font-family: 'Poppins', sans-serif;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     }
     
     .tagline {
-      font-size: 1.3rem;
-      color: #cbd5e1;
+      font-size: 1.1rem;
+      color: var(--dark-gray);
       font-weight: 500;
-      font-family: 'Rajdhani', sans-serif;
-      letter-spacing: 1px;
+      margin-top: 10px;
       position: relative;
       display: inline-block;
-      padding: 0 10px;
+      padding: 0 20px;
     }
     
+    .tagline::before,
     .tagline::after {
       content: '';
       position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: var(--gradient-1);
-      border-radius: 10px;
+      top: 50%;
+      width: 30px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary));
+    }
+    
+    .tagline::before {
+      left: -20px;
+    }
+    
+    .tagline::after {
+      right: -20px;
+      background: linear-gradient(90deg, var(--primary), transparent);
     }
     
     /* ===== CARTE PRINCIPALE ===== */
     .card {
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow-lg);
+      background-color: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow: hidden;
       padding: 35px;
       position: relative;
@@ -268,9 +173,8 @@
     }
     
     .card:hover {
-      transform: translateY(-5px);
       box-shadow: var(--shadow-hover);
-      border-color: rgba(99, 102, 241, 0.3);
+      transform: translateY(-5px);
     }
     
     .card::before {
@@ -279,8 +183,8 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 5px;
-      background: var(--gradient-1);
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
     
     .card-header {
@@ -288,27 +192,23 @@
       margin-bottom: 30px;
     }
     
-    .card-header h2 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 10px;
-      font-family: 'Orbitron', sans-serif;
+    .card-header h1 {
+      color: var(--text);
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-family: 'Poppins', sans-serif;
     }
     
     .card-header p {
-      color: #94a3b8;
-      font-size: 1.05rem;
-      font-weight: 400;
+      color: var(--dark-gray);
+      font-size: 1rem;
     }
     
     /* ===== FORMULAIRES ===== */
     .form-group {
-      margin-bottom: 25px;
-      animation: slide-up 0.6s ease-out;
+      margin-bottom: 22px;
+      animation: slideIn 0.5s ease-out;
       animation-fill-mode: both;
     }
     
@@ -319,99 +219,87 @@
     .form-group:nth-child(5) { animation-delay: 0.5s; }
     .form-group:nth-child(6) { animation-delay: 0.6s; }
     .form-group:nth-child(7) { animation-delay: 0.7s; }
+    .form-group:nth-child(8) { animation-delay: 0.8s; }
+    .form-group:nth-child(9) { animation-delay: 0.9s; }
     
     label {
       display: block;
-      margin-bottom: 10px;
-      font-weight: 600;
-      color: #e2e8f0;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text);
       font-size: 0.95rem;
-      font-family: 'Rajdhani', sans-serif;
-      letter-spacing: 0.5px;
+      transition: var(--transition);
+    }
+    
+    label:hover {
+      color: var(--primary);
     }
     
     .input-group {
       display: flex;
       align-items: center;
-      background: rgba(30, 41, 59, 0.6);
-      border-radius: 12px;
+      background-color: var(--light-gray);
+      border-radius: 8px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 2px solid var(--gray);
       transition: var(--transition);
       position: relative;
     }
     
-    .input-group::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 12px;
-      padding: 2px;
-      background: var(--gradient-1);
-      -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-      mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
     .input-group:focus-within {
-      border-color: transparent;
-      transform: translateY(-3px);
-    }
-    
-    .input-group:focus-within::before {
-      opacity: 1;
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.1);
     }
     
     .input-group.disabled {
-      background: rgba(30, 41, 59, 0.4);
+      background-color: #f0f0f0;
       opacity: 0.8;
     }
     
     .input-icon {
-      padding: 0 18px;
-      color: #94a3b8;
+      padding: 0 15px;
+      color: var(--dark-gray);
       font-size: 1.1rem;
+      min-width: 50px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    
+    .input-group:focus-within .input-icon {
+      color: var(--primary);
     }
     
     input, select {
       width: 100%;
-      padding: 16px;
+      padding: 16px 10px;
       border: none;
       background: transparent;
-      color: #f1f5f9;
+      color: var(--text);
       font-size: 1rem;
       outline: none;
       font-weight: 500;
     }
     
     input::placeholder {
-      color: #94a3b8;
+      color: #adb5bd;
     }
     
     input:disabled {
       cursor: not-allowed;
-      color: #64748b;
+      color: var(--dark-gray);
     }
     
     select {
       appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
-      background-position: right 18px center;
-      background-size: 16px;
+      background-position: right 15px center;
+      background-size: 15px;
       cursor: pointer;
     }
     
+    /* Groupe téléphone */
     .phone-group {
       display: flex;
     }
@@ -420,62 +308,63 @@
       flex: 0 0 30%;
       display: flex;
       align-items: center;
-      background: rgba(99, 102, 241, 0.2);
-      padding: 0 18px;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      font-weight: 600;
-      color: #e2e8f0;
+      background-color: #eef7ff;
+      padding: 0 15px;
+      border-right: 2px solid var(--gray);
+      font-weight: 500;
+      color: var(--primary);
+      transition: var(--transition);
     }
     
     .flag {
-      margin-right: 10px;
-      font-size: 1.3rem;
+      margin-right: 8px;
+      font-size: 1.2rem;
     }
     
     .phone-input {
       flex: 1;
     }
     
+    /* Checkbox et conditions */
     .checkbox-group {
       display: flex;
       align-items: flex-start;
-      gap: 15px;
+      gap: 12px;
       margin: 25px 0;
       padding: 20px;
-      background: rgba(30, 41, 59, 0.4);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background-color: var(--light-gray);
+      border-radius: 8px;
+      border: 2px solid var(--gray);
       transition: var(--transition);
     }
     
     .checkbox-group:hover {
-      border-color: rgba(99, 102, 241, 0.3);
-      transform: translateY(-3px);
+      border-color: var(--primary);
+      background-color: white;
     }
     
     .checkbox-group input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       margin-top: 3px;
       flex-shrink: 0;
       cursor: pointer;
-      accent-color: var(--primary);
+      accent-color: var(--accent);
       position: relative;
     }
     
     .terms-text {
       font-size: 0.9rem;
       line-height: 1.5;
-      color: #94a3b8;
-      max-width: calc(100% - 40px);
+      color: var(--dark-gray);
+      max-width: calc(100% - 35px);
     }
     
     .terms-text a {
       color: var(--primary);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
       position: relative;
-      transition: var(--transition);
     }
     
     .terms-text a::after {
@@ -484,7 +373,7 @@
       bottom: -2px;
       left: 0;
       width: 0;
-      height: 2px;
+      height: 1px;
       background: var(--primary);
       transition: width 0.3s ease;
     }
@@ -493,25 +382,24 @@
       width: 100%;
     }
     
-    /* ===== BOUTON ===== */
+    /* Bouton d'inscription */
     .btn {
       display: block;
       width: 100%;
       padding: 18px;
-      background: var(--gradient-1);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
       border: none;
-      border-radius: 12px;
-      font-size: 1.2rem;
-      font-weight: 700;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
       position: relative;
       overflow: hidden;
-      font-family: 'Rajdhani', sans-serif;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0.5px;
     }
     
     .btn::before {
@@ -526,8 +414,8 @@
     }
     
     .btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(58, 134, 255, 0.3);
     }
     
     .btn:hover::before {
@@ -546,16 +434,17 @@
     
     .btn i {
       margin-right: 10px;
+      animation: float 3s ease-in-out infinite;
     }
     
-    /* ===== LIEN DE CONNEXION ===== */
+    /* Lien de connexion */
     .login-link {
       text-align: center;
       margin-top: 30px;
       font-size: 1rem;
-      color: #94a3b8;
+      color: var(--dark-gray);
       padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid var(--gray);
     }
     
     .login-link a {
@@ -563,14 +452,14 @@
       text-decoration: none;
       font-weight: 600;
       position: relative;
-      padding: 5px 0;
+      padding: 0 5px;
     }
     
     .login-link a::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: -2px;
+      left: 5px;
       width: 0;
       height: 2px;
       background: var(--primary);
@@ -578,17 +467,17 @@
     }
     
     .login-link a:hover::after {
-      width: 100%;
+      width: calc(100% - 10px);
     }
     
-    /* ===== FOOTER ===== */
+    /* Footer */
     .footer {
       margin-top: 40px;
       text-align: center;
-      color: #64748b;
+      color: var(--dark-gray);
       font-size: 0.9rem;
       padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid var(--gray);
     }
     
     .footer-links {
@@ -600,53 +489,53 @@
     }
     
     .footer-links a {
-      color: #94a3b8;
+      color: var(--dark-gray);
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
       position: relative;
-      padding: 5px 0;
+      padding: 0 5px;
     }
     
     .footer-links a::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: -2px;
+      left: 5px;
       width: 0;
-      height: 2px;
+      height: 1px;
       background: var(--primary);
       transition: width 0.3s ease;
     }
     
     .footer-links a:hover {
-      color: #e2e8f0;
+      color: var(--primary);
     }
     
     .footer-links a:hover::after {
-      width: 100%;
+      width: calc(100% - 10px);
     }
     
-    /* ===== MESSAGES D'ERREUR/SUCCÈS ===== */
+    /* Messages d'erreur/succès */
     .error-message, .success-message {
       padding: 15px;
-      border-radius: 12px;
+      border-radius: 8px;
       margin-top: 15px;
       font-size: 0.9rem;
       display: none;
-      animation: slide-up 0.4s ease;
+      animation: fadeIn 0.4s ease;
     }
     
     .error-message {
-      color: #fecaca;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
     }
     
     .success-message {
-      color: #bbf7d0;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
     }
     
     /* ===== NOTIFICATIONS ===== */
@@ -657,39 +546,36 @@
       z-index: 9999;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       max-width: 400px;
     }
     
     .notification {
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
       max-width: 100%;
-      animation: slide-up 0.4s ease forwards;
+      animation: slideIn 0.4s ease forwards;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .notification.success {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.3);
-      color: #bbf7d0;
+      background: linear-gradient(135deg, #00cc88 0%, #00b377 100%);
+      color: white;
     }
     
     .notification.error {
-      background: rgba(239, 68, 68, 0.15);
-      border-color: rgba(239, 68, 68, 0.3);
-      color: #fecaca;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+      color: white;
     }
     
     .notification-icon {
       margin-right: 15px;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
     
     .notification-content {
@@ -697,14 +583,13 @@
     }
     
     .notification-title {
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 5px;
-      font-size: 1.1rem;
-      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
     }
     
     .notification-message {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       opacity: 0.9;
     }
     
@@ -737,24 +622,31 @@
     }
     
     @keyframes progressBar {
-      from {
-        transform: scaleX(1);
-      }
-      to {
-        transform: scaleX(0);
-      }
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
     }
     
-    /* ===== OPTIONS DE PAYS ===== */
+    /* Options de pays */
     .country-option {
       display: flex;
       align-items: center;
-      padding: 10px 15px;
+      padding: 10px;
     }
     
     .country-flag {
       margin-right: 10px;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
+    }
+        /* ===== FEU D'ARTIFICE ===== */
+    #fireworks-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9998;
+      display: none;
     }
     
     /* ===== RESPONSIVE ===== */
@@ -768,26 +660,21 @@
         padding: 25px;
       }
       
-      .logo {
-        font-size: 2.8rem;
-      }
-      
-      .coin-container {
-        height: 50px;
-        width: 50px;
-      }
-      
-      .coin {
+      .logo-text {
         font-size: 2rem;
       }
       
-      .card-header h2 {
-        font-size: 1.8rem;
+      .logo-img {
+        height: 60px;
+      }
+      
+      .card-header h1 {
+        font-size: 1.5rem;
       }
       
       .btn {
         padding: 16px;
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
       
       .notification-container {
@@ -806,25 +693,30 @@
         padding: 20px;
       }
       
-      .logo {
-        font-size: 2.2rem;
-      }
-      
-      .coin-container {
-        height: 40px;
-        width: 40px;
-      }
-      
-      .coin {
+      .logo-text {
         font-size: 1.8rem;
       }
       
-      .tagline {
-        font-size: 1.1rem;
+      .logo-img {
+        height: 50px;
       }
       
-      .card-header h2 {
-        font-size: 1.5rem;
+      .logo-container {
+        flex-direction: column;
+        margin-bottom: 10px;
+      }
+      
+      .logo-text {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+      
+      .tagline {
+        font-size: 1rem;
+      }
+      
+      .card-header h1 {
+        font-size: 1.3rem;
       }
       
       .checkbox-group {
@@ -835,203 +727,288 @@
         flex-direction: column;
         gap: 10px;
       }
+      
+      .phone-group {
+        flex-direction: column;
+      }
+      
+      .country-code {
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+        border-right: none;
+        border-bottom: 2px solid var(--gray);
+      }
+    }
+    
+    /* ===== ANIMATIONS DE SUCCÈS ===== */
+    .success-animation {
+      animation: successPulse 1.5s ease-out;
+    }
+    
+    /* ===== ÉLÉMENTS FLOTTANTS ===== */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(58, 134, 255, 0.1), rgba(0, 180, 216, 0.1));
+      opacity: 0.1;
+      filter: blur(20px);
+      animation: float 20s ease-in-out infinite;
+      z-index: -1;
+    }
+    
+    .floating-element:nth-child(1) {
+      width: 200px;
+      height: 200px;
+      top: 10%;
+      left: 5%;
+    }
+    
+    .floating-element:nth-child(2) {
+      width: 150px;
+      height: 150px;
+      top: 60%;
+      right: 10%;
+      animation-delay: 10s;
+    }
+    
+    .floating-element:nth-child(3) {
+      width: 100px;
+      height: 100px;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 5s;
     }
   </style>
 </head>
 <body>
-<!-- Éléments de fond flottants -->
-<div class="floating-elements">
+  <!-- Éléments de fond flottants -->
   <div class="floating-element"></div>
   <div class="floating-element"></div>
   <div class="floating-element"></div>
-</div>
+  
+  <!-- Canvas pour feu d'artifice -->
+  <canvas id="fireworks-canvas"></canvas>
+  
+  <!-- Conteneur de notifications -->
+  <div class="notification-container" id="notificationContainer"></div>
 
-<!-- Conteneur de notifications -->
-<div class="notification-container" id="notificationContainer"></div>
-
-<div class="container">
-  <!-- En-tête avec logo -->
-  <div class="logo-header">
-    <div class="logo">
-      <div class="coin-container">
-        <i class="fas fa-coins coin coin-1"></i>
-        <i class="fas fa-coins coin coin-2"></i>
-        <i class="fas fa-coins coin coin-3"></i>
-        <i class="fas fa-coins coin coin-4"></i>
+  <div class="container">
+    <!-- En-tête avec logo -->
+    <div class="logo-header">
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/exaucenapopolo/EARNESIA-GROUP/refs/heads/main/c8f725a49c3742ea90f599a9ca96329a.jpg" alt="EARNESIA Logo" class="logo-img">
+        <span class="logo-text">EARNESIA</span>
       </div>
-      <span>EARNESIA</span>
-    </div>
-    <div class="tagline">Ton futur en route</div>
-  </div>
-
-  <!-- Carte principale -->
-  <div class="card">
-    <div class="card-header">
-      <h2>Créer un compte</h2>
-      <p>Votre avenir financier commence ici</p>
+      <div class="tagline">Ton futur en route</div>
     </div>
 
-    <!-- Messages d'erreur/succès -->
-    <div id="errorMessage" class="error-message"></div>
-    <div id="successMessage" class="success-message"></div>
+    <!-- Carte principale -->
+    <div class="card">
+      <div class="card-header">
+        <h1>S'inscrire</h1>
+        <p>Veuillez saisir vos coordonnées</p>
+      </div>
 
-    <!-- Formulaire d'inscription -->
-    <form id="registrationForm">
-      <!-- Nom d'utilisateur -->
-      <div class="form-group">
-        <label for="username">Nom d'utilisateur</label>
-        <div class="input-group">
-          <div class="input-icon"><i class="fas fa-user"></i></div>
-          <input type="text" id="username" name="username" required placeholder="Choisissez votre nom d'utilisateur">
+      <!-- Messages d'erreur/succès -->
+      <div id="errorMessage" class="error-message"></div>
+      <div id="successMessage" class="success-message"></div>
+
+      <!-- Formulaire d'inscription -->
+      <form id="registrationForm">
+        <!-- Nom d'utilisateur -->
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-user"></i></div>
+            <input type="text" id="username" name="username" required placeholder="Choisissez votre nom d'utilisateur">
+          </div>
         </div>
-      </div>
 
-      <!-- Parrain -->
-      <div class="form-group">
-        <label for="par">Parrain (facultatif)</label>
-        <div class="input-group" id="parInputGroup">
-          <div class="input-icon"><i class="fas fa-user-friends"></i></div>
-          <input type="text" id="par" name="par" placeholder="Aucun parrain détecté" disabled>
+        <!-- Parrain -->
+        <div class="form-group">
+          <label for="par">Parrain (facultatif)</label>
+          <div class="input-group" id="parInputGroup">
+            <div class="input-icon"><i class="fas fa-user-friends"></i></div>
+            <input type="text" id="par" name="par" placeholder="Aucun parrain détecté" disabled>
+          </div>
         </div>
-      </div>
 
-      <!-- Email -->
-      <div class="form-group">
-        <label for="email">Adresse e-mail</label>
-        <div class="input-group">
-          <div class="input-icon"><i class="fas fa-envelope"></i></div>
-          <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-envelope"></i></div>
+            <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+          </div>
         </div>
-      </div>
 
-      <!-- Pays -->
-      <div class="form-group">
-        <label for="country">Pays</label>
-        <div class="input-group">
-          <div class="input-icon"><i class="fas fa-globe"></i></div>
-          <select id="country" name="country" required onchange="updateCountryCode()">
-            <option value="">Sélectionnez votre pays</option>
-            
-            <optgroup label="Afrique Centrale">
-              <option value="cm" data-code="+237" selected>🇨🇲 Cameroun</option>
-              <option value="td" data-code="+235">🇹🇩 Tchad</option>
-              <option value="cf" data-code="+236">🇨🇫 République centrafricaine</option>
-              <option value="cg" data-code="+242">🇨🇬 Congo-Brazzaville</option>
-              <option value="cd" data-code="+243">🇨🇩 République démocratique du Congo</option>
-              <option value="gq" data-code="+240">🇬🇶 Guinée équatoriale</option>
-              <option value="ga" data-code="+241">🇬🇦 Gabon</option>
-              <option value="st" data-code="+239">🇸🇹 Sao Tomé-et-Principe</option>
-            </optgroup>
-            
-            <optgroup label="Afrique de l'Ouest">
-              <option value="ci" data-code="+225">🇨🇮 Côte d'Ivoire</option>
-              <option value="sn" data-code="+221">🇸🇳 Sénégal</option>
-              <option value="ml" data-code="+223">🇲🇱 Mali</option>
-              <option value="bf" data-code="+226">🇧🇫 Burkina Faso</option>
-              <option value="ne" data-code="+227">🇳🇪 Niger</option>
-              <option value="tg" data-code="+228">🇹🇬 Togo</option>
-              <option value="bj" data-code="+229">🇧🇯 Bénin</option>
-              <option value="ng" data-code="+234">🇳🇬 Nigeria</option>
-              <option value="gh" data-code="+233">🇬🇭 Ghana</option>
-              <option value="gn" data-code="+224">🇬🇳 Guinée</option>
-              <option value="gw" data-code="+245">🇬🇼 Guinée-Bissau</option>
-              <option value="lr" data-code="+231">🇱🇷 Liberia</option>
-              <option value="sl" data-code="+232">🇸🇱 Sierra Leone</option>
-              <option value="gm" data-code="+220">🇬🇲 Gambie</option>
-              <option value="mr" data-code="+222">🇲🇷 Mauritanie</option>
-            </optgroup>
-            
-            <optgroup label="Afrique de l'Est">
-              <option value="ke" data-code="+254">🇰🇪 Kenya</option>
-              <option value="ug" data-code="+256">🇺🇬 Ouganda</option>
-              <option value="tz" data-code="+255">🇹🇿 Tanzanie</option>
-              <option value="rw" data-code="+250">🇷🇼 Rwanda</option>
-              <option value="bi" data-code="+257">🇧🇮 Burundi</option>
-              <option value="et" data-code="+251">🇪🇹 Éthiopie</option>
-              <option value="ss" data-code="+211">🇸🇸 Soudan du Sud</option>
-              <option value="sd" data-code="+249">🇸🇩 Soudan</option>
-              <option value="so" data-code="+252">🇸🇴 Somalie</option>
-              <option value="dj" data-code="+253">🇩🇯 Djibouti</option>
-              <option value="er" data-code="+291">🇪🇷 Érythrée</option>
-            </optgroup>
-            
-            <optgroup label="Autres pays africains">
-              <option value="dz" data-code="+213">🇩🇿 Algérie</option>
-              <option value="eg" data-code="+20">🇪🇬 Égypte</option>
-              <option value="ly" data-code="+218">🇱🇾 Libye</option>
-              <option value="ma" data-code="+212">🇲🇦 Maroc</option>
-              <option value="tn" data-code="+216">🇹🇳 Tunisie</option>
-              <option value="ao" data-code="+244">🇦🇴 Angola</option>
-              <option value="mz" data-code="+258">🇲🇿 Mozambique</option>
-              <option value="zm" data-code="+260">🇿🇲 Zambie</option>
-              <option value="zw" data-code="+263">🇿🇼 Zimbabwe</option>
-              <option value="mw" data-code="+265">🇲🇼 Malawi</option>
-              <option value="na" data-code="+264">🇳🇦 Namibie</option>
-              <option value="bw" data-code="+267">🇧🇼 Botswana</option>
-              <option value="sz" data-code="+268">🇸🇿 Eswatini</option>
-              <option value="ls" data-code="+266">🇱🇸 Lesotho</option>
-              <option value="mg" data-code="+261">🇲🇬 Madagascar</option>
-              <option value="mu" data-code="+230">🇲🇺 Maurice</option>
-              <option value="sc" data-code="+248">🇸🇨 Seychelles</option>
-              <option value="cv" data-code="+238">🇨🇻 Cap-Vert</option>
-            </optgroup>
-          </select>
+        <!-- Prénom -->
+        <div class="form-group">
+          <label for="firstName">Prénom</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-user-circle"></i></div>
+            <input type="text" id="firstName" name="firstName" required placeholder="Votre prénom">
+          </div>
         </div>
-      </div>
 
-      <!-- Téléphone -->
-      <div class="form-group">
-        <label for="phone">Numéro de téléphone</label>
-        <div class="input-group phone-group">
-          <div class="country-code"><span id="selectedFlag" class="flag">🇨🇲</span><span id="countryCode">+237</span></div>
-          <div class="input-icon"><i class="fas fa-phone"></i></div>
-          <input type="tel" id="phone" name="phone" required class="phone-input" placeholder="XX XXX XXX">
+        <!-- Nom de famille -->
+        <div class="form-group">
+          <label for="lastName">Nom de famille</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-user-tag"></i></div>
+            <input type="text" id="lastName" name="lastName" required placeholder="Votre nom de famille">
+          </div>
         </div>
-      </div>
 
-      <!-- Mot de passe -->
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <div class="input-group">
-          <div class="input-icon"><i class="fas fa-lock"></i></div>
-          <input type="password" id="password" name="password" required placeholder="Créez un mot de passe sécurisé">
+        <!-- Skype -->
+        <div class="form-group">
+          <label for="skype">Skype (facultatif)</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fab fa-skype"></i></div>
+            <input type="text" id="skype" name="skype" placeholder="Votre identifiant Skype">
+          </div>
         </div>
-      </div>
 
-      <!-- Confirmation mot de passe -->
-      <div class="form-group">
-        <label for="confirmPassword">Confirmer le mot de passe</label>
-        <div class="input-group">
-          <div class="input-icon"><i class="fas fa-lock"></i></div>
-          <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirmez votre mot de passe">
+        <!-- Pays -->
+        <div class="form-group">
+          <label for="country">Pays</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-globe"></i></div>
+            <select id="country" name="country" required onchange="updateCountryCode()">
+              <option value="">Sélectionnez votre pays</option>
+              
+              <optgroup label="Afrique Centrale">
+                <option value="cm" data-code="+237" selected>🇨🇲 Cameroun</option>
+                <option value="td" data-code="+235">🇹🇩 Tchad</option>
+                <option value="cf" data-code="+236">🇨🇫 République centrafricaine</option>
+                <option value="cg" data-code="+242">🇨🇬 Congo-Brazzaville</option>
+                <option value="cd" data-code="+243">🇨🇩 République démocratique du Congo</option>
+                <option value="gq" data-code="+240">🇬🇶 Guinée équatoriale</option>
+                <option value="ga" data-code="+241">🇬🇦 Gabon</option>
+                <option value="st" data-code="+239">🇸🇹 Sao Tomé-et-Principe</option>
+              </optgroup>
+              
+              <optgroup label="Afrique de l'Ouest">
+                <option value="ci" data-code="+225">🇨🇮 Côte d'Ivoire</option>
+                <option value="sn" data-code="+221">🇸🇳 Sénégal</option>
+                <option value="ml" data-code="+223">🇲🇱 Mali</option>
+                <option value="bf" data-code="+226">🇧🇫 Burkina Faso</option>
+                <option value="ne" data-code="+227">🇳🇪 Niger</option>
+                <option value="tg" data-code="+228">🇹🇬 Togo</option>
+                <option value="bj" data-code="+229">🇧🇯 Bénin</option>
+                <option value="ng" data-code="+234">🇳🇬 Nigeria</option>
+                <option value="gh" data-code="+233">🇬🇭 Ghana</option>
+                <option value="gn" data-code="+224">🇬🇳 Guinée</option>
+                <option value="gw" data-code="+245">🇬🇼 Guinée-Bissau</option>
+                <option value="lr" data-code="+231">🇱🇷 Liberia</option>
+                <option value="sl" data-code="+232">🇸🇱 Sierra Leone</option>
+                <option value="gm" data-code="+220">🇬🇲 Gambie</option>
+                <option value="mr" data-code="+222">🇲🇷 Mauritanie</option>
+              </optgroup>
+              
+              <optgroup label="Afrique de l'Est">
+                <option value="ke" data-code="+254">🇰🇪 Kenya</option>
+                <option value="ug" data-code="+256">🇺🇬 Ouganda</option>
+                <option value="tz" data-code="+255">🇹🇿 Tanzanie</option>
+                <option value="rw" data-code="+250">🇷🇼 Rwanda</option>
+                <option value="bi" data-code="+257">🇧🇮 Burundi</option>
+                <option value="et" data-code="+251">🇪🇹 Éthiopie</option>
+                <option value="ss" data-code="+211">🇸🇸 Soudan du Sud</option>
+                <option value="sd" data-code="+249">🇸🇩 Soudan</option>
+                <option value="so" data-code="+252">🇸🇴 Somalie</option>
+                <option value="dj" data-code="+253">🇩🇯 Djibouti</option>
+                <option value="er" data-code="+291">🇪🇷 Érythrée</option>
+              </optgroup>
+              
+              <optgroup label="Autres pays africains">
+                <option value="dz" data-code="+213">🇩🇿 Algérie</option>
+                <option value="eg" data-code="+20">🇪🇬 Égypte</option>
+                <option value="ly" data-code="+218">🇱🇾 Libye</option>
+                <option value="ma" data-code="+212">🇲🇦 Maroc</option>
+                <option value="tn" data-code="+216">🇹🇳 Tunisie</option>
+                <option value="ao" data-code="+244">🇦🇴 Angola</option>
+                <option value="mz" data-code="+258">🇲🇿 Mozambique</option>
+                <option value="zm" data-code="+260">🇿🇲 Zambie</option>
+                <option value="zw" data-code="+263">🇿🇼 Zimbabwe</option>
+                <option value="mw" data-code="+265">🇲🇼 Malawi</option>
+                <option value="na" data-code="+264">🇳🇦 Namibie</option>
+                <option value="bw" data-code="+267">🇧🇼 Botswana</option>
+                <option value="sz" data-code="+268">🇸🇿 Eswatini</option>
+                <option value="ls" data-code="+266">🇱🇸 Lesotho</option>
+                <option value="mg" data-code="+261">🇲🇬 Madagascar</option>
+                <option value="mu" data-code="+230">🇲🇺 Maurice</option>
+                <option value="sc" data-code="+248">🇸🇨 Seychelles</option>
+                <option value="cv" data-code="+238">🇨🇻 Cap-Vert</option>
+              </optgroup>
+            </select>
+          </div>
         </div>
+
+        <!-- Téléphone -->
+        <div class="form-group">
+          <label for="phone">Numéro de téléphone</label>
+          <div class="input-group phone-group">
+            <div class="country-code"><span id="selectedFlag" class="flag">🇨🇲</span><span id="countryCode">+237</span></div>
+            <div class="input-icon"><i class="fas fa-phone"></i></div>
+            <input type="tel" id="phone" name="phone" required class="phone-input" placeholder="XX XXX XXX">
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-lock"></i></div>
+            <input type="password" id="password" name="password" required placeholder="Créez un mot de passe sécurisé">
+          </div>
+        </div>
+
+        <!-- Confirmation mot de passe -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirmez le mot de passe</label>
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-lock"></i></div>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirmez votre mot de passe">
+          </div>
+        </div>
+                <!-- hCaptcha et conditions -->
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="human" name="human" required>
+            <div class="terms-text">I am human</div>
+          </div>
+          <div class="terms-text" style="margin-top: 10px; font-size: 0.8rem; text-align: center;">
+            <strong>hCaptcha</strong> - <a href="#">Privacy</a> - <a href="#">Terms</a>
+          </div>
+        </div>
+
+        <!-- Conditions générales -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" required>
+          <div class="terms-text">En cochant cette case, j'accepte les <a href="terms.html">Conditions d'utilisation</a> et la <a href="privacy.html">Politique de confidentialité</a> de EARNESIA.<br>Mon compte devra être activé <strong>après mon paiement</strong>.</div>
+        </div>
+
+        <!-- Bouton d'inscription -->
+        <button type="submit" class="btn"><i class="fas fa-user-plus"></i> Créer mon compte</button>
+      </form>
+
+      <!-- Lien de connexion -->
+      <div class="login-link">Vous avez déjà un compte? <a href="login.html">Connectez-vous</a></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div>© 2025 EARNESIA GROUP. Tous droits réservés.</div>
+      <div class="footer-links">
+        <a href="terms.html">Conditions d'utilisation</a>
+        <a href="privacy.html">Politique de confidentialité</a>
+        <a href="support.html">Support</a>
+        <a href="https://social-boost-horizon-new-sbh.vercel.app" target="_blank">Propulsé par SHB</a>
       </div>
-
-      <!-- Conditions -->
-      <div class="checkbox-group">
-        <input type="checkbox" id="terms" name="terms" required>
-        <div class="terms-text">En cochant cette case, j'accepte les <a href="terms.html">Conditions d'utilisation</a> et la <a href="privacy.html">Politique de confidentialité</a> de EARNESIA.<br>Mon compte devra être activé <strong>après mon paiement</strong>.</div>
-      </div>
-
-      <!-- Bouton d'inscription -->
-      <button type="submit" class="btn"><i class="fas fa-rocket"></i> Décoller maintenant</button>
-    </form>
-
-    <!-- Lien de connexion -->
-    <div class="login-link">Vous avez déjà un compte? <a href="login.html">Connectez-vous ici</a></div>
-  </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <div>© 2025 EARNESIA GROUP. Tous droits réservés.</div>
-    <div class="footer-links">
-      <a href="terms.html">Conditions d'utilisation</a>
-      <a href="privacy.html">Politique de confidentialité</a>
-      <a href="support.html">Support</a>
-      <a href="https://social-boost-horizon-new-sbh.vercel.app" target="_blank">Propulsé par SHB</a>
     </div>
   </div>
-</div>
+
 <script type="module">
 /* ---------- IMPORTS FIREBASE (MODULAIRE) ---------- */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
@@ -1061,6 +1038,119 @@ const db = getFirestore(app);
 
 const SERVER_URL = "https://mulaflowr-exaucenapopolo2.replit.app";
 
+/* ---------- SYSTÈME DE FEU D'ARTIFICE ---------- */
+class Fireworks {
+  constructor() {
+    this.canvas = document.getElementById('fireworks-canvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.particles = [];
+    this.isActive = false;
+    
+    this.resizeCanvas();
+    window.addEventListener('resize', () => this.resizeCanvas());
+  }
+  
+  resizeCanvas() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+  
+  launch() {
+    this.isActive = true;
+    this.canvas.style.display = 'block';
+    
+    // Créer plusieurs explosions
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => this.createExplosion(
+        Math.random() * this.canvas.width,
+        Math.random() * this.canvas.height / 2 + this.canvas.height / 4
+      ), i * 300);
+    }
+    
+    // Arrêter après 5 secondes
+    setTimeout(() => {
+      this.isActive = false;
+      setTimeout(() => {
+        if (!this.isActive) {
+          this.canvas.style.display = 'none';
+          this.particles = [];
+        }
+      }, 2000);
+    }, 5000);
+    
+    this.animate();
+  }
+  
+  createExplosion(x, y) {
+    const colors = [
+      '#3a86ff', '#00b4d8', '#00cc88', '#ff6b6b', 
+      '#ffd166', '#9d4edd', '#f15bb5'
+    ];
+    
+    const particleCount = 100;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 5 + 2;
+      const radius = Math.random() * 3 + 1;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const life = 100;
+      
+      this.particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        radius,
+        color,
+        life,
+        maxLife: life,
+        gravity: 0.05
+      });
+    }
+  }
+  
+  animate() {
+    if (!this.isActive && this.particles.length === 0) return;
+    
+    // Effacer le canvas avec un fondu
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Mettre à jour et dessiner les particules
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const p = this.particles[i];
+      
+      // Mettre à jour la position
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += p.gravity;
+      p.life--;
+      
+      // Dessiner la particule
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      this.ctx.fillStyle = p.color;
+      this.ctx.globalAlpha = p.life / p.maxLife;
+      this.ctx.fill();
+      
+      // Supprimer les particules mortes
+      if (p.life <= 0) {
+        this.particles.splice(i, 1);
+      }
+    }
+    
+    this.ctx.globalAlpha = 1;
+    
+    // Continuer l'animation
+    if (this.isActive || this.particles.length > 0) {
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+}
+
+// Initialiser les feux d'artifice
+const fireworks = new Fireworks();
+
 /* ---------- HELPERS NOTIFICATIONS ---------- */
 function showNotification(type, title, message, duration = 5000) {
   const notificationContainer = document.getElementById('notificationContainer');
@@ -1083,7 +1173,7 @@ function showNotification(type, title, message, duration = 5000) {
   notificationContainer.appendChild(notification);
   
   const closeNotification = () => {
-    notification.style.animation = 'slide-up 0.3s ease reverse forwards';
+    notification.style.animation = 'slideIn 0.3s ease reverse forwards';
     setTimeout(() => { 
       if (notificationContainer.contains(notification)) {
         notificationContainer.removeChild(notification);
@@ -1102,6 +1192,11 @@ function showError(msg) {
 
 function showSuccess(msg) { 
   showNotification('success', 'Succès', msg); 
+  
+  // Lancer les feux d'artifice pour les succès importants
+  if (msg.includes('créé') || msg.includes('succès') || msg.includes('réussi')) {
+    setTimeout(() => fireworks.launch(), 500);
+  }
 }
 
 /* ---------- UTILITAIRES UI / PAYS ---------- */
@@ -1173,7 +1268,7 @@ async function checkUsernameExists(username) {
 }
 /* ---------- GESTION DU FORMULAIRE / ENREGISTREMENT ---------- */
 let sponsorData = null;
-let isSubmitting = false; // ✅ Flag pour éviter les doubles soumissions
+let isSubmitting = false;
 
 const registrationForm = document.getElementById('registrationForm');
 if (!registrationForm) throw new Error('Formulaire non trouvé (#registrationForm).');
@@ -1181,24 +1276,44 @@ if (!registrationForm) throw new Error('Formulaire non trouvé (#registrationFor
 registrationForm.addEventListener('submit', async function(e) {
   e.preventDefault();
   
-  // ✅ Empêcher la double soumission
+  // Empêcher la double soumission
   if (isSubmitting) {
     console.log('⚠️ Soumission déjà en cours, ignorée');
     return;
   }
   
+  // Récupérer les valeurs du formulaire
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const skype = document.getElementById('skype').value.trim();
   const password = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
   const country = document.getElementById('country').value;
   const phone = document.getElementById('phone').value.trim();
   const countryCode = document.getElementById('countryCode')?.textContent || '+237';
+  const humanCheck = document.getElementById('human').checked;
 
   // Validations basiques
   if (!username) { 
     showError("Choisissez un nom d'utilisateur."); 
     return; 
+  }
+  
+  if (!firstName) {
+    showError("Veuillez entrer votre prénom.");
+    return;
+  }
+  
+  if (!lastName) {
+    showError("Veuillez entrer votre nom de famille.");
+    return;
+  }
+  
+  if (!humanCheck) {
+    showError("Veuillez confirmer que vous êtes humain.");
+    return;
   }
   
   if (password !== confirmPassword) { 
@@ -1223,12 +1338,12 @@ registrationForm.addEventListener('submit', async function(e) {
     return; 
   }
 
-  // ✅ Gestion UI : désactiver le bouton DÉFINITIVEMENT
+  // Gestion UI : désactiver le bouton
   const submitBtn = this.querySelector('button[type="submit"]');
   const originalText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création en cours...';
   submitBtn.disabled = true;
-  isSubmitting = true; // ✅ Marquer comme en cours
+  isSubmitting = true;
 
   try {
     console.log('📝 Création du compte Firebase Auth...');
@@ -1237,7 +1352,9 @@ registrationForm.addEventListener('submit', async function(e) {
     const user = userCredential.user;
 
     // 2) Mise à jour profile displayName
-    await updateProfile(user, { displayName: username });
+    await updateProfile(user, { 
+      displayName: `${firstName} ${lastName}` 
+    });
 
     // 3) Obtenir le token d'authentification
     const idToken = await user.getIdToken();
@@ -1246,7 +1363,16 @@ registrationForm.addEventListener('submit', async function(e) {
     const sponsorUsername = sponsorData ? (sponsorData.username || '') : '';
     const fullPhoneNumber = countryCode + phone;
 
-    console.log('📤 Envoi au serveur:', { email, username, sponsorUsername, country, fullPhoneNumber });
+    console.log('📤 Envoi au serveur:', { 
+      email, 
+      username, 
+      firstName, 
+      lastName, 
+      skype,
+      sponsorUsername, 
+      country, 
+      fullPhoneNumber 
+    });
 
     // 5) Appeler l'endpoint du serveur pour enregistrer avec le système de parrainage
     const registerResponse = await fetch(`${SERVER_URL}/api/register-with-referral`, {
@@ -1258,6 +1384,9 @@ registrationForm.addEventListener('submit', async function(e) {
       body: JSON.stringify({
         email: email,
         displayName: username,
+        firstName: firstName,
+        lastName: lastName,
+        skype: skype || '',
         sponsorUsername: sponsorUsername,
         country: country,
         phoneNumber: fullPhoneNumber,
@@ -1273,13 +1402,17 @@ registrationForm.addEventListener('submit', async function(e) {
 
     console.log('✅ Inscription serveur réussie:', registerData);
 
-    showSuccess("Votre compte a été créé avec succès ! Redirection vers la page de paiement...");
-    
     // Animation de succès
     submitBtn.innerHTML = '<i class="fas fa-check"></i> Compte créé !';
-    submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    submitBtn.classList.add('success-animation');
+    submitBtn.style.background = 'linear-gradient(135deg, #00cc88 0%, #00b377 100%)';
     
-    setTimeout(() => window.location.assign('paiement.html'), 2000);
+    // Lancer les feux d'artifice
+    setTimeout(() => fireworks.launch(), 300);
+    
+    showSuccess("Votre compte a été créé avec succès ! Redirection vers la page de paiement...");
+    
+    setTimeout(() => window.location.assign('paiement.html'), 3000);
 
   } catch (err) {
     console.error('❌ Registration error:', err);
@@ -1297,11 +1430,10 @@ registrationForm.addEventListener('submit', async function(e) {
     
     showError(message);
     
-    // Réafficher le bouton d'origine (même si désactivé)
-    submitBtn.innerHTML = '<i class="fas fa-rocket"></i> Décoller maintenant';
-    submitBtn.disabled = true; // ✅ Reste désactivé pour éviter les doublons
-    
-    console.log('⚠️ Bouton d\'inscription reste désactivé pour éviter les doublons');
+    // Réactiver le bouton
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
+    isSubmitting = false;
   }
 });
 
@@ -1325,7 +1457,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (refParam) {
     console.log('🔍 Recherche du parrain:', refParam);
     
-    // ✅ TOUJOURS désactiver et griser le champ si un lien de parrainage existe
+    // Désactiver le champ si un lien de parrainage existe
     if (parInputGroup) parInputGroup.classList.add('disabled');
     
     // On cherche le parrain par username dans Firestore
@@ -1336,14 +1468,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const display = found.displayName || found.username;
         if (parInput) {
           parInput.value = display;
-          parInput.disabled = true; // ✅ Toujours désactivé
+          parInput.disabled = true;
         }
         console.log('✅ Parrain trouvé:', found);
       } else {
-        // ✅ Pas trouvé: on affiche le param brut MAIS le champ reste désactivé
+        // Pas trouvé: on affiche le param brut mais le champ reste désactivé
         if (parInput) {
           parInput.value = refParam;
-          parInput.disabled = true; // ✅ CORRECTION: Reste désactivé même si non trouvé
+          parInput.disabled = true;
         }
         console.warn('⚠️ Parrain non trouvé avec username:', refParam);
       }
@@ -1351,15 +1483,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('❌ Erreur lors de la recherche du parrain:', err);
       if (parInput) {
         parInput.value = refParam;
-        parInput.disabled = true; // ✅ CORRECTION: Reste désactivé même en cas d'erreur
+        parInput.disabled = true;
       }
     }
   } else {
-    // Aucun param: garde le champ par vide et modifiable
+    // Aucun param: garde le champ par vide et désactivé
     if (parInput) { 
       parInput.value = ''; 
       parInput.placeholder = 'Aucun parrain détecté'; 
-      parInput.disabled = true; // ✅ Toujours désactivé (même sans parrain)
+      parInput.disabled = true;
     }
   }
 
@@ -1370,28 +1502,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   
   // Animation d'entrée des éléments
-  const formGroups = document.querySelectorAll('.form-group');
-  formGroups.forEach((group, index) => {
-    group.style.animationDelay = `${0.1 + (index * 0.1)}s`;
-  });
-});
-  // Effet de particules au survol du bouton
-  const btn = document.querySelector('.btn');
-  if (btn) {
-    btn.addEventListener('mouseenter', function() {
-      this.style.animation = 'pulse-glow 1.5s infinite';
+  setTimeout(() => {
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach((group, index) => {
+      group.style.animationDelay = `${0.1 + (index * 0.1)}s`;
     });
-    
-    btn.addEventListener('mouseleave', function() {
-      this.style.animation = 'none';
-    });
-  }
+  }, 300);
   
   // Effet sur les inputs au focus
   const inputs = document.querySelectorAll('input, select');
   inputs.forEach(input => {
     input.addEventListener('focus', function() {
-      this.parentElement.style.transform = 'translateY(-3px)';
+      this.parentElement.style.transform = 'translateY(-2px)';
     });
     
     input.addEventListener('blur', function() {
@@ -1399,20 +1521,365 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
   
-  // Animation d'apparition progressive
+  // Animation du logo au chargement
+  const logoImg = document.querySelector('.logo-img');
+  if (logoImg) {
+    setTimeout(() => {
+      logoImg.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        logoImg.style.transform = 'scale(1)';
+      }, 300);
+    }, 500);
+  }
+  
+  // Vérification en temps réel du nom d'utilisateur
+  const usernameInput = document.getElementById('username');
+  if (usernameInput) {
+    let timeout;
+    usernameInput.addEventListener('input', function() {
+      clearTimeout(timeout);
+      timeout = setTimeout(async () => {
+        const username = this.value.trim();
+        if (username.length > 2) {
+          const exists = await checkUsernameExists(username);
+          if (exists) {
+            this.style.borderColor = '#ff6b6b';
+            showError('Ce nom d\'utilisateur est déjà pris.');
+          } else {
+            this.style.borderColor = '#00cc88';
+          }
+        }
+      }, 500);
+    });
+  }
+});
+  // Animation de validation en temps réel
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  
+  function validatePassword() {
+    if (passwordInput.value && confirmPasswordInput.value) {
+      if (passwordInput.value === confirmPasswordInput.value) {
+        passwordInput.parentElement.style.borderColor = '#00cc88';
+        confirmPasswordInput.parentElement.style.borderColor = '#00cc88';
+      } else {
+        passwordInput.parentElement.style.borderColor = '#ff6b6b';
+        confirmPasswordInput.parentElement.style.borderColor = '#ff6b6b';
+      }
+    }
+  }
+  
+  if (passwordInput && confirmPasswordInput) {
+    passwordInput.addEventListener('input', validatePassword);
+    confirmPasswordInput.addEventListener('input', validatePassword);
+  }
+  
+  // Animation des icônes au survol
+  const inputIcons = document.querySelectorAll('.input-icon');
+  inputIcons.forEach(icon => {
+    icon.addEventListener('mouseenter', function() {
+      this.style.transform = 'scale(1.2)';
+    });
+    
+    icon.addEventListener('mouseleave', function() {
+      this.style.transform = 'scale(1)';
+    });
+  });
+  
+  // Effet de chargement progressif
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.5s ease';
+  
   setTimeout(() => {
-    document.querySelector('.logo-header').style.opacity = '1';
-    document.querySelector('.logo-header').style.transform = 'translateY(0)';
+    document.body.style.opacity = '1';
   }, 100);
   
-  setTimeout(() => {
-    document.querySelector('.card').style.opacity = '1';
-    document.querySelector('.card').style.transform = 'translateY(0)';
-  }, 300);
+  // Pré-remplissage des champs depuis localStorage (optionnel)
+  function loadFormData() {
+    const savedData = localStorage.getItem('earnesia_form_data');
+    if (savedData) {
+      try {
+        const data = JSON.parse(savedData);
+        Object.keys(data).forEach(key => {
+          const input = document.getElementById(key);
+          if (input && !input.disabled) {
+            input.value = data[key];
+          }
+        });
+      } catch (e) {
+        console.log('Aucune donnée sauvegardée');
+      }
+    }
+  }
   
-  // Initialisation des animations CSS
-  document.body.style.opacity = '1';
+  // Sauvegarde automatique des données du formulaire
+  function setupAutoSave() {
+    const inputs = document.querySelectorAll('input:not([disabled]), select');
+    inputs.forEach(input => {
+      input.addEventListener('input', function() {
+        const formData = {};
+        inputs.forEach(i => {
+          if (i.id && !i.disabled) {
+            formData[i.id] = i.value;
+          }
+        });
+        localStorage.setItem('earnesia_form_data', JSON.stringify(formData));
+      });
+    });
+  }
+  
+  loadFormData();
+  setupAutoSave();
+  
+  // Animation du bouton au survol
+  const submitBtn = document.querySelector('.btn');
+  if (submitBtn) {
+    submitBtn.addEventListener('mouseenter', function() {
+      if (!this.disabled) {
+        this.style.transform = 'translateY(-3px) scale(1.02)';
+      }
+    });
+    
+    submitBtn.addEventListener('mouseleave', function() {
+      if (!this.disabled) {
+        this.style.transform = 'translateY(0) scale(1)';
+      }
+    });
+  }
+  
+  // Affichage de la force du mot de passe
+  const passwordStrength = document.createElement('div');
+  passwordStrength.className = 'password-strength';
+  passwordStrength.style.fontSize = '0.8rem';
+  passwordStrength.style.marginTop = '5px';
+  passwordStrength.style.height = '5px';
+  passwordStrength.style.borderRadius = '3px';
+  passwordStrength.style.transition = 'all 0.3s ease';
+  
+  if (passwordInput) {
+    passwordInput.parentElement.parentElement.appendChild(passwordStrength);
+    
+    passwordInput.addEventListener('input', function() {
+      const password = this.value;
+      let strength = 0;
+      let color = '#ff6b6b';
+      let width = '0%';
+      
+      if (password.length >= 6) strength++;
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      
+      switch(strength) {
+        case 0:
+        case 1:
+          color = '#ff6b6b';
+          width = '20%';
+          break;
+        case 2:
+          color = '#ffd166';
+          width = '40%';
+          break;
+        case 3:
+          color = '#06d6a0';
+          width = '60%';
+          break;
+        case 4:
+          color = '#118ab2';
+          width = '80%';
+          break;
+        case 5:
+          color = '#00cc88';
+          width = '100%';
+          break;
+      }
+      
+      passwordStrength.style.width = width;
+      passwordStrength.style.backgroundColor = color;
+      passwordStrength.style.height = '5px';
+    });
+  }
+  
+  // Confirmation visuelle des cases à cocher
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        this.parentElement.style.backgroundColor = '#e8f4ff';
+        this.parentElement.style.borderColor = '#3a86ff';
+      } else {
+        this.parentElement.style.backgroundColor = '';
+        this.parentElement.style.borderColor = '';
+      }
+    });
+  });
+  
+  // Animation de la carte au chargement
+  const card = document.querySelector('.card');
+  if (card) {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 300);
+  }
 });
 </script>
+  <!-- Script supplémentaire pour les animations -->
+  <script>
+    // Animation des champs au focus
+    document.addEventListener('DOMContentLoaded', function() {
+      // Effet de vague sur le bouton
+      const btn = document.querySelector('.btn');
+      if (btn) {
+        btn.addEventListener('click', function(e) {
+          if (!this.disabled) {
+            // Créer l'effet de vague
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+              position: absolute;
+              border-radius: 50%;
+              background: rgba(255, 255, 255, 0.7);
+              transform: scale(0);
+              animation: ripple 0.6s linear;
+              width: ${size}px;
+              height: ${size}px;
+              top: ${y}px;
+              left: ${x}px;
+              pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+              ripple.remove();
+            }, 600);
+          }
+        });
+      }
+      
+      // Ajouter le style pour l'effet de vague
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+        .btn {
+          position: relative;
+          overflow: hidden;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Animation des labels
+      const labels = document.querySelectorAll('label');
+      labels.forEach(label => {
+        label.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateX(5px)';
+        });
+        
+        label.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateX(0)';
+        });
+      });
+      
+      // Confetti sur succès
+      function createConfetti() {
+        const colors = ['#3a86ff', '#00b4d8', '#00cc88', '#ff6b6b', '#ffd166'];
+        const container = document.createElement('div');
+        container.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 9997;
+        `;
+        
+        document.body.appendChild(container);
+        
+        for (let i = 0; i < 150; i++) {
+          const confetti = document.createElement('div');
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const size = Math.random() * 10 + 5;
+          const startX = Math.random() * 100;
+          const endX = startX + (Math.random() * 40 - 20);
+          
+          confetti.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${color};
+            top: -20px;
+            left: ${startX}vw;
+            border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+            opacity: ${Math.random() * 0.7 + 0.3};
+            transform: rotate(${Math.random() * 360}deg);
+            animation: fall ${Math.random() * 3 + 2}s linear forwards;
+          `;
+          
+          container.appendChild(confetti);
+          
+          // Animation CSS pour la chute
+          const keyframes = `
+            @keyframes fall {
+              0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(100vh) rotate(${Math.random() * 720}deg);
+                opacity: 0;
+              }
+            }
+          `;
+          
+          if (!document.querySelector('#confetti-animation')) {
+            const style = document.createElement('style');
+            style.id = 'confetti-animation';
+            style.textContent = keyframes;
+            document.head.appendChild(style);
+          }
+          
+          // Supprimer après animation
+          setTimeout(() => {
+            confetti.remove();
+          }, 5000);
+        }
+        
+        // Supprimer le container après animation
+        setTimeout(() => {
+          container.remove();
+        }, 5000);
+      }
+      
+      // Exposer la fonction pour les succès
+      window.createConfetti = createConfetti;
+      
+      // Animation de pulse pour les erreurs
+      function pulseError(element) {
+        element.style.animation = 'pulse 0.5s ease';
+        setTimeout(() => {
+          element.style.animation = '';
+        }, 500);
+      }
+      
+      // Exposer la fonction
+      window.pulseError = pulseError;
+    });
+  </script>
 </body>
 </html>
