@@ -351,10 +351,27 @@
 
     /* Stats Grid - Top Row */
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      display: flex;
+      gap: 16px;
       margin-bottom: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+
+    .stats-grid::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .stats-grid::-webkit-scrollbar-track {
+      background: var(--bg-light);
+      border-radius: 3px;
+    }
+
+    .stats-grid::-webkit-scrollbar-thumb {
+      background: var(--primary-green);
+      border-radius: 3px;
     }
 
     .stat-card {
@@ -366,64 +383,113 @@
       transition: var(--transition);
       position: relative;
       overflow: hidden;
+      min-width: 220px;
+      flex: 1;
+      scroll-snap-align: start;
+      cursor: pointer;
     }
 
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .stat-card.solde-card::before { background: linear-gradient(90deg, #27AE60, #2ECC71); }
+    .stat-card.retire-card::before { background: linear-gradient(90deg, #E74C3C, #C0392B); }
+    .stat-card.parrainage-card::before { background: linear-gradient(90deg, #3498DB, #2980B9); }
+    .stat-card.bonus-card::before { background: linear-gradient(90deg, #9B59B6, #8E44AD); }
+
+    .stat-card.solde-card { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); }
+    .stat-card.retire-card { background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%); }
+    .stat-card.parrainage-card { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); }
+    .stat-card.bonus-card { background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%); }
+
     .stat-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .stat-card:active {
+      transform: scale(0.98);
     }
 
     .stat-card-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .stat-label {
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.7rem;
+      font-weight: 700;
       color: var(--text-medium);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .stat-period {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--text-light);
-      font-weight: 400;
+      font-weight: 500;
     }
 
     .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 1.75rem;
+      font-weight: 800;
       color: var(--text-dark);
       margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .stat-subtitle {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .stat-sparkline {
+      height: 30px;
+      margin-top: 12px;
+      opacity: 0.8;
+    }
+
+    .stat-sparkline svg {
+      width: 100%;
+      height: 100%;
     }
 
     .stat-change {
       position: absolute;
       top: 16px;
       right: 16px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 4px 8px;
-      border-radius: 12px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .stat-change.positive {
-      background: var(--light-green);
-      color: var(--primary-green);
+      background: rgba(39, 174, 96, 0.2);
+      color: #27AE60;
     }
 
     .stat-change.negative {
-      background: var(--light-red);
-      color: var(--primary-red);
+      background: rgba(231, 76, 60, 0.2);
+      color: #E74C3C;
+    }
+
+    .stat-change i {
+      font-size: 0.6rem;
     }
 
     /* Circular Progress Cards */
@@ -525,10 +591,19 @@
 
     /* Progress Grid */
     .progress-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      display: flex;
+      gap: 16px;
       margin-bottom: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+
+    .progress-card {
+      min-width: 260px;
+      flex: 1;
+      scroll-snap-align: start;
     }
 
     /* Gains Cards */
@@ -562,9 +637,26 @@
     }
 
     .gains-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+
+    .gains-grid::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    .gains-grid::-webkit-scrollbar-track {
+      background: var(--bg-light);
+      border-radius: 3px;
+    }
+
+    .gains-grid::-webkit-scrollbar-thumb {
+      background: var(--primary-green);
+      border-radius: 3px;
     }
 
     .gain-card {
@@ -573,11 +665,21 @@
       padding: 16px;
       transition: var(--transition);
       border: 1px solid transparent;
+      min-width: 150px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      cursor: pointer;
     }
 
     .gain-card:hover {
       border-color: var(--primary-green);
       background: var(--light-green);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .gain-card:active {
+      transform: scale(0.95);
     }
 
     .gain-icon {
@@ -732,15 +834,35 @@
     }
 
     .user-info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+
+    .user-info-grid::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    .user-info-grid::-webkit-scrollbar-track {
+      background: var(--bg-light);
+      border-radius: 3px;
+    }
+
+    .user-info-grid::-webkit-scrollbar-thumb {
+      background: var(--primary-green);
+      border-radius: 3px;
     }
 
     .info-item {
       background: var(--bg-light);
       border-radius: var(--radius-md);
       padding: 16px;
+      min-width: 160px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
     }
 
     .info-label {
@@ -856,35 +978,86 @@
       font-weight: 700;
     }
 
-    .task-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
+    .calendar-date.selected {
+      background: var(--primary-green);
+      color: white;
+      font-weight: 700;
     }
 
-    .task-table th {
-      background: var(--bg-light);
-      padding: 12px 16px;
-      text-align: left;
+    .task-display {
+      margin-top: 20px;
+      background: linear-gradient(135deg, var(--light-green) 0%, #C8E6C9 100%);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      border-left: 4px solid var(--primary-green);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .task-display-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text-medium);
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 0.5px;
+      color: var(--primary-green);
     }
 
-    .task-table td {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border-color);
+    .task-display-header i {
+      font-size: 1.1rem;
+    }
+
+    .task-display-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .task-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .task-icon {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: var(--text-dark);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .task-name {
+      font-size: 1.1rem;
+      font-weight: 700;
       color: var(--text-dark);
     }
 
-    .task-table tr:hover {
-      background: var(--bg-light);
+    .task-bonus {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
     }
 
-    .task-table tr.today-task {
-      background: var(--light-yellow);
+    .bonus-label {
+      color: var(--text-medium);
+      font-weight: 600;
+    }
+
+    .bonus-text {
+      color: var(--text-dark);
     }
 
     /* Shutdown Notice */
@@ -1128,13 +1301,48 @@
       display: block;
     }
 
-    /* Responsive */
-    @media (max-width: 1200px) {
-      .stats-grid, .progress-grid, .gains-grid {
-        grid-template-columns: repeat(2, 1fr);
+    /* Confetti Animation */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      animation: confetti-fall 3s ease-in-out forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        opacity: 1;
+        transform: translateY(-100%) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
       }
     }
 
+    @keyframes confetti-burst {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx, 50px), var(--ty, -100px)) rotate(720deg) scale(0);
+      }
+    }
+
+    /* Responsive */
     @media (max-width: 992px) {
       .sidebar {
         width: 220px;
@@ -1169,18 +1377,6 @@
         padding: 16px;
       }
 
-      .stats-grid, .progress-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .gains-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .user-info-grid {
-        grid-template-columns: 1fr;
-      }
-
       .time-selector {
         display: none;
       }
@@ -1200,10 +1396,6 @@
     }
 
     @media (max-width: 576px) {
-      .gains-grid {
-        grid-template-columns: 1fr;
-      }
-
       .social-share {
         justify-content: center;
       }
@@ -1223,11 +1415,11 @@
     <div class="header-left">
       <div class="logo">
         <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
-        <span>Dashboard</span>
+        <span>EARNESIA</span>
       </div>
       <div class="breadcrumb">
         <i class="fas fa-home"></i>
-        <span>Dashboard</span>
+        <span>Tableau de bord</span>
       </div>
     </div>
     
@@ -1380,18 +1572,27 @@
     <main class="content">
       <!-- Stats Row 1 - Main Numbers -->
       <div class="stats-grid">
-        <div class="stat-card" id="solde-card">
+        <div class="stat-card solde-card" id="solde-card" onclick="triggerConfetti(this)">
+          <span class="stat-change positive"><i class="fas fa-arrow-up"></i> +12%</span>
           <div class="stat-card-header">
             <div>
               <div class="stat-label" data-i18n="stats.balance">SOLDE</div>
-              <div class="stat-period">Today</div>
+              <div class="stat-period">Aujourd'hui</div>
             </div>
           </div>
           <div class="stat-value" id="solde-value">0</div>
           <div class="stat-subtitle">XAF</div>
+          <div class="stat-sparkline">
+            <svg viewBox="0 0 100 30" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#27AE60" stroke-width="2" points="0,25 15,20 30,22 45,15 60,18 75,10 90,12 100,5"/>
+              <polyline fill="url(#greenGrad)" stroke="none" points="0,30 0,25 15,20 30,22 45,15 60,18 75,10 90,12 100,5 100,30"/>
+              <defs><linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#27AE60" stop-opacity="0.3"/><stop offset="100%" stop-color="#27AE60" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
         </div>
 
-        <div class="stat-card" id="retire-card">
+        <div class="stat-card retire-card" id="retire-card" onclick="triggerConfetti(this)">
+          <span class="stat-change negative"><i class="fas fa-arrow-down"></i> -3%</span>
           <div class="stat-card-header">
             <div>
               <div class="stat-label" data-i18n="stats.withdrawn">RETIRÉ</div>
@@ -1400,9 +1601,17 @@
           </div>
           <div class="stat-value" id="retire-value">0</div>
           <div class="stat-subtitle">XAF</div>
+          <div class="stat-sparkline">
+            <svg viewBox="0 0 100 30" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#E74C3C" stroke-width="2" points="0,10 15,8 30,15 45,12 60,20 75,18 90,22 100,25"/>
+              <polyline fill="url(#redGrad)" stroke="none" points="0,30 0,10 15,8 30,15 45,12 60,20 75,18 90,22 100,25 100,30"/>
+              <defs><linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E74C3C" stop-opacity="0.3"/><stop offset="100%" stop-color="#E74C3C" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
         </div>
 
-        <div class="stat-card" id="parrainage-card">
+        <div class="stat-card parrainage-card" id="parrainage-card" onclick="triggerConfetti(this)">
+          <span class="stat-change positive"><i class="fas fa-arrow-up"></i> +8%</span>
           <div class="stat-card-header">
             <div>
               <div class="stat-label" data-i18n="stats.referral_earnings">PARRAINAGE</div>
@@ -1411,9 +1620,17 @@
           </div>
           <div class="stat-value" id="parrainage-value">0</div>
           <div class="stat-subtitle">XAF</div>
+          <div class="stat-sparkline">
+            <svg viewBox="0 0 100 30" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#3498DB" stroke-width="2" points="0,20 15,18 30,15 45,20 60,12 75,15 90,8 100,10"/>
+              <polyline fill="url(#blueGrad)" stroke="none" points="0,30 0,20 15,18 30,15 45,20 60,12 75,15 90,8 100,10 100,30"/>
+              <defs><linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3498DB" stop-opacity="0.3"/><stop offset="100%" stop-color="#3498DB" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
         </div>
 
-        <div class="stat-card" id="bonus-agent-card">
+        <div class="stat-card bonus-card" id="bonus-agent-card" onclick="triggerConfetti(this)">
+          <span class="stat-change positive"><i class="fas fa-arrow-up"></i> +5%</span>
           <div class="stat-card-header">
             <div>
               <div class="stat-label" data-i18n="stats.agent_bonus">BONUS AGENT</div>
@@ -1422,6 +1639,13 @@
           </div>
           <div class="stat-value" id="bonus-agent-value">0</div>
           <div class="stat-subtitle">XAF</div>
+          <div class="stat-sparkline">
+            <svg viewBox="0 0 100 30" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#9B59B6" stroke-width="2" points="0,22 15,18 30,20 45,15 60,18 75,12 90,15 100,8"/>
+              <polyline fill="url(#purpleGrad)" stroke="none" points="0,30 0,22 15,18 30,20 45,15 60,18 75,12 90,15 100,8 100,30"/>
+              <defs><linearGradient id="purpleGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9B59B6" stop-opacity="0.3"/><stop offset="100%" stop-color="#9B59B6" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -1622,11 +1846,6 @@
             <div class="info-label" data-i18n="user_info.referrer">Parrain</div>
             <div class="info-value" id="info-parrain">Chargement...</div>
           </div>
-          
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.active_referrals">Parrainage actif</div>
-            <div class="info-value" id="info-parrainage">Chargement...</div>
-          </div>
         </div>
       </div>
 
@@ -1661,66 +1880,24 @@
           <!-- Generated by JavaScript -->
         </div>
         
-        <table class="task-table">
-          <thead>
-            <tr>
-              <th data-i18n="calendar.day">JOUR</th>
-              <th data-i18n="calendar.task">TÂCHE</th>
-              <th data-i18n="calendar.bonus">BONUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="monday-task">
-              <td data-i18n="calendar.monday">LUNDI</td>
-              <td data-i18n="calendar.monday_task">Vidéos TikTok</td>
-              <td data-i18n="calendar.monday_bonus">Liste de contact gratuite, Booster, Visibilité, Roue de la fortune</td>
-            </tr>
-            <tr class="tuesday-task">
-              <td data-i18n="calendar.tuesday">MARDI</td>
-              <td data-i18n="calendar.tuesday_task">Vidéos YouTube</td>
-              <td data-i18n="calendar.tuesday_bonus">Liste de contact gratuite, Canva Pro, Connexion gratuite, Roue de la fortune</td>
-            </tr>
-            <tr class="wednesday-task">
-              <td data-i18n="calendar.wednesday">MERCREDI</td>
-              <td data-i18n="calendar.wednesday_task">Vidéos Instagram</td>
-              <td data-i18n="calendar.wednesday_bonus">Liste de contact gratuite, Booster, Visibilité, Canva Pro</td>
-            </tr>
-            <tr class="thursday-task">
-              <td data-i18n="calendar.thursday">JEUDI</td>
-              <td data-i18n="calendar.thursday_task">Trivia Challenge</td>
-              <td data-i18n="calendar.thursday_bonus">Liste de contact gratuite, Connexion gratuite, Roue de la fortune</td>
-            </tr>
-            <tr class="friday-task">
-              <td data-i18n="calendar.friday">VENDREDI</td>
-              <td data-i18n="calendar.friday_task">Gagner sur WhatsApp</td>
-              <td data-i18n="calendar.friday_bonus">Booster, Visibilité, Canva Pro, Connexion gratuite</td>
-            </tr>
-            <tr class="saturday-task">
-              <td data-i18n="calendar.saturday">SAMEDI</td>
-              <td data-i18n="calendar.saturday_task">Gains Publicitaires</td>
-              <td data-i18n="calendar.saturday_bonus">Liste de contact gratuite, Booster, Visibilité, Roue de la fortune</td>
-            </tr>
-            <tr class="sunday-task" style="opacity: 0.6;">
-              <td data-i18n="calendar.sunday">DIMANCHE</td>
-              <td data-i18n="calendar.sunday_task">Aucune tâche (Repos)</td>
-              <td data-i18n="calendar.sunday_bonus">Connexion gratuite, Roue de la fortune</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="task-display" id="taskDisplay">
+          <div class="task-display-header">
+            <i class="fas fa-tasks"></i>
+            <span id="taskDayLabel">Aujourd'hui</span>
+          </div>
+          <div class="task-display-content">
+            <div class="task-main" id="taskMain">
+              <span class="task-icon"><i class="fab fa-tiktok"></i></span>
+              <span class="task-name" id="taskName">Vidéos TikTok</span>
+            </div>
+            <div class="task-bonus" id="taskBonus">
+              <span class="bonus-label">Bonus:</span>
+              <span class="bonus-text" id="bonusText">Liste de contact gratuite, Booster, Visibilité</span>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
-  </div>
-
-  <!-- Shutdown Notice -->
-  <div class="shutdown-notice">
-    <div class="shutdown-content">
-      <div class="shutdown-icon">⚠️</div>
-      <div class="shutdown-text">
-        <h3>AVIS IMPORTANT</h3>
-        <p><strong>EARNESIA GROUP ne sera plus disponible à partir du 26 Décembre 2025 à 10h00.</strong></p>
-        <p>Veuillez arrêter de parrainer de nouvelles personnes. Si vous avez un solde disponible, veuillez effectuer votre retrait dès maintenant.</p>
-      </div>
-    </div>
   </div>
 
   <footer class="footer">
@@ -2165,6 +2342,8 @@ function updateUserInfoUI(user, data) {
 }
 
 /******** Calendrier ********/
+let selectedDate = null;
+
 function updateCalendar() {
   const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
                       'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
@@ -2199,32 +2378,29 @@ function updateCalendar() {
     const checkDate = new Date(year, month, day);
     const dayOfWeek = checkDate.getDay();
     
-    if (today.getDate() === day && today.getMonth() === month && today.getFullYear() === year) {
-      dateDiv.classList.add('active');
+    const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+    
+    if (isToday && !selectedDate) {
+      dateDiv.classList.add('selected');
+      updateTaskDisplay(dayOfWeek, "Aujourd'hui - " + taskData[dayOfWeek].day);
     }
     
-    if (dayOfWeek === 5) {
-      dateDiv.classList.add('today-task');
-    }
+    dateDiv.addEventListener('click', () => {
+      document.querySelectorAll('.calendar-date').forEach(d => d.classList.remove('selected'));
+      dateDiv.classList.add('selected');
+      selectedDate = checkDate;
+      
+      const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+      const dateLabel = `${dayNames[dayOfWeek]} ${day} ${monthNames[month]}`;
+      updateTaskDisplay(dayOfWeek, dateLabel);
+      triggerConfetti(dateDiv);
+    });
     
     calendarGrid.appendChild(dateDiv);
   }
   
-  highlightTodayTask();
-}
-
-function highlightTodayTask() {
-  const today = new Date();
-  const dayOfWeek = today.getDay();
-  const dayClasses = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  
-  document.querySelectorAll('.task-table tbody tr').forEach(row => {
-    row.classList.remove('today-task');
-  });
-  
-  const todayRow = document.querySelector(`.${dayClasses[dayOfWeek]}-task`);
-  if (todayRow) {
-    todayRow.classList.add('today-task');
+  if (!selectedDate) {
+    updateTaskDisplay(today.getDay(), "Aujourd'hui - " + taskData[today.getDay()].day);
   }
 }
 
@@ -2353,6 +2529,72 @@ if (supportBtn) {
   });
 }
 
+/******** Confetti Animation ********/
+function triggerConfetti(element) {
+  const colors = ['#27AE60', '#3498DB', '#9B59B6', '#E74C3C', '#F39C12', '#1ABC9C'];
+  const container = document.createElement('div');
+  container.className = 'confetti-container';
+  document.body.appendChild(container);
+  
+  const rect = element.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  
+  for (let i = 0; i < 30; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = centerX + 'px';
+    confetti.style.top = centerY + 'px';
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+    confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+    
+    const angle = Math.random() * Math.PI * 2;
+    const velocity = 50 + Math.random() * 100;
+    const tx = Math.cos(angle) * velocity;
+    const ty = Math.sin(angle) * velocity;
+    confetti.style.setProperty('--tx', tx + 'px');
+    confetti.style.setProperty('--ty', ty + 'px');
+    
+    confetti.style.animation = `confetti-burst 1.5s ease-out forwards`;
+    container.appendChild(confetti);
+  }
+  
+  setTimeout(() => container.remove(), 3000);
+}
+
+/******** Task Data ********/
+const taskData = {
+  0: { day: 'DIMANCHE', task: 'Aucune tâche (Repos)', icon: 'fas fa-bed', bonus: 'Connexion gratuite, Roue de la fortune' },
+  1: { day: 'LUNDI', task: 'Vidéos TikTok', icon: 'fab fa-tiktok', bonus: 'Liste de contact gratuite, Booster, Visibilité, Roue de la fortune' },
+  2: { day: 'MARDI', task: 'Vidéos YouTube', icon: 'fab fa-youtube', bonus: 'Liste de contact gratuite, Canva Pro, Connexion gratuite, Roue de la fortune' },
+  3: { day: 'MERCREDI', task: 'Vidéos Instagram', icon: 'fab fa-instagram', bonus: 'Liste de contact gratuite, Booster, Visibilité, Canva Pro' },
+  4: { day: 'JEUDI', task: 'Trivia Challenge', icon: 'fas fa-brain', bonus: 'Liste de contact gratuite, Connexion gratuite, Roue de la fortune' },
+  5: { day: 'VENDREDI', task: 'Gagner sur WhatsApp', icon: 'fab fa-whatsapp', bonus: 'Booster, Visibilité, Canva Pro, Connexion gratuite' },
+  6: { day: 'SAMEDI', task: 'Gains Publicitaires', icon: 'fas fa-ad', bonus: 'Liste de contact gratuite, Booster, Visibilité, Roue de la fortune' }
+};
+
+function updateTaskDisplay(dayOfWeek, dateLabel) {
+  const task = taskData[dayOfWeek];
+  const taskDayLabel = document.getElementById('taskDayLabel');
+  const taskName = document.getElementById('taskName');
+  const bonusText = document.getElementById('bonusText');
+  const taskIcon = document.querySelector('.task-icon i');
+  
+  if (taskDayLabel) taskDayLabel.textContent = dateLabel || task.day;
+  if (taskName) taskName.textContent = task.task;
+  if (bonusText) bonusText.textContent = task.bonus;
+  if (taskIcon) taskIcon.className = task.icon;
+  
+  const taskDisplay = document.getElementById('taskDisplay');
+  if (taskDisplay) {
+    taskDisplay.style.animation = 'none';
+    taskDisplay.offsetHeight;
+    taskDisplay.style.animation = 'fadeIn 0.3s ease';
+  }
+}
+
 /******** Watcher de statut ********/
 function startStatusWatcherAndTriggerProcessing() {
   try {
@@ -2453,7 +2695,7 @@ auth.onAuthStateChanged(async (user) => {
         if (linkData && linkData.referralLink) {
           referralLink.textContent = linkData.referralLink;
         } else {
-          referralLink.textContent = `https://blowearn-agencies.vercel.app/index.html?ref=${userData.username}`;
+          referralLink.textContent = `https://earnesia.com/ref/${userData.username}`;
         }
       }
       
