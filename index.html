@@ -3,112 +3,653 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EARNESIA GROUP - Inscription</title>
+  <title>EARNESIA - Ton futur en route</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* --- CSS modifié avec nouveau fond et nouvelles polices --- */
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+    /* ===== VARIABLES ET RESET ===== */
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #f59e0b;
+      --secondary-dark: #d97706;
+      --accent: #10b981;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+      --gradient-2: linear-gradient(45deg, #f59e0b, #f97316, #ef4444);
+      --gradient-bg: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                     radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                     radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                     radial-gradient(circle at 0% 100%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+      --shadow-hover: 0 25px 50px rgba(99, 102, 241, 0.25);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
     
-    /* Nouveau fond avec dégradé vert/bleu plus foncé */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* ===== ANIMATIONS GLOBALES ===== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+    }
+    
+    @keyframes slide-up {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* ===== STYLES GÉNÉRAUX ===== */
     body {
-      background: linear-gradient(135deg, #d5e8d9 0%, #c5dfe6 100%);
-      color:#333;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
-    }
-    
-    .container{width:100%;max-width:480px;margin:0 auto}
-    .logo-header{text-align:center;margin-bottom:20px}
-    
-    /* Nouveau style pour le logo avec police stylée */
-    .logo{
-      font-size:2.8rem;
-      font-weight:800;
-      color:#2c3e50;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:10px;
+      background-color: #0f172a;
+      background-image: var(--gradient-bg);
+      color: var(--light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
       position: relative;
-      font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
     }
     
-    /* Conteneur pour les pièces superposées */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+      z-index: -1;
+      animation: gradient-shift 20s ease infinite;
+      background-size: 400% 400%;
+    }
+    
+    .floating-elements {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--gradient-1);
+      opacity: 0.1;
+      filter: blur(40px);
+      animation: float 15s ease-in-out infinite;
+    }
+    
+    .floating-element:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+    
+    .floating-element:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      top: 60%;
+      right: 10%;
+      animation-delay: 5s;
+      background: var(--gradient-2);
+    }
+    
+    .floating-element:nth-child(3) {
+      width: 150px;
+      height: 150px;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 10s;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      animation: slide-up 0.8s ease-out;
+    }
+    
+    /* ===== HEADER ET LOGO ===== */
+    .logo-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .logo {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      padding: 0 20px;
+    }
+    
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--gradient-1);
+      border-radius: 10px;
+      animation: pulse-glow 2s infinite;
+    }
+    
     .coin-container {
       position: relative;
-      margin-right: 12px;
-      height: 50px;
-      width: 50px;
+      margin-right: 15px;
+      height: 60px;
+      width: 60px;
+      animation: float 4s ease-in-out infinite;
     }
     
-    /* Style pour les pièces superposées avec couleur verte plus foncée */
     .coin {
       position: absolute;
-      color: #2a8c5a;
+      font-size: 2.5rem;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+    }
+    
+    .coin-1 { 
+      top: 0; 
+      left: 0; 
+      z-index: 4; 
+      color: #f59e0b;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .coin-2 { 
+      top: 5px; 
+      left: 5px; 
+      z-index: 3; 
+      color: #10b981;
+      animation: float 3s ease-in-out infinite 0.2s;
+    }
+    
+    .coin-3 { 
+      top: 10px; 
+      left: 10px; 
+      z-index: 2; 
+      color: #6366f1;
+      animation: float 3s ease-in-out infinite 0.4s;
+    }
+    
+    .coin-4 { 
+      top: 15px; 
+      left: 15px; 
+      z-index: 1; 
+      color: #ec4899;
+      animation: float 3s ease-in-out infinite 0.6s;
+    }
+    
+    .tagline {
+      font-size: 1.3rem;
+      color: #cbd5e1;
+      font-weight: 500;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+      position: relative;
+      display: inline-block;
+      padding: 0 10px;
+    }
+    
+    .tagline::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--gradient-1);
+      border-radius: 10px;
+    }
+    
+    /* ===== CARTE PRINCIPALE ===== */
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      padding: 35px;
+      position: relative;
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--gradient-1);
+    }
+    
+    .card-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .card-header h2 {
       font-size: 2.2rem;
-      text-shadow: 0px 1px 2px rgba(0,0,0,0.2);
+      font-weight: 700;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+      font-family: 'Orbitron', sans-serif;
     }
     
-    /* Positionnement des 4 pièces superposées */
-    .coin-1 { top: 0; left: 0; z-index: 4; }
-    .coin-2 { top: 5px; left: 5px; z-index: 3; opacity: 0.8; }
-    .coin-3 { top: 10px; left: 10px; z-index: 2; opacity: 0.6; }
-    .coin-4 { top: 15px; left: 15px; z-index: 1; opacity: 0.4; }
-    
-    .tagline{color:#5a6f7d;font-size:1.1rem;margin-bottom:10px;font-weight:500}
-    
-    .card{
-      background-color:white;
-      border-radius:12px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.12);
-      overflow:hidden;
-      padding:25px;
+    .card-header p {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      font-weight: 400;
     }
     
-    .card-header{text-align:center;margin-bottom:25px}
-    .card-header h2{color:#2c3e50;font-size:1.8rem;font-weight:600;margin-bottom:8px}
-    .card-header p{color:#7f8c8d;font-size:1rem}
-    .form-group{margin-bottom:20px}
-    label{display:block;margin-bottom:8px;font-weight:500;color:#2c3e50;font-size:0.95rem}
-    .input-group{display:flex;align-items:center;background-color:#f8f9fa;border-radius:8px;overflow:hidden;border:1px solid #ddd;transition:all 0.3s ease}
-    .input-group:focus-within{border-color:#3498db;box-shadow:0 0 0 2px rgba(52,152,219,0.2)}
-    .input-group.disabled{background-color:#e9ecef;opacity:0.7}
-    .input-icon{padding:0 15px;color:#7f8c8d}
-    input,select{width:100%;padding:14px;border:none;background:transparent;color:#2c3e50;font-size:1rem;outline:none}
-    input::placeholder{color:#95a5a6}
-    input:disabled{cursor:not-allowed;color:#6c757d}
-    select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237f8c8d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 15px center;background-size:15px}
-    .phone-group{display:flex}
-    .country-code{flex:0 0 30%;display:flex;align-items:center;background-color:#eef2f7;padding:0 15px;border-right:1px solid #ddd;font-weight:500;color:#2c3e50}
-    .flag{margin-right:8px;font-size:1.2rem}
-    .phone-input{flex:1}
-    .checkbox-group{display:flex;align-items:flex-start;gap:12px;margin:20px 0}
-    .checkbox-group input[type="checkbox"]{width:18px;height:18px;margin-top:3px;flex-shrink:0;accent-color:#4CD964;cursor:pointer}
-    .terms-text{font-size:0.85rem;line-height:1.35;color:#7f8c8d;max-width:calc(100% - 32px)}
-    .terms-text a{color:#3498db;text-decoration:none;font-weight:500}
-    .terms-text a:hover{text-decoration:underline}
-    .btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#4CD964 0%,#2AB32A 100%);color:white;border:none;border-radius:8px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;text-align:center;box-shadow:0 4px 10px rgba(76,217,100,0.3)}
-    .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 15px rgba(76,217,100,0.4)}
-    .btn:active:not(:disabled){transform:translateY(0)}
-    .btn:disabled{opacity:0.6;cursor:not-allowed}
-    .login-link{text-align:center;margin-top:25px;font-size:0.95rem;color:#7f8c8d}
-    .login-link a{color:#3498db;text-decoration:none;font-weight:500}
-    .login-link a:hover{text-decoration:underline}
-    .footer{margin-top:30px;text-align:center;color:#5a6f7d;font-size:0.85rem}
-    .footer-links{margin-top:10px;display:flex;justify-content:center;gap:15px}
-    .footer-links a{color:#5a6f7d;text-decoration:none}
-    .footer-links a:hover{text-decoration:underline;color:#3498db}
-    .error-message{color:#e74c3c;background-color:#fde8e6;padding:10px;border-radius:5px;margin-top:10px;font-size:0.9rem;display:none}
-    .success-message{color:#2ecc71;background-color:#e8f6ef;padding:10px;border-radius:5px;margin-top:10px;font-size:0.9rem;display:none}
+    /* ===== FORMULAIRES ===== */
+    .form-group {
+      margin-bottom: 25px;
+      animation: slide-up 0.6s ease-out;
+      animation-fill-mode: both;
+    }
     
-    /* --- Nouvelles règles CSS pour les notifications --- */
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    .form-group:nth-child(6) { animation-delay: 0.6s; }
+    .form-group:nth-child(7) { animation-delay: 0.7s; }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.5px;
+    }
+    
+    .input-group {
+      display: flex;
+      align-items: center;
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .input-group::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 12px;
+      padding: 2px;
+      background: var(--gradient-1);
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .input-group:focus-within {
+      border-color: transparent;
+      transform: translateY(-3px);
+    }
+    
+    .input-group:focus-within::before {
+      opacity: 1;
+    }
+    
+    .input-group.disabled {
+      background: rgba(30, 41, 59, 0.4);
+      opacity: 0.8;
+    }
+    
+    .input-icon {
+      padding: 0 18px;
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      background: transparent;
+      color: #f1f5f9;
+      font-size: 1rem;
+      outline: none;
+      font-weight: 500;
+    }
+    
+    input::placeholder {
+      color: #94a3b8;
+    }
+    
+    input:disabled {
+      cursor: not-allowed;
+      color: #64748b;
+    }
+    
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      background-size: 16px;
+      cursor: pointer;
+    }
+    
+    .phone-group {
+      display: flex;
+    }
+    
+    .country-code {
+      flex: 0 0 30%;
+      display: flex;
+      align-items: center;
+      background: rgba(99, 102, 241, 0.2);
+      padding: 0 18px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    
+    .flag {
+      margin-right: 10px;
+      font-size: 1.3rem;
+    }
+    
+    .phone-input {
+      flex: 1;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(30, 41, 59, 0.4);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+    
+    .checkbox-group:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      transform: translateY(-3px);
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: var(--primary);
+      position: relative;
+    }
+    
+    .terms-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #94a3b8;
+      max-width: calc(100% - 40px);
+    }
+    
+    .terms-text a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: var(--transition);
+    }
+    
+    .terms-text a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    
+    .terms-text a:hover::after {
+      width: 100%;
+    }
+    
+    /* ===== BOUTON ===== */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: var(--gradient-1);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    .btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    .btn i {
+      margin-right: 10px;
+    }
+    
+    /* ===== LIEN DE CONNEXION ===== */
+    .login-link {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1rem;
+      color: #94a3b8;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      padding: 5px 0;
+    }
+    
+    .login-link a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    
+    .login-link a:hover::after {
+      width: 100%;
+    }
+    
+    /* ===== FOOTER ===== */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-links {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      padding: 5px 0;
+    }
+    
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: #e2e8f0;
+    }
+    
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* ===== MESSAGES D'ERREUR/SUCCÈS ===== */
+    .error-message, .success-message {
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      display: none;
+      animation: slide-up 0.4s ease;
+    }
+    
+    .error-message {
+      color: #fecaca;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .success-message {
+      color: #bbf7d0;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    
+    /* ===== NOTIFICATIONS ===== */
     .notification-container {
       position: fixed;
       top: 20px;
@@ -116,34 +657,39 @@
       z-index: 9999;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
+      max-width: 400px;
     }
     
     .notification {
-      padding: 15px 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
       display: flex;
       align-items: center;
-      max-width: 350px;
-      animation: slideIn 0.3s ease forwards;
+      max-width: 100%;
+      animation: slide-up 0.4s ease forwards;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .notification.success {
-      background: linear-gradient(135deg, #4CD964 0%, #2AB32A 100%);
-      color: white;
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #bbf7d0;
     }
     
     .notification.error {
-      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-      color: white;
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #fecaca;
     }
     
     .notification-icon {
-      margin-right: 12px;
-      font-size: 1.2rem;
+      margin-right: 15px;
+      font-size: 1.5rem;
     }
     
     .notification-content {
@@ -151,12 +697,14 @@
     }
     
     .notification-title {
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+      font-family: 'Rajdhani', sans-serif;
     }
     
     .notification-message {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       opacity: 0.9;
     }
     
@@ -167,11 +715,14 @@
       cursor: pointer;
       margin-left: 10px;
       opacity: 0.7;
-      transition: opacity 0.2s;
+      transition: var(--transition);
+      padding: 5px;
+      border-radius: 50%;
     }
     
     .notification-close:hover {
       opacity: 1;
+      background: rgba(255, 255, 255, 0.1);
     }
     
     .notification-progress {
@@ -185,17 +736,6 @@
       animation: progressBar 5s linear forwards;
     }
     
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    
     @keyframes progressBar {
       from {
         transform: scaleX(1);
@@ -205,28 +745,69 @@
       }
     }
     
-    /* Style pour les options de pays avec drapeaux */
+    /* ===== OPTIONS DE PAYS ===== */
     .country-option {
       display: flex;
       align-items: center;
+      padding: 10px 15px;
     }
     
     .country-flag {
-      margin-right: 8px;
-      font-size: 1.2rem;
+      margin-right: 10px;
+      font-size: 1.3rem;
     }
     
-    @media (max-width:576px){
-      .card{padding:20px}
-      .logo{font-size:2.2rem}
-      .tagline{font-size:1rem}
-      .card-header h2{font-size:1.5rem}
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .container {
+        max-width: 100%;
+        padding: 10px;
+      }
+      
+      .card {
+        padding: 25px;
+      }
+      
+      .logo {
+        font-size: 2.8rem;
+      }
+      
+      .coin-container {
+        height: 50px;
+        width: 50px;
+      }
+      
+      .coin {
+        font-size: 2rem;
+      }
+      
+      .card-header h2 {
+        font-size: 1.8rem;
+      }
+      
+      .btn {
+        padding: 16px;
+        font-size: 1.1rem;
+      }
+      
       .notification-container {
         left: 20px;
         right: 20px;
+        max-width: none;
       }
-      .notification {
-        max-width: 100%;
+      
+      .footer-links {
+        gap: 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px;
+      }
+      
+      .logo {
+        font-size: 2.2rem;
       }
       
       .coin-container {
@@ -237,183 +818,222 @@
       .coin {
         font-size: 1.8rem;
       }
+      
+      .tagline {
+        font-size: 1.1rem;
+      }
+      
+      .card-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .checkbox-group {
+        padding: 15px;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="notification-container" id="notificationContainer"></div>
+<!-- Éléments de fond flottants -->
+<div class="floating-elements">
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+</div>
 
-  <div class="container">
-    <div class="logo-header">
-      <div class="logo">
-        <div class="coin-container">
-          <i class="fas fa-coins coin coin-1"></i>
-          <i class="fas fa-coins coin coin-2"></i>
-          <i class="fas fa-coins coin coin-3"></i>
-          <i class="fas fa-coins coin coin-4"></i>
-        </div>
-        <span>EARNESIA GROUP</span>
+<!-- Conteneur de notifications -->
+<div class="notification-container" id="notificationContainer"></div>
+
+<div class="container">
+  <!-- En-tête avec logo -->
+  <div class="logo-header">
+    <div class="logo">
+      <div class="coin-container">
+        <i class="fas fa-coins coin coin-1"></i>
+        <i class="fas fa-coins coin coin-2"></i>
+        <i class="fas fa-coins coin coin-3"></i>
+        <i class="fas fa-coins coin coin-4"></i>
       </div>
-      <div class="tagline">Chaque action génère du cash.</div>
+      <span>EARNESIA</span>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <h2>Créer un compte</h2>
-        <p>Rejoignez notre communauté dès aujourd'hui</p>
-      </div>
-
-      <div id="errorMessage" class="error-message"></div>
-      <div id="successMessage" class="success-message"></div>
-
-      <form id="registrationForm">
-        <div class="form-group">
-          <label for="username">Nom d'utilisateur</label>
-          <div class="input-group">
-            <div class="input-icon"><i class="fas fa-user"></i></div>
-            <input type="text" id="username" name="username" required placeholder="Choisissez votre nom d'utilisateur">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="par">Par (Parrain)</label>
-          <div class="input-group" id="parInputGroup">
-            <div class="input-icon"><i class="fas fa-user-friends"></i></div>
-            <input type="text" id="par" name="par" placeholder="Aucun parrain détecté" disabled>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="email">Adresse e-mail</label>
-          <div class="input-group">
-            <div class="input-icon"><i class="fas fa-envelope"></i></div>
-            <input type="email" id="email" name="email" required placeholder="exemple@email.com">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="country">Pays</label>
-          <div class="input-group">
-            <div class="input-icon"><i class="fas fa-globe"></i></div>
-            <select id="country" name="country" required onchange="updateCountryCode()">
-              <option value="">Sélectionnez votre pays</option>
-              
-              <optgroup label="Afrique Centrale">
-                <option value="cm" data-code="+237" selected>🇨🇲 Cameroun</option>
-                <option value="td" data-code="+235">🇹🇩 Tchad</option>
-                <option value="cf" data-code="+236">🇨🇫 République centrafricaine</option>
-                <option value="cg" data-code="+242">🇨🇬 Congo-Brazzaville</option>
-                <option value="cd" data-code="+243">🇨🇩 République démocratique du Congo</option>
-                <option value="gq" data-code="+240">🇬🇶 Guinée équatoriale</option>
-                <option value="ga" data-code="+241">🇬🇦 Gabon</option>
-                <option value="st" data-code="+239">🇸🇹 Sao Tomé-et-Principe</option>
-              </optgroup>
-              
-              <optgroup label="Afrique de l'Ouest">
-                <option value="ci" data-code="+225">🇨🇮 Côte d'Ivoire</option>
-                <option value="sn" data-code="+221">🇸🇳 Sénégal</option>
-                <option value="ml" data-code="+223">🇲🇱 Mali</option>
-                <option value="bf" data-code="+226">🇧🇫 Burkina Faso</option>
-                <option value="ne" data-code="+227">🇳🇪 Niger</option>
-                <option value="tg" data-code="+228">🇹🇬 Togo</option>
-                <option value="bj" data-code="+229">🇧🇯 Bénin</option>
-                <option value="ng" data-code="+234">🇳🇬 Nigeria</option>
-                <option value="gh" data-code="+233">🇬🇭 Ghana</option>
-                <option value="gn" data-code="+224">🇬🇳 Guinée</option>
-                <option value="gw" data-code="+245">🇬🇼 Guinée-Bissau</option>
-                <option value="lr" data-code="+231">🇱🇷 Liberia</option>
-                <option value="sl" data-code="+232">🇸🇱 Sierra Leone</option>
-                <option value="gm" data-code="+220">🇬🇲 Gambie</option>
-                <option value="mr" data-code="+222">🇲🇷 Mauritanie</option>
-              </optgroup>
-              
-              <optgroup label="Afrique de l'Est">
-                <option value="ke" data-code="+254">🇰🇪 Kenya</option>
-                <option value="ug" data-code="+256">🇺🇬 Ouganda</option>
-                <option value="tz" data-code="+255">🇹🇿 Tanzanie</option>
-                <option value="rw" data-code="+250">🇷🇼 Rwanda</option>
-                <option value="bi" data-code="+257">🇧🇮 Burundi</option>
-                <option value="et" data-code="+251">🇪🇹 Éthiopie</option>
-                <option value="ss" data-code="+211">🇸🇸 Soudan du Sud</option>
-                <option value="sd" data-code="+249">🇸🇩 Soudan</option>
-                <option value="so" data-code="+252">🇸🇴 Somalie</option>
-                <option value="dj" data-code="+253">🇩🇯 Djibouti</option>
-                <option value="er" data-code="+291">🇪🇷 Érythrée</option>
-              </optgroup>
-              
-              <optgroup label="Autres pays africains">
-                <option value="dz" data-code="+213">🇩🇿 Algérie</option>
-                <option value="eg" data-code="+20">🇪🇬 Égypte</option>
-                <option value="ly" data-code="+218">🇱🇾 Libye</option>
-                <option value="ma" data-code="+212">🇲🇦 Maroc</option>
-                <option value="tn" data-code="+216">🇹🇳 Tunisie</option>
-                <option value="ao" data-code="+244">🇦🇴 Angola</option>
-                <option value="mz" data-code="+258">🇲🇿 Mozambique</option>
-                <option value="zm" data-code="+260">🇿🇲 Zambie</option>
-                <option value="zw" data-code="+263">🇿🇼 Zimbabwe</option>
-                <option value="mw" data-code="+265">🇲🇼 Malawi</option>
-                <option value="na" data-code="+264">🇳🇦 Namibie</option>
-                <option value="bw" data-code="+267">🇧🇼 Botswana</option>
-                <option value="sz" data-code="+268">🇸🇿 Eswatini</option>
-                <option value="ls" data-code="+266">🇱🇸 Lesotho</option>
-                <option value="mg" data-code="+261">🇲🇬 Madagascar</option>
-                <option value="mu" data-code="+230">🇲🇺 Maurice</option>
-                <option value="sc" data-code="+248">🇸🇨 Seychelles</option>
-                <option value="cv" data-code="+238">🇨🇻 Cap-Vert</option>
-              </optgroup>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Numéro de téléphone</label>
-          <div class="input-group phone-group">
-            <div class="country-code"><span id="selectedFlag" class="flag">🇨🇲</span><span id="countryCode">+237</span></div>
-            <div class="input-icon"><i class="fas fa-phone"></i></div>
-            <input type="tel" id="phone" name="phone" required class="phone-input" placeholder="XX XXX XXX">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Mot de passe</label>
-          <div class="input-group">
-            <div class="input-icon"><i class="fas fa-lock"></i></div>
-            <input type="password" id="password" name="password" required placeholder="Créez un mot de passe sécurisé">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="confirmPassword">Confirmer le mot de passe</label>
-          <div class="input-group">
-            <div class="input-icon"><i class="fas fa-lock"></i></div>
-            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirmez votre mot de passe">
-          </div>
-        </div>
-
-        <div class="checkbox-group">
-          <input type="checkbox" id="terms" name="terms" required>
-          <div class="terms-text">En cochant cette case, j'accepte les <a href="terms.html">Conditions d'utilisation</a> et la <a href="privacy.html">Politique de confidentialité</a> de EARNESIA GROUP.<br>Mon compte devra être activé <strong>après mon paiement</strong>.</div>
-        </div>
-
-        <button type="submit" class="btn"><i class="fas fa-user-plus"></i> S'inscrire maintenant</button>
-      </form>
-
-      <div class="login-link">Vous avez déjà un compte? <a href="login.html">Connectez-vous</a></div>
-    </div>
-
-    <div class="footer">
-      <div>© 2025 EARNESIA GROUP. Tous droits réservés.</div>
-      <div class="footer-links">
-        <a href="terms.html">Conditions d'utilisation</a>
-        <a href="privacy.html">Politique de confidentialité</a>
-        <a href="support.html">Support</a>
-        <a href="https://social-boost-horizon-new-sbh.vercel.app" target="_blank">Propulsé par SHB</a>
-      </div>
-    </div>
+    <div class="tagline">Ton futur en route</div>
   </div>
 
+  <!-- Carte principale -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Créer un compte</h2>
+      <p>Votre avenir financier commence ici</p>
+    </div>
+
+    <!-- Messages d'erreur/succès -->
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+
+    <!-- Formulaire d'inscription -->
+    <form id="registrationForm">
+      <!-- Nom d'utilisateur -->
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <div class="input-group">
+          <div class="input-icon"><i class="fas fa-user"></i></div>
+          <input type="text" id="username" name="username" required placeholder="Choisissez votre nom d'utilisateur">
+        </div>
+      </div>
+
+      <!-- Parrain -->
+      <div class="form-group">
+        <label for="par">Parrain (facultatif)</label>
+        <div class="input-group" id="parInputGroup">
+          <div class="input-icon"><i class="fas fa-user-friends"></i></div>
+          <input type="text" id="par" name="par" placeholder="Aucun parrain détecté" disabled>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Adresse e-mail</label>
+        <div class="input-group">
+          <div class="input-icon"><i class="fas fa-envelope"></i></div>
+          <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+        </div>
+      </div>
+
+      <!-- Pays -->
+      <div class="form-group">
+        <label for="country">Pays</label>
+        <div class="input-group">
+          <div class="input-icon"><i class="fas fa-globe"></i></div>
+          <select id="country" name="country" required onchange="updateCountryCode()">
+            <option value="">Sélectionnez votre pays</option>
+            
+            <optgroup label="Afrique Centrale">
+              <option value="cm" data-code="+237" selected>🇨🇲 Cameroun</option>
+              <option value="td" data-code="+235">🇹🇩 Tchad</option>
+              <option value="cf" data-code="+236">🇨🇫 République centrafricaine</option>
+              <option value="cg" data-code="+242">🇨🇬 Congo-Brazzaville</option>
+              <option value="cd" data-code="+243">🇨🇩 République démocratique du Congo</option>
+              <option value="gq" data-code="+240">🇬🇶 Guinée équatoriale</option>
+              <option value="ga" data-code="+241">🇬🇦 Gabon</option>
+              <option value="st" data-code="+239">🇸🇹 Sao Tomé-et-Principe</option>
+            </optgroup>
+            
+            <optgroup label="Afrique de l'Ouest">
+              <option value="ci" data-code="+225">🇨🇮 Côte d'Ivoire</option>
+              <option value="sn" data-code="+221">🇸🇳 Sénégal</option>
+              <option value="ml" data-code="+223">🇲🇱 Mali</option>
+              <option value="bf" data-code="+226">🇧🇫 Burkina Faso</option>
+              <option value="ne" data-code="+227">🇳🇪 Niger</option>
+              <option value="tg" data-code="+228">🇹🇬 Togo</option>
+              <option value="bj" data-code="+229">🇧🇯 Bénin</option>
+              <option value="ng" data-code="+234">🇳🇬 Nigeria</option>
+              <option value="gh" data-code="+233">🇬🇭 Ghana</option>
+              <option value="gn" data-code="+224">🇬🇳 Guinée</option>
+              <option value="gw" data-code="+245">🇬🇼 Guinée-Bissau</option>
+              <option value="lr" data-code="+231">🇱🇷 Liberia</option>
+              <option value="sl" data-code="+232">🇸🇱 Sierra Leone</option>
+              <option value="gm" data-code="+220">🇬🇲 Gambie</option>
+              <option value="mr" data-code="+222">🇲🇷 Mauritanie</option>
+            </optgroup>
+            
+            <optgroup label="Afrique de l'Est">
+              <option value="ke" data-code="+254">🇰🇪 Kenya</option>
+              <option value="ug" data-code="+256">🇺🇬 Ouganda</option>
+              <option value="tz" data-code="+255">🇹🇿 Tanzanie</option>
+              <option value="rw" data-code="+250">🇷🇼 Rwanda</option>
+              <option value="bi" data-code="+257">🇧🇮 Burundi</option>
+              <option value="et" data-code="+251">🇪🇹 Éthiopie</option>
+              <option value="ss" data-code="+211">🇸🇸 Soudan du Sud</option>
+              <option value="sd" data-code="+249">🇸🇩 Soudan</option>
+              <option value="so" data-code="+252">🇸🇴 Somalie</option>
+              <option value="dj" data-code="+253">🇩🇯 Djibouti</option>
+              <option value="er" data-code="+291">🇪🇷 Érythrée</option>
+            </optgroup>
+            
+            <optgroup label="Autres pays africains">
+              <option value="dz" data-code="+213">🇩🇿 Algérie</option>
+              <option value="eg" data-code="+20">🇪🇬 Égypte</option>
+              <option value="ly" data-code="+218">🇱🇾 Libye</option>
+              <option value="ma" data-code="+212">🇲🇦 Maroc</option>
+              <option value="tn" data-code="+216">🇹🇳 Tunisie</option>
+              <option value="ao" data-code="+244">🇦🇴 Angola</option>
+              <option value="mz" data-code="+258">🇲🇿 Mozambique</option>
+              <option value="zm" data-code="+260">🇿🇲 Zambie</option>
+              <option value="zw" data-code="+263">🇿🇼 Zimbabwe</option>
+              <option value="mw" data-code="+265">🇲🇼 Malawi</option>
+              <option value="na" data-code="+264">🇳🇦 Namibie</option>
+              <option value="bw" data-code="+267">🇧🇼 Botswana</option>
+              <option value="sz" data-code="+268">🇸🇿 Eswatini</option>
+              <option value="ls" data-code="+266">🇱🇸 Lesotho</option>
+              <option value="mg" data-code="+261">🇲🇬 Madagascar</option>
+              <option value="mu" data-code="+230">🇲🇺 Maurice</option>
+              <option value="sc" data-code="+248">🇸🇨 Seychelles</option>
+              <option value="cv" data-code="+238">🇨🇻 Cap-Vert</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <!-- Téléphone -->
+      <div class="form-group">
+        <label for="phone">Numéro de téléphone</label>
+        <div class="input-group phone-group">
+          <div class="country-code"><span id="selectedFlag" class="flag">🇨🇲</span><span id="countryCode">+237</span></div>
+          <div class="input-icon"><i class="fas fa-phone"></i></div>
+          <input type="tel" id="phone" name="phone" required class="phone-input" placeholder="XX XXX XXX">
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-group">
+          <div class="input-icon"><i class="fas fa-lock"></i></div>
+          <input type="password" id="password" name="password" required placeholder="Créez un mot de passe sécurisé">
+        </div>
+      </div>
+
+      <!-- Confirmation mot de passe -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <div class="input-group">
+          <div class="input-icon"><i class="fas fa-lock"></i></div>
+          <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirmez votre mot de passe">
+        </div>
+      </div>
+
+      <!-- Conditions -->
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" name="terms" required>
+        <div class="terms-text">En cochant cette case, j'accepte les <a href="terms.html">Conditions d'utilisation</a> et la <a href="privacy.html">Politique de confidentialité</a> de EARNESIA.<br>Mon compte devra être activé <strong>après mon paiement</strong>.</div>
+      </div>
+
+      <!-- Bouton d'inscription -->
+      <button type="submit" class="btn"><i class="fas fa-rocket"></i> Décoller maintenant</button>
+    </form>
+
+    <!-- Lien de connexion -->
+    <div class="login-link">Vous avez déjà un compte? <a href="login.html">Connectez-vous ici</a></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>© 2025 EARNESIA GROUP. Tous droits réservés.</div>
+    <div class="footer-links">
+      <a href="terms.html">Conditions d'utilisation</a>
+      <a href="privacy.html">Politique de confidentialité</a>
+      <a href="support.html">Support</a>
+      <a href="https://social-boost-horizon-new-sbh.vercel.app" target="_blank">Propulsé par SHB</a>
+    </div>
+  </div>
+</div>
 <script type="module">
-/* ---------- Imports Firebase (modular) ---------- */
+/* ---------- IMPORTS FIREBASE (MODULAIRE) ---------- */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 import {
@@ -424,7 +1044,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-/* ---------- Configuration Firebase ---------- */
+/* ---------- CONFIGURATION FIREBASE ---------- */
 const firebaseConfig = {
   apiKey: "AIzaSyCjGisjgbFc2ZE0BFgdhlUao8bCCeuKP1k",
   authDomain: "cash-flowr.firebaseapp.com",
@@ -441,13 +1061,15 @@ const db = getFirestore(app);
 
 const SERVER_URL = "https://mulaflowr-exaucenapopolo2.replit.app";
 
-/* ---------- Helpers notifications ---------- */
+/* ---------- HELPERS NOTIFICATIONS ---------- */
 function showNotification(type, title, message, duration = 5000) {
   const notificationContainer = document.getElementById('notificationContainer');
   if (!notificationContainer) return;
+  
   const notification = document.createElement('div');
   notification.className = `notification ${type}`;
   const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+  
   notification.innerHTML = `
     <i class="fas ${icon} notification-icon"></i>
     <div class="notification-content">
@@ -457,20 +1079,33 @@ function showNotification(type, title, message, duration = 5000) {
     <button class="notification-close"><i class="fas fa-times"></i></button>
     <div class="notification-progress"></div>
   `;
+  
   notificationContainer.appendChild(notification);
+  
   const closeNotification = () => {
-    notification.style.animation = 'slideIn 0.3s ease reverse forwards';
-    setTimeout(() => { if (notificationContainer.contains(notification)) notificationContainer.removeChild(notification); }, 300);
+    notification.style.animation = 'slide-up 0.3s ease reverse forwards';
+    setTimeout(() => { 
+      if (notificationContainer.contains(notification)) {
+        notificationContainer.removeChild(notification);
+      }
+    }, 300);
   };
+  
   notification.querySelector('.notification-close').addEventListener('click', closeNotification);
   notification.querySelector('.notification-progress').style.animationDuration = `${duration}ms`;
   setTimeout(closeNotification, duration);
 }
-function showError(msg){ showNotification('error','Erreur',msg); }
-function showSuccess(msg){ showNotification('success','Succès',msg); }
 
-/* ---------- Utilitaires UI / Pays ---------- */
-function getFlag(countryCode){
+function showError(msg) { 
+  showNotification('error', 'Erreur', msg); 
+}
+
+function showSuccess(msg) { 
+  showNotification('success', 'Succès', msg); 
+}
+
+/* ---------- UTILITAIRES UI / PAYS ---------- */
+function getFlag(countryCode) {
   const flags = {
     'ci':'🇨🇮','fr':'🇫🇷','sn':'🇸🇳','cm':'🇨🇲','ml':'🇲🇱','bf':'🇧🇫','ne':'🇳🇪',
     'tg':'🇹🇬','bj':'🇧🇯','cd':'🇨🇩','td':'🇹🇩','cf':'🇨🇫','cg':'🇨🇬','gq':'🇬🇶',
@@ -483,26 +1118,30 @@ function getFlag(countryCode){
   };
   return flags[countryCode] || '🇨🇲';
 }
-function updateCountryCode(){
+
+function updateCountryCode() {
   const countrySelect = document.getElementById('country');
   const selectedOption = countrySelect.options[countrySelect.selectedIndex];
   const code = selectedOption?.getAttribute('data-code') || '+237';
   const flag = getFlag(selectedOption?.value);
   const countryCodeEl = document.getElementById('countryCode');
   const selectedFlagEl = document.getElementById('selectedFlag');
-  if(countryCodeEl) countryCodeEl.textContent = code;
-  if(selectedFlagEl) selectedFlagEl.textContent = flag;
+  
+  if (countryCodeEl) countryCodeEl.textContent = code;
+  if (selectedFlagEl) selectedFlagEl.textContent = flag;
 }
 
-/* ---------- Recherche du parrain par username ---------- */
-async function findSponsorByUsername(username){
-  if(!username) return null;
+/* ---------- RECHERCHE DU PARRAIN PAR USERNAME ---------- */
+async function findSponsorByUsername(username) {
+  if (!username) return null;
   username = username.trim();
+  
   try {
     const usersRef = collection(db, 'users');
     const q = query(usersRef, where('username', '==', username));
     const qs = await getDocs(q);
-    if(!qs.empty){
+    
+    if (!qs.empty) {
       const d = qs.docs[0];
       const data = d.data() || {};
       return { 
@@ -512,34 +1151,34 @@ async function findSponsorByUsername(username){
       };
     }
     return null;
-  } catch(err){
+  } catch (err) {
     console.error('findSponsorByUsername error', err);
     return null;
   }
 }
 
-/* ---------- Vérification unicité username ---------- */
-async function checkUsernameExists(username){
-  if(!username) return false;
+/* ---------- VÉRIFICATION UNICITÉ USERNAME ---------- */
+async function checkUsernameExists(username) {
+  if (!username) return false;
+  
   try {
     const usersRef = collection(db, 'users');
     const q = query(usersRef, where('username', '==', username));
     const snapshot = await getDocs(q);
     return !snapshot.empty;
-  } catch(err){
+  } catch (err) {
     console.error('checkUsernameExists error', err);
     return false;
   }
 }
-
-/* ---------- Gestion du formulaire / enregistrement ---------- */
+/* ---------- GESTION DU FORMULAIRE / ENREGISTREMENT ---------- */
 let sponsorData = null;
 let isSubmitting = false; // ✅ Flag pour éviter les doubles soumissions
 
 const registrationForm = document.getElementById('registrationForm');
 if (!registrationForm) throw new Error('Formulaire non trouvé (#registrationForm).');
 
-registrationForm.addEventListener('submit', async function(e){
+registrationForm.addEventListener('submit', async function(e) {
   e.preventDefault();
   
   // ✅ Empêcher la double soumission
@@ -557,19 +1196,37 @@ registrationForm.addEventListener('submit', async function(e){
   const countryCode = document.getElementById('countryCode')?.textContent || '+237';
 
   // Validations basiques
-  if(!username){ showError("Choisissez un nom d'utilisateur."); return; }
-  if(password !== confirmPassword){ showError("Les mots de passe ne correspondent pas."); return; }
-  if(!document.getElementById('terms').checked){ showError("Veuillez accepter les conditions."); return; }
-  if(password.length < 6){ showError("Le mot de passe doit contenir au moins 6 caractères."); return; }
+  if (!username) { 
+    showError("Choisissez un nom d'utilisateur."); 
+    return; 
+  }
+  
+  if (password !== confirmPassword) { 
+    showError("Les mots de passe ne correspondent pas."); 
+    return; 
+  }
+  
+  if (!document.getElementById('terms').checked) { 
+    showError("Veuillez accepter les conditions."); 
+    return; 
+  }
+  
+  if (password.length < 6) { 
+    showError("Le mot de passe doit contenir au moins 6 caractères."); 
+    return; 
+  }
 
   // Vérification unicité username
   const exists = await checkUsernameExists(username);
-  if(exists){ showError("Ce nom d'utilisateur est déjà pris."); return; }
+  if (exists) { 
+    showError("Ce nom d'utilisateur est déjà pris."); 
+    return; 
+  }
 
   // ✅ Gestion UI : désactiver le bouton DÉFINITIVEMENT
   const submitBtn = this.querySelector('button[type="submit"]');
   const originalText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
   submitBtn.disabled = true;
   isSubmitting = true; // ✅ Marquer comme en cours
 
@@ -616,28 +1273,46 @@ registrationForm.addEventListener('submit', async function(e){
 
     console.log('✅ Inscription serveur réussie:', registerData);
 
-    showSuccess("Votre compte a été créé ! Redirection vers la page de paiement...");
-    setTimeout(()=> window.location.assign('paiement.html'), 2000);
+    showSuccess("Votre compte a été créé avec succès ! Redirection vers la page de paiement...");
+    
+    // Animation de succès
+    submitBtn.innerHTML = '<i class="fas fa-check"></i> Compte créé !';
+    submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    
+    setTimeout(() => window.location.assign('paiement.html'), 2000);
 
   } catch (err) {
     console.error('❌ Registration error:', err);
+    
     let message = "Une erreur s'est produite lors de l'inscription.";
-    if(err.code === 'auth/email-already-in-use') message = "Cette adresse email est déjà utilisée par un autre compte.";
-    else if(err.code === 'auth/invalid-email') message = "L'adresse email n'est pas valide.";
-    else if(err.code === 'auth/weak-password') message = "Le mot de passe est trop faible (min 6 caractères).";
-    else message = err.message || message;
+    if (err.code === 'auth/email-already-in-use') {
+      message = "Cette adresse email est déjà utilisée par un autre compte.";
+    } else if (err.code === 'auth/invalid-email') {
+      message = "L'adresse email n'est pas valide.";
+    } else if (err.code === 'auth/weak-password') {
+      message = "Le mot de passe est trop faible (min 6 caractères).";
+    } else {
+      message = err.message || message;
+    }
+    
     showError(message);
     
-    // ✅ NE PAS réactiver le bouton pour éviter les doubles inscriptions
-    // Le bouton reste désactivé même en cas d'erreur
+    // Réafficher le bouton d'origine (même si désactivé)
+    submitBtn.innerHTML = '<i class="fas fa-rocket"></i> Décoller maintenant';
+    submitBtn.disabled = true; // ✅ Reste désactivé pour éviter les doublons
+    
     console.log('⚠️ Bouton d\'inscription reste désactivé pour éviter les doublons');
   }
 });
 
-/* ---------- Initialisation au chargement : lecture du paramètre ref ---------- */
+/* ---------- INITIALISATION AU CHARGEMENT ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialise country select UI
-  try { document.getElementById('country').value = 'cm'; } catch(e){}
+  try { 
+    document.getElementById('country').value = 'cm'; 
+  } catch (e) {
+    console.error('Erreur d\'initialisation du pays:', e);
+  }
   updateCountryCode();
 
   // Param d'URL: on regarde 'ref' puis 'par'
@@ -647,40 +1322,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   const parInput = document.getElementById('par');
   const parInputGroup = document.getElementById('parInputGroup');
 
-  if(refParam){
+  if (refParam) {
     console.log('🔍 Recherche du parrain:', refParam);
+    
     // ✅ TOUJOURS désactiver et griser le champ si un lien de parrainage existe
-    if(parInputGroup) parInputGroup.classList.add('disabled');
+    if (parInputGroup) parInputGroup.classList.add('disabled');
     
     // On cherche le parrain par username dans Firestore
     try {
       const found = await findSponsorByUsername(refParam);
-      if(found){
+      if (found) {
         sponsorData = found;
         const display = found.displayName || found.username;
-        if(parInput) {
+        if (parInput) {
           parInput.value = display;
           parInput.disabled = true; // ✅ Toujours désactivé
         }
         console.log('✅ Parrain trouvé:', found);
       } else {
         // ✅ Pas trouvé: on affiche le param brut MAIS le champ reste désactivé
-        if(parInput){
+        if (parInput) {
           parInput.value = refParam;
           parInput.disabled = true; // ✅ CORRECTION: Reste désactivé même si non trouvé
         }
         console.warn('⚠️ Parrain non trouvé avec username:', refParam);
       }
-    } catch(err){
+    } catch (err) {
       console.error('❌ Erreur lors de la recherche du parrain:', err);
-      if(parInput) {
+      if (parInput) {
         parInput.value = refParam;
         parInput.disabled = true; // ✅ CORRECTION: Reste désactivé même en cas d'erreur
       }
     }
   } else {
     // Aucun param: garde le champ par vide et modifiable
-    if(parInput) { 
+    if (parInput) { 
       parInput.value = ''; 
       parInput.placeholder = 'Aucun parrain détecté'; 
       parInput.disabled = true; // ✅ Toujours désactivé (même sans parrain)
@@ -689,7 +1365,53 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Écoute changement de pays
   const countrySelect = document.getElementById('country');
-  if(countrySelect) countrySelect.addEventListener('change', updateCountryCode);
+  if (countrySelect) {
+    countrySelect.addEventListener('change', updateCountryCode);
+  }
+  
+  // Animation d'entrée des éléments
+  const formGroups = document.querySelectorAll('.form-group');
+  formGroups.forEach((group, index) => {
+    group.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+  });
+});
+  // Effet de particules au survol du bouton
+  const btn = document.querySelector('.btn');
+  if (btn) {
+    btn.addEventListener('mouseenter', function() {
+      this.style.animation = 'pulse-glow 1.5s infinite';
+    });
+    
+    btn.addEventListener('mouseleave', function() {
+      this.style.animation = 'none';
+    });
+  }
+  
+  // Effet sur les inputs au focus
+  const inputs = document.querySelectorAll('input, select');
+  inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentElement.style.transform = 'translateY(-3px)';
+    });
+    
+    input.addEventListener('blur', function() {
+      this.parentElement.style.transform = 'translateY(0)';
+    });
+  });
+  
+  // Animation d'apparition progressive
+  setTimeout(() => {
+    document.querySelector('.logo-header').style.opacity = '1';
+    document.querySelector('.logo-header').style.transform = 'translateY(0)';
+  }, 100);
+  
+  setTimeout(() => {
+    document.querySelector('.card').style.opacity = '1';
+    document.querySelector('.card').style.transform = 'translateY(0)';
+  }, 300);
+  
+  // Initialisation des animations CSS
+  document.body.style.opacity = '1';
 });
 </script>
 </body>
