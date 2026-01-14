@@ -3,2473 +3,1733 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BLOWEARN AGENCIES - Dashboard</title>
+  <title>EARNESIA - Inscription</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ===== VARIABLES ET RESET ===== */
     :root {
-      --primary-green: #27AE60;
-      --success-green: #4CAF50;
-      --light-green: #E8F5E9;
-      --primary-red: #E74C3C;
-      --light-red: #FFEBEE;
-      --primary-yellow: #FFC107;
-      --light-yellow: #FFF8E1;
-      --text-dark: #2C3E50;
-      --text-medium: #7F8C8D;
-      --text-light: #BDC3C7;
-      --border-color: #E8ECEF;
-      --bg-white: #FFFFFF;
-      --bg-light: #F5F7FA;
-      --bg-card: #FFFFFF;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-      --shadow-lg: 0 8px 25px rgba(0,0,0,0.12);
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --transition: all 0.2s ease;
+      --primary: #1a73e8;
+      --primary-dark: #0d62d9;
+      --secondary: #00c853;
+      --accent: #ff6d00;
+      --light: #ffffff;
+      --light-gray: #f5f7fa;
+      --gray: #e1e5eb;
+      --dark-gray: #5f6368;
+      --text: #202124;
+      --shadow: 0 8px 25px rgba(26, 115, 232, 0.12);
+      --shadow-hover: 0 15px 40px rgba(26, 115, 232, 0.2);
+      --transition: all 0.3s ease;
+      --radius: 10px;
+      --skew: -3deg;
+      --soft-blue: #e8f0fe; /* Nouvelle couleur douce ajoutée */
     }
-
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
+    
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes professionalAppear {
+      0% { 
+        opacity: 0; 
+        transform: translateY(40px) scale(0.95); 
+      }
+      60% { 
+        opacity: 1; 
+        transform: translateY(-5px) scale(1); 
+      }
+      100% { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+      }
+    }
+    
+    @keyframes formElementAppear {
+      0% { 
+        opacity: 0; 
+        transform: translateX(-15px); 
+      }
+      100% { 
+        opacity: 1; 
+        transform: translateX(0); 
+      }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes successPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7); }
+      70% { box-shadow: 0 0 0 25px rgba(0, 200, 83, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
+    }
+    
+    /* ===== STYLES GÉNÉRAUX ===== */
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-light);
-      color: var(--text-dark);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%); /* Fond plus doux */
+      color: var(--text);
       min-height: 100vh;
-      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
     }
-
-    /* Loader */
-    .loader-container {
+    
+    /* Effets de fond subtils avec nouvelle couleur douce */
+    body::before {
+      content: '';
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--bg-white);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(26, 115, 232, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 85% 80%, rgba(0, 200, 83, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, var(--soft-blue) 0%, transparent 70%); /* Nouveau dégradé doux */
+      z-index: -1;
     }
-
-    .loader-container.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loader {
-      width: 50px;
-      height: 50px;
-      border: 4px solid var(--border-color);
-      border-top-color: var(--primary-green);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Header */
-    .header {
-      background: var(--bg-white);
-      border-bottom: 1px solid var(--border-color);
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--primary-green);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-    }
-
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-medium);
-      font-size: 0.875rem;
-    }
-
-    .breadcrumb i {
-      font-size: 0.75rem;
-    }
-
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background: var(--bg-white);
-      color: var(--text-medium);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .header-btn:hover {
-      background: var(--bg-light);
-      color: var(--text-dark);
-    }
-
-    .time-selector {
-      display: flex;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-    }
-
-    .time-btn {
-      padding: 8px 12px;
-      background: var(--bg-white);
-      border: none;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-medium);
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .time-btn:not(:last-child) {
-      border-right: 1px solid var(--border-color);
-    }
-
-    .time-btn.active, .time-btn:hover {
-      background: var(--primary-green);
-      color: white;
-    }
-
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--primary-green);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .user-avatar:hover {
-      transform: scale(1.05);
-    }
-
-    .hamburger-btn {
-      display: none;
-      flex-direction: column;
-      justify-content: space-around;
-      width: 28px;
-      height: 22px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    .hamburger-btn .bar {
+    
+    .container {
       width: 100%;
-      height: 3px;
-      background: var(--text-dark);
-      border-radius: 2px;
-      transition: var(--transition);
+      max-width: 500px;
+      margin: 0 auto;
+      animation: professionalAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animation plus professionnelle */
     }
-
-    .hamburger-btn.open .bar:nth-child(1) {
-      transform: translateY(9px) rotate(45deg);
+    
+    /* ===== HEADER ET LOGO ===== */
+    .logo-header {
+      text-align: center;
+      margin-bottom: 30px;
+      animation: fadeIn 0.6s ease-out;
     }
-
-    .hamburger-btn.open .bar:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger-btn.open .bar:nth-child(3) {
-      transform: translateY(-9px) rotate(-45deg);
-    }
-
-    /* Main Layout */
-    .main-container {
+    
+    .logo-container {
       display: flex;
-      min-height: calc(100vh - 64px);
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 260px;
-      background: var(--bg-white);
-      border-right: 1px solid var(--border-color);
-      padding: 24px 0;
-      position: sticky;
-      top: 64px;
-      height: calc(100vh - 64px);
-      overflow-y: auto;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar-header {
-      padding: 0 20px 20px;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 16px;
-    }
-
-    .sidebar-welcome {
-      font-size: 0.75rem;
-      color: var(--text-medium);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .sidebar-username {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    .menu-category {
-      padding: 16px 20px 8px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .menu-item {
-      display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 12px;
-      padding: 12px 20px;
-      color: var(--text-medium);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
+      margin-bottom: 15px;
+      flex-direction: column;
+    }
+    
+    .logo-img {
+      height: 80px;
+      width: auto;
+      filter: drop-shadow(0 4px 10px rgba(26, 115, 232, 0.2));
       transition: var(--transition);
+    }
+    
+    .logo-img:hover {
+      transform: scale(1.08);
+    }
+    
+    .logo-text {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1a73e8 0%, #00c853 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-top: 10px;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: -0.5px;
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--dark-gray);
+      font-weight: 500;
+      margin-top: 8px;
+      font-style: italic;
+    }
+    
+    /* ===== CARTE PRINCIPALE ===== */
+    .card {
+      background-color: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      padding: 40px 35px;
       position: relative;
+      transition: var(--transition);
+      border: 1px solid rgba(26, 115, 232, 0.1);
+      background-image: linear-gradient(to bottom, transparent 95%, var(--soft-blue) 100%); /* Nouveau fond doux en bas */
     }
-
-    .menu-item:hover {
-      color: var(--text-dark);
-      background: var(--bg-light);
+    
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-5px);
     }
-
-    .menu-item.active {
-      color: var(--primary-green);
-      background: var(--light-green);
-    }
-
-    .menu-item.active::before {
+    
+    .card::before {
       content: '';
       position: absolute;
-      left: 0;
       top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--primary-green);
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
     }
-
-    .menu-item i {
-      width: 20px;
+    
+    .card-header {
       text-align: center;
-      font-size: 1rem;
+      margin-bottom: 35px;
     }
-
-    .menu-badge {
-      margin-left: auto;
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
-
-    .menu-badge.active {
-      background: var(--light-green);
-      color: var(--primary-green);
-    }
-
-    .menu-badge.inactive {
-      background: var(--light-red);
-      color: var(--primary-red);
-    }
-
-    /* Content Area */
-    .content {
-      flex: 1;
-      padding: 24px;
-      max-width: calc(100% - 260px);
-    }
-
-    /* Stats Grid - Top Row */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-
-    .stat-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-medium);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .stat-period {
-      font-size: 0.7rem;
-      color: var(--text-light);
-      font-weight: 400;
-    }
-
-    .stat-value {
+    
+    .card-header h1 {
+      color: var(--text);
       font-size: 2rem;
       font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
+      margin-bottom: 10px;
+      font-family: 'Poppins', sans-serif;
     }
-
-    .stat-subtitle {
-      font-size: 0.75rem;
-      color: var(--text-light);
+    
+    .card-header p {
+      color: var(--dark-gray);
+      font-size: 1.05rem;
     }
-
-    .stat-change {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      font-size: 0.7rem;
+    
+    /* ===== FORMULAIRES ===== */
+    .form-group {
+      margin-bottom: 25px;
+      animation: formElementAppear 0.5s ease-out;
+      animation-fill-mode: both;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    .form-group:nth-child(6) { animation-delay: 0.6s; }
+    .form-group:nth-child(7) { animation-delay: 0.7s; }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
       font-weight: 600;
-      padding: 4px 8px;
-      border-radius: 12px;
-    }
-
-    .stat-change.positive {
-      background: var(--light-green);
-      color: var(--primary-green);
-    }
-
-    .stat-change.negative {
-      background: var(--light-red);
-      color: var(--primary-red);
-    }
-
-    /* Circular Progress Cards */
-    .progress-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      transition: var(--transition);
-    }
-
-    .progress-card:hover {
-      box-shadow: var(--shadow-md);
-    }
-
-    .circular-progress {
-      width: 100px;
-      height: 100px;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .circular-progress svg {
-      transform: rotate(-90deg);
-      width: 100%;
-      height: 100%;
-    }
-
-    .circular-progress .bg-circle {
-      fill: none;
-      stroke: var(--border-color);
-      stroke-width: 10;
-    }
-
-    .circular-progress .progress-circle {
-      fill: none;
-      stroke-width: 10;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 1s ease;
-    }
-
-    .circular-progress .progress-circle.green {
-      stroke: var(--primary-green);
-    }
-
-    .circular-progress .progress-circle.red {
-      stroke: var(--primary-red);
-    }
-
-    .circular-progress .progress-circle.yellow {
-      stroke: var(--primary-yellow);
-    }
-
-    .progress-value {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    .progress-info {
-      flex: 1;
-    }
-
-    .progress-info h3 {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 8px;
-    }
-
-    .progress-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .progress-stat {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-    }
-
-    .progress-stat-label {
-      color: var(--text-medium);
-    }
-
-    .progress-stat-value {
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    /* Progress Grid */
-    .progress-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    /* Gains Cards */
-    .gains-section {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      margin-bottom: 24px;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .section-title {
+      color: var(--text);
       font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-dark);
+      transition: var(--transition);
+      padding-left: 5px;
+    }
+    
+    label:hover {
+      color: var(--primary);
+    }
+    
+    .input-group {
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .section-title i {
-      color: var(--primary-green);
-    }
-
-    .gains-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .gain-card {
-      background: var(--bg-light);
-      border-radius: var(--radius-md);
-      padding: 16px;
+      background-color: var(--light-gray);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid var(--gray);
       transition: var(--transition);
-      border: 1px solid transparent;
+      position: relative;
+      transform: skewX(var(--skew));
+      background-image: linear-gradient(to right, var(--light-gray) 0%, #f9fbfd 100%); /* Nouveau fond doux */
     }
-
-    .gain-card:hover {
-      border-color: var(--primary-green);
-      background: var(--light-green);
+    
+    .input-group::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(26, 115, 232, 0.08) 0%, rgba(0, 200, 83, 0.08) 100%);
+      opacity: 0;
+      transition: var(--transition);
     }
-
-    .gain-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-sm);
+    
+    .input-group:focus-within {
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
+      transform: skewX(var(--skew)) translateY(-3px);
+      background-image: linear-gradient(to right, white 0%, #fefeff 100%); /* Fond doux au focus */
+    }
+    
+    .input-group:focus-within::before {
+      opacity: 1;
+    }
+    
+    .input-group.disabled {
+      background-color: #f0f0f0;
+      opacity: 0.8;
+      background-image: none;
+    }
+    
+    .input-icon {
+      padding: 0 18px;
+      color: var(--dark-gray);
+      font-size: 1.2rem;
+      min-width: 55px;
+      text-align: center;
+      transition: var(--transition);
+      z-index: 1;
+    }
+    
+    .input-group:focus-within .input-icon {
+      color: var(--primary);
+      transform: scale(1.1);
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 18px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 1.05rem;
+      outline: none;
+      font-weight: 500;
+      transform: skewX(calc(var(--skew) * -1));
+      z-index: 1;
+    }
+    
+    input::placeholder {
+      color: #9aa0a6;
+      font-weight: 400;
+    }
+    
+    input:disabled {
+      cursor: not-allowed;
+      color: var(--dark-gray);
+    }
+    
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a73e8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      background-size: 16px;
+      cursor: pointer;
+    }
+    
+    /* Groupe téléphone */
+    .phone-group {
+      display: flex;
+    }
+    
+    .country-code {
+      flex: 0 0 35%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 12px;
-      font-size: 1.25rem;
+      background: linear-gradient(135deg, #1a73e8 0%, #0d62d9 100%);
+      padding: 0 15px;
+      border-right: 2px solid var(--gray);
+      font-weight: 600;
+      color: white;
+      transition: var(--transition);
+      transform: skewX(var(--skew));
     }
-
-    .gain-icon.whatsapp {
-      background: #25D36620;
-      color: #25D366;
+    
+    .country-code span {
+      transform: skewX(calc(var(--skew) * -1));
     }
-
-    .gain-icon.trivia {
-      background: #9B59B620;
-      color: #9B59B6;
+    
+    .flag {
+      margin-right: 10px;
+      font-size: 1.3rem;
     }
-
-    .gain-icon.ad {
-      background: #E67E2220;
-      color: #E67E22;
-    }
-
-    .gain-icon.tiktok {
-      background: #00000020;
-      color: #000000;
-    }
-
-    .gain-icon.youtube {
-      background: #FF000020;
-      color: #FF0000;
-    }
-
-    .gain-icon.instagram {
-      background: #E4405F20;
-      color: #E4405F;
-    }
-
-    .gain-icon.deposit {
-      background: #3498DB20;
-      color: #3498DB;
-    }
-
-    .gain-label {
-      font-size: 0.75rem;
-      color: var(--text-medium);
-      margin-bottom: 4px;
-    }
-
-    .gain-value {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    /* Referral Section */
-    .referral-section {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      margin-bottom: 24px;
-    }
-
-    .referral-box {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .referral-input {
+    
+    .phone-input {
       flex: 1;
-      background: var(--bg-light);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 12px 16px;
-      font-size: 0.875rem;
-      color: var(--text-dark);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    }
+    
+    /* Checkbox et conditions */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin: 25px 0;
+      padding: 20px;
+      background-color: var(--light-gray);
+      border-radius: 8px;
+      border: 2px solid var(--gray);
+      transition: var(--transition);
+      transform: skewX(var(--skew));
+      background-image: linear-gradient(to right, var(--light-gray) 0%, #f9fbfd 100%); /* Nouveau fond doux */
     }
 
-    .copy-btn {
-      background: var(--primary-green);
+    .checkbox-group:hover {
+      border-color: var(--primary);
+      background-color: white;
+      transform: skewX(var(--skew)) translateY(-2px);
+      background-image: linear-gradient(to right, white 0%, #fefeff 100%); /* Fond doux au hover */
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: var(--secondary);
+      position: relative;
+    }
+
+    .terms-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--dark-gray);
+      max-width: calc(100% - 40px);
+    }
+
+    .terms-text a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .terms-text a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .terms-text a:hover::after {
+      width: 100%;
+    }
+
+    /* Bouton d'inscription */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
       border: none;
-      border-radius: var(--radius-md);
-      padding: 12px 20px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-    }
-
-    .copy-btn:hover {
-      background: #219653;
-      transform: translateY(-1px);
-    }
-
-    .social-share {
-      display: flex;
-      gap: 10px;
-    }
-
-    .social-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.25rem;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: 700;
       cursor: pointer;
       transition: var(--transition);
-    }
-
-    .social-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .social-btn.whatsapp { background: #25D366; }
-    .social-btn.facebook { background: #1877F2; }
-    .social-btn.twitter { background: #1DA1F2; }
-    .social-btn.telegram { background: #0088CC; }
-
-    .referral-desc {
-      font-size: 0.8rem;
-      color: var(--text-medium);
-      margin-top: 12px;
-    }
-
-    /* User Info Section */
-    .user-info-section {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      margin-bottom: 24px;
-    }
-
-    .user-info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .info-item {
-      background: var(--bg-light);
-      border-radius: var(--radius-md);
-      padding: 16px;
-    }
-
-    .info-label {
-      font-size: 0.7rem;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .info-value {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    /* Calendar Section */
-    .calendar-section {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      margin-bottom: 24px;
-    }
-
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .calendar-month {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    .calendar-nav {
-      display: flex;
-      gap: 8px;
-    }
-
-    .nav-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-light);
-      border: 1px solid var(--border-color);
-      color: var(--text-medium);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .nav-btn:hover {
-      background: var(--primary-green);
-      color: white;
-      border-color: var(--primary-green);
-    }
-
-    .calendar-days {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin-bottom: 8px;
-    }
-
-    .day-header {
       text-align: center;
-      padding: 8px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--text-medium);
-      text-transform: uppercase;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin-bottom: 24px;
-    }
-
-    .calendar-date {
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      background: var(--bg-light);
-    }
-
-    .calendar-date:hover {
-      background: var(--light-green);
-    }
-
-    .calendar-date.active {
-      background: var(--primary-green);
-      color: white;
-    }
-
-    .calendar-date.today-task {
-      background: var(--primary-yellow);
-      color: var(--text-dark);
-      font-weight: 700;
-    }
-
-    .task-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-    }
-
-    .task-table th {
-      background: var(--bg-light);
-      padding: 12px 16px;
-      text-align: left;
-      font-weight: 600;
-      color: var(--text-medium);
-      text-transform: uppercase;
-      font-size: 0.7rem;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
       letter-spacing: 0.5px;
+      transform: skewX(var(--skew));
+      box-shadow: 0 8px 20px rgba(26, 115, 232, 0.25);
     }
 
-    .task-table td {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-dark);
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: left 0.7s ease;
     }
 
-    .task-table tr:hover {
-      background: var(--bg-light);
+    .btn:hover {
+      transform: skewX(var(--skew)) translateY(-4px);
+      box-shadow: 0 12px 30px rgba(26, 115, 232, 0.35);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
     }
 
-    .task-table tr.today-task {
-      background: var(--light-yellow);
+    .btn:hover::before {
+      left: 100%;
     }
 
-    /* Shutdown Notice */
-    .shutdown-notice {
-      background: linear-gradient(135deg, var(--primary-red) 0%, #C0392B 100%);
-      padding: 20px;
-      margin: 0 24px 24px;
-      border-radius: var(--radius-lg);
-      color: white;
-      box-shadow: var(--shadow-md);
+    .btn:active:not(:disabled) {
+      transform: skewX(var(--skew)) translateY(0);
     }
 
-    .shutdown-content {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      max-width: 900px;
-      margin: 0 auto;
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: skewX(var(--skew)) !important;
     }
 
-    .shutdown-icon {
-      font-size: 2.5rem;
-      animation: shake 0.5s infinite;
+    .btn i {
+      margin-right: 12px;
+      animation: float 3s ease-in-out infinite;
     }
 
-    @keyframes shake {
-      0%, 100% { transform: rotate(0); }
-      25% { transform: rotate(-5deg); }
-      75% { transform: rotate(5deg); }
+    /* Lien de connexion */
+    .login-link {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.05rem;
+      color: var(--dark-gray);
+      padding-top: 20px;
+      border-top: 1px solid var(--gray);
     }
 
-    .shutdown-text h3 {
-      font-size: 1.125rem;
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
       font-weight: 700;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      position: relative;
+      padding: 0 5px;
     }
 
-    .shutdown-text p {
-      font-size: 0.875rem;
-      opacity: 0.95;
-      margin-bottom: 4px;
+    .login-link a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 5px;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
     }
 
-    .shutdown-text strong {
-      background: rgba(255,255,255,0.2);
-      padding: 2px 8px;
-      border-radius: 4px;
+    .login-link a:hover::after {
+      width: calc(100% - 10px);
     }
 
     /* Footer */
     .footer {
-      background: var(--bg-white);
-      border-top: 1px solid var(--border-color);
-      padding: 20px 24px;
+      margin-top: 40px;
       text-align: center;
+      color: var(--dark-gray);
+      font-size: 0.9rem;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray);
     }
 
     .footer-links {
+      margin-top: 15px;
       display: flex;
       justify-content: center;
       gap: 20px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
     }
 
-    .footer-link {
-      color: var(--text-medium);
+    .footer-links a {
+      color: var(--dark-gray);
       text-decoration: none;
-      font-size: 0.8rem;
       font-weight: 500;
       transition: var(--transition);
+      position: relative;
+      padding: 0 5px;
     }
 
-    .footer-link:hover {
-      color: var(--primary-green);
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 5px;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width 0.3s ease;
     }
 
-    .support-btn {
-      background: var(--primary-green);
-      color: white;
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 8px 16px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
+    .footer-links a:hover {
+      color: var(--primary);
     }
 
-    .support-btn:hover {
-      background: #219653;
+    .footer-links a:hover::after {
+      width: calc(100% - 10px);
     }
 
-    .footer-text {
-      font-size: 0.75rem;
-      color: var(--text-light);
+    /* Messages d'erreur/succès */
+    .error-message, .success-message {
+      padding: 18px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      display: none;
+      animation: fadeIn 0.4s ease;
+      transform: skewX(var(--skew));
     }
 
-    /* Notifications */
+    .error-message {
+      color: #721c24;
+      background-color: #ffebee;
+      border: 2px solid #ffcdd2;
+    }
+
+    .success-message {
+      color: #155724;
+      background-color: #e8f5e9;
+      border: 2px solid #c8e6c9;
+    }
+
+    /* ===== NOTIFICATIONS ===== */
     .notification-container {
       position: fixed;
-      top: 80px;
-      right: 24px;
+      top: 20px;
+      right: 20px;
       z-index: 9999;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      pointer-events: none;
+      max-width: 400px;
     }
 
     .notification {
-      padding: 16px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       display: flex;
       align-items: center;
-      gap: 12px;
-      max-width: 380px;
-      animation: slideIn 0.3s ease;
-      color: white;
-      pointer-events: auto;
-      font-size: 0.875rem;
+      max-width: 100%;
+      animation: slideIn 0.4s ease forwards;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transform: skewX(calc(var(--skew) * 0.5));
     }
 
     .notification.success {
-      background: var(--primary-green);
+      background: linear-gradient(135deg, #00c853 0%, #00b248 100%);
+      color: white;
     }
 
     .notification.error {
-      background: var(--primary-red);
+      background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+      color: white;
     }
 
-    .notification.info {
-      background: #3498DB;
+    .notification-icon {
+      margin-right: 18px;
+      font-size: 1.5rem;
     }
 
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
+    .notification-content {
+      flex: 1;
     }
 
-    /* Overlay */
-    .overlay {
-      display: none;
+    .notification-title {
+      font-weight: 700;
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+    }
+
+    .notification-message {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .notification-close {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      margin-left: 10px;
+      opacity: 0.7;
+      transition: var(--transition);
+      padding: 6px;
+      border-radius: 50%;
+    }
+
+    .notification-close:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .notification-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.4);
+      width: 100%;
+      transform-origin: left;
+      animation: progressBar 5s linear forwards;
+    }
+
+    @keyframes progressBar {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    /* Options de pays */
+    .country-option {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      transform: skewX(calc(var(--skew) * -1));
+    }
+
+    .country-flag {
+      margin-right: 12px;
+      font-size: 1.3rem;
+    }
+
+    /* ===== FEU D'ARTIFICE AMÉLIORÉ ===== */
+    #fireworks-canvas {
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 98;
-    }
-
-    .overlay.active {
-      display: block;
-    }
-
-    /* Dropdowns */
-    .language-dropdown, .profile-dropdown {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: var(--bg-white);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
-      padding: 8px;
-      display: none;
-      min-width: 140px;
-      z-index: 200;
-      margin-top: 8px;
-    }
-
-    .language-dropdown.active, .profile-dropdown.active {
-      display: block;
-    }
-
-    .language-option, .dropdown-item {
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.875rem;
-      color: var(--text-dark);
-      transition: var(--transition);
-    }
-
-    .language-option:hover, .dropdown-item:hover {
-      background: var(--bg-light);
-    }
-
-    .language-option.active {
-      background: var(--light-green);
-      color: var(--primary-green);
-    }
-
-    /* Dark Mode */
-    .dark-mode {
-      --bg-white: #1A1A2E;
-      --bg-light: #16213E;
-      --bg-card: #1F1F38;
-      --text-dark: #EAEAEA;
-      --text-medium: #A0A0A0;
-      --text-light: #6C6C6C;
-      --border-color: #2D2D4A;
-    }
-
-    .dark-mode .header,
-    .dark-mode .sidebar,
-    .dark-mode .footer {
-      background: var(--bg-card);
-    }
-
-    /* Debug Banner */
-    #debugBanner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--primary-yellow);
-      color: var(--text-dark);
-      padding: 10px 20px;
-      text-align: center;
-      z-index: 10000;
-      font-size: 0.8rem;
-      font-weight: 600;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9998;
       display: none;
     }
-
-    #debugBanner.show {
-      display: block;
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px) {
-      .stats-grid, .progress-grid, .gains-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 992px) {
-      .sidebar {
-        width: 220px;
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .container {
+        max-width: 100%;
+        padding: 10px;
       }
       
-      .content {
-        max-width: calc(100% - 220px);
+      .card {
+        padding: 30px 25px;
+      }
+      
+      .logo-text {
+        font-size: 2.5rem;
+      }
+      
+      .logo-img {
+        height: 70px;
+      }
+      
+      .card-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .btn {
+        padding: 18px;
+        font-size: 1.1rem;
+      }
+      
+      .notification-container {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+      }
+      
+      .footer-links {
+        gap: 15px;
+      }
+      
+      .input-group {
+        transform: skewX(-1.5deg);
+      }
+      
+      .btn, .checkbox-group {
+        transform: skewX(-1.5deg);
+      }
+      
+      .country-code {
+        transform: skewX(-1.5deg);
       }
     }
-
-    @media (max-width: 768px) {
-      .hamburger-btn {
-        display: flex;
+    
+    @media (max-width: 480px) {
+      .card {
+        padding: 25px 20px;
       }
-
-      .sidebar {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        height: 100vh;
-        z-index: 99;
-        width: 280px;
-        transition: left 0.3s ease;
+      
+      .logo-text {
+        font-size: 2.2rem;
       }
-
-      .sidebar.open {
-        left: 0;
+      
+      .logo-img {
+        height: 65px;
       }
-
-      .content {
-        max-width: 100%;
-        padding: 16px;
+      
+      .logo-container {
+        margin-bottom: 10px;
       }
-
-      .stats-grid, .progress-grid {
-        grid-template-columns: 1fr;
+      
+      .tagline {
+        font-size: 1.1rem;
       }
-
-      .gains-grid {
-        grid-template-columns: repeat(2, 1fr);
+      
+      .card-header h1 {
+        font-size: 1.6rem;
       }
-
-      .user-info-grid {
-        grid-template-columns: 1fr;
+      
+      .checkbox-group {
+        padding: 18px;
       }
-
-      .time-selector {
-        display: none;
-      }
-
-      .breadcrumb {
-        display: none;
-      }
-
-      .shutdown-content {
+      
+      .footer-links {
         flex-direction: column;
-        text-align: center;
+        gap: 12px;
       }
-
-      .referral-box {
+      
+      .phone-group {
         flex-direction: column;
       }
-    }
-
-    @media (max-width: 576px) {
-      .gains-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .social-share {
+      
+      .country-code {
+        width: 100%;
         justify-content: center;
+        padding: 12px;
+        border-right: none;
+        border-bottom: 2px solid var(--gray);
+      }
+      
+      .input-group, .btn, .checkbox-group, .country-code {
+        transform: skewX(0deg);
+      }
+      
+      input, select {
+        transform: skewX(0deg);
+      }
+    }
+    
+    /* ===== ANIMATIONS DE SUCCÈS ===== */
+    .success-animation {
+      animation: successPulse 2s ease-out;
+    }
+    
+    /* ===== ÉLÉMENTS FLOTTANTS ===== */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(26, 115, 232, 0.10), rgba(0, 200, 83, 0.10)); /* Plus doux */
+      opacity: 0.1;
+      filter: blur(25px);
+      animation: float 25s ease-in-out infinite;
+      z-index: -1;
+    }
+    
+    .floating-element:nth-child(1) {
+      width: 250px;
+      height: 250px;
+      top: 10%;
+      left: 5%;
+    }
+    
+    .floating-element:nth-child(2) {
+      width: 180px;
+      height: 180px;
+      top: 60%;
+      right: 10%;
+      animation-delay: 12s;
+    }
+    
+    .floating-element:nth-child(3) {
+      width: 120px;
+      height: 120px;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 6s;
+    }
+    
+    /* ===== ANIMATION DE CONFETTI ===== */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9997;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: confetti-fall 5s linear forwards;
+    }
+    
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
       }
     }
   </style>
 </head>
 <body>
-  <div id="debugBanner">Chargement...</div>
-
-  <div class="loader-container" id="loader">
-    <div class="loader"></div>
-  </div>
-
+  <!-- Éléments de fond flottants -->
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+  
+  <!-- Canvas pour feu d'artifice amélioré -->
+  <canvas id="fireworks-canvas"></canvas>
+  
+  <!-- Conteneur de notifications -->
   <div class="notification-container" id="notificationContainer"></div>
 
-  <header class="header">
-    <div class="header-left">
-      <div class="logo">
-        <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
-        <span>Dashboard</span>
+  <div class="container">
+    <!-- En-tête avec logo -->
+    <div class="logo-header">
+      <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/exaucenapopolo/EARNESIA-GROUP/refs/heads/main/c8f725a49c3742ea90f599a9ca96329a.jpg" alt="EARNESIA Logo" class="logo-img">
+        <span class="logo-text">EARNESIA</span>
       </div>
-      <div class="breadcrumb">
-        <i class="fas fa-home"></i>
-        <span>Dashboard</span>
-      </div>
+      <div class="tagline">Votre succès commence ici</div> <!-- Slogan modifié -->
     </div>
-    
-    <div class="header-controls">
-      <div class="time-selector">
-        <button class="time-btn">D-1</button>
-        <button class="time-btn">S-1</button>
-        <button class="time-btn active">M-1</button>
-        <button class="time-btn">M-1</button>
-        <button class="time-btn">Q-1</button>
-        <button class="time-btn">Y-1</button>
+
+    <!-- Carte principale -->
+    <div class="card">
+      <div class="card-header">
+        <h1>S'inscrire</h1>
+        <p>Rejoignez notre communauté</p> <!-- Description modifiée -->
       </div>
 
-      <div class="language-selector-container" style="position: relative;">
-        <button class="header-btn" id="languageSelector">
-          <i class="fas fa-globe"></i>
-        </button>
-        <div class="language-dropdown" id="languageDropdown">
-          <div class="language-option active" data-lang="fr">
-            <i class="fas fa-check"></i>
-            <span>Français</span>
-          </div>
-          <div class="language-option" data-lang="en">
-            <span style="width: 16px;"></span>
-            <span>English</span>
+      <!-- Messages d'erreur/succès -->
+      <div id="errorMessage" class="error-message"></div>
+      <div id="successMessage" class="success-message"></div>
+
+      <!-- Formulaire d'inscription -->
+      <form id="registrationForm">
+        <!-- 1. Nom d'utilisateur -->
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label> <!-- Icône retirée -->
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-user"></i></div>
+            <input type="text" id="username" name="username" required placeholder="Choisissez votre pseudonyme">
           </div>
         </div>
-      </div>
 
-      <button class="header-btn" id="themeToggle">
-        <i class="fas fa-moon"></i>
-      </button>
+        <!-- 2. Email -->
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label> <!-- Icône retirée -->
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-at"></i></div>
+            <input type="email" id="email" name="email" required placeholder="earnesia@gmail.com">
+          </div>
+        </div>
 
-      <button class="hamburger-btn" id="hamburgerBtn">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </button>
+        <!-- 3. Pays -->
+        <div class="form-group">
+          <label for="country">Pays</label> <!-- Icône retirée -->
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-flag"></i></div>
+            <select id="country" name="country" required onchange="updateCountryCode()">
+              <option value="">Sélectionnez votre pays</option>
+              
+              <optgroup label="Afrique Centrale">
+                <option value="cm" data-code="+237" selected>🇨🇲 Cameroun</option>
+                <option value="td" data-code="+235">🇹🇩 Tchad</option>
+                <option value="cf" data-code="+236">🇨🇫 République centrafricaine</option>
+                <option value="cg" data-code="+242">🇨🇬 Congo-Brazzaville</option>
+                <option value="cd" data-code="+243">🇨🇩 République démocratique du Congo</option>
+                <option value="gq" data-code="+240">🇬🇶 Guinée équatoriale</option>
+                <option value="ga" data-code="+241">🇬🇦 Gabon</option>
+                <option value="st" data-code="+239">🇸🇹 Sao Tomé-et-Principe</option>
+              </optgroup>
+              
+              <optgroup label="Afrique de l'Ouest">
+                <option value="ci" data-code="+225">🇨🇮 Côte d'Ivoire</option>
+                <option value="sn" data-code="+221">🇸🇳 Sénégal</option>
+                <option value="ml" data-code="+223">🇲🇱 Mali</option>
+                <option value="bf" data-code="+226">🇧🇫 Burkina Faso</option>
+                <option value="ne" data-code="+227">🇳🇪 Niger</option>
+                <option value="tg" data-code="+228">🇹🇬 Togo</option>
+                <option value="bj" data-code="+229">🇧🇯 Bénin</option>
+                <option value="ng" data-code="+234">🇳🇬 Nigeria</option>
+                <option value="gh" data-code="+233">🇬🇭 Ghana</option>
+                <option value="gn" data-code="+224">🇬🇳 Guinée</option>
+                <option value="gw" data-code="+245">🇬🇼 Guinée-Bissau</option>
+                <option value="lr" data-code="+231">🇱🇷 Liberia</option>
+                <option value="sl" data-code="+232">🇸🇱 Sierra Leone</option>
+                <option value="gm" data-code="+220">🇬🇲 Gambie</option>
+                <option value="mr" data-code="+222">🇲🇷 Mauritanie</option>
+              </optgroup>
+              
+              <optgroup label="Afrique de l'Est">
+                <option value="ke" data-code="+254">🇰🇪 Kenya</option>
+                <option value="ug" data-code="+256">🇺🇬 Ouganda</option>
+                <option value="tz" data-code="+255">🇹🇿 Tanzanie</option>
+                <option value="rw" data-code="+250">🇷🇼 Rwanda</option>
+                <option value="bi" data-code="+257">🇧🇮 Burundi</option>
+                <option value="et" data-code="+251">🇪🇹 Éthiopie</option>
+                <option value="ss" data-code="+211">🇸🇸 Soudan du Sud</option>
+                <option value="sd" data-code="+249">🇸🇩 Soudan</option>
+                <option value="so" data-code="+252">🇸🇴 Somalie</option>
+                <option value="dj" data-code="+253">🇩🇯 Djibouti</option>
+                <option value="er" data-code="+291">🇪🇷 Érythrée</option>
+              </optgroup>
+              
+              <optgroup label="Autres pays africains">
+                <option value="dz" data-code="+213">🇩🇿 Algérie</option>
+                <option value="eg" data-code="+20">🇪🇬 Égypte</option>
+                <option value="ly" data-code="+218">🇱🇾 Libye</option>
+                <option value="ma" data-code="+212">🇲🇦 Maroc</option>
+                <option value="tn" data-code="+216">🇹🇳 Tunisie</option>
+                <option value="ao" data-code="+244">🇦🇴 Angola</option>
+                <option value="mz" data-code="+258">🇲🇿 Mozambique</option>
+                <option value="zm" data-code="+260">🇿🇲 Zambie</option>
+                <option value="zw" data-code="+263">🇿🇼 Zimbabwe</option>
+                <option value="mw" data-code="+265">🇲🇼 Malawi</option>
+                <option value="na" data-code="+264">🇳🇦 Namibie</option>
+                <option value="bw" data-code="+267">🇧🇼 Botswana</option>
+                <option value="sz" data-code="+268">🇸🇿 Eswatini</option>
+                <option value="ls" data-code="+266">🇱🇸 Lesotho</option>
+                <option value="mg" data-code="+261">🇲🇬 Madagascar</option>
+                <option value="mu" data-code="+230">🇲🇺 Maurice</option>
+                <option value="sc" data-code="+248">🇸🇨 Seychelles</option>
+                <option value="cv" data-code="+238">🇨🇻 Cap-Vert</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
 
-      <div class="user-avatar" id="userAvatar">U</div>
+        <!-- 4. Téléphone -->
+        <div class="form-group">
+          <label for="phone">Numéro de téléphone</label> <!-- Icône retirée -->
+          <div class="input-group phone-group">
+            <div class="country-code"><span id="selectedFlag" class="flag">🇨🇲</span><span id="countryCode">+237</span></div>
+            <div class="input-icon"><i class="fas fa-phone"></i></div>
+            <input type="tel" id="phone" name="phone" required class="phone-input" placeholder="699 85 36 65">
+          </div>
+        </div>
+
+        <!-- 5. Parrain (position modifiée) -->
+        <div class="form-group">
+          <label for="par">Parrain (optionnel)</label> <!-- Icône retirée -->
+          <div class="input-group" id="parInputGroup">
+            <div class="input-icon"><i class="fas fa-user-friends"></i></div>
+            <input type="text" id="par" name="par" placeholder="Votre parrain" disabled>
+          </div>
+        </div>
+
+        <!-- 6. Mot de passe -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label> <!-- Icône retirée -->
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-lock"></i></div>
+            <input type="password" id="password" name="password" required placeholder="Minimum 8 caractères">
+          </div>
+        </div>
+
+        <!-- 7. Confirmation mot de passe -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirmer le mot de passe</label> <!-- Icône retirée -->
+          <div class="input-group">
+            <div class="input-icon"><i class="fas fa-shield-alt"></i></div>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Répétez votre mot de passe">
+          </div>
+        </div>
+
+        <!-- Conditions générales -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" required>
+          <div class="terms-text">
+            J'accepte les <a href="terms.html">Conditions d'utilisation</a> 
+            et la <a href="privacy.html">Politique de confidentialité</a> de EARNESIA.
+          </div>
+        </div>
+
+        <!-- Bouton d'inscription -->
+        <button type="submit" class="btn"><i class="fas fa-rocket"></i>J'ai terminer</button>
+      </form>
+
+      <!-- Lien de connexion -->
+      <div class="login-link">Déjà membre? <a href="login.html">Connectez-vous ici</a></div>
     </div>
-  </header>
 
-  <div class="overlay" id="overlay"></div>
-
-  <div class="main-container">
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-welcome">Dashboard >> BLOWEARN AGENCIES</div>
-        <div class="sidebar-username" id="sidebarUsername">Utilisateur</div>
-      </div>
-      
-      <div class="menu-category" data-i18n="menu.main">PRINCIPAL</div>
-      <a href="dashboard.html" class="menu-item active">
-        <i class="fas fa-home"></i>
-        <span data-i18n="menu.dashboard">Tableau de bord</span>
-        <span class="menu-badge active">✓</span>
-      </a>
-      
-      <a href="depot.html" class="menu-item">
-        <i class="fas fa-wallet"></i>
-        <span data-i18n="menu.deposit">Dépôt</span>
-      </a>
-      
-      <a href="bonus_bienvenue.html" class="menu-item">
-        <i class="fas fa-gift"></i>
-        <span data-i18n="menu.welcome_bonus">Bonus de bienvenue</span>
-      </a>
-      
-      <div class="menu-category" data-i18n="menu.accounts">COMPTES</div>
-      <a href="retrait.html" class="menu-item">
-        <i class="fas fa-money-bill-wave"></i>
-        <span data-i18n="menu.withdrawal">Retrait</span>
-      </a>
-      
-      <a href="team.html" class="menu-item">
-        <i class="fas fa-users"></i>
-        <span data-i18n="menu.team">Équipe</span>
-      </a>
-      
-      <div class="menu-category" data-i18n="menu.special">SPÉCIAL</div>
-      <a href="sbh.html" class="menu-item">
-        <i class="fas fa-star"></i>
-        <span data-i18n="menu.sbh">SBH</span>
-      </a>
-      
-      <a href="challenge_reward.html" class="menu-item">
-        <i class="fas fa-trophy"></i>
-        <span data-i18n="menu.challenge">Challenge and Reward</span>
-      </a>
-      
-      <div class="menu-category" data-i18n="menu.products">PRODUIT / TÂCHE</div>
-      <a href="gagner_whatsapp.html" class="menu-item">
-        <i class="fab fa-whatsapp"></i>
-        <span data-i18n="menu.whatsapp_earn">Gagner via Whatsapp</span>
-      </a>
-      
-      <a href="gains_pub.html" class="menu-item">
-        <i class="fas fa-ad"></i>
-        <span data-i18n="menu.ad_earnings">Gains publicitaires</span>
-      </a>
-      
-      <a href="roue_fortune.html" class="menu-item">
-        <i class="fas fa-dharmachakra"></i>
-        <span data-i18n="menu.fortune_wheel">Roue de la fortune</span>
-      </a>
-      
-      <a href="tiktok_earn.html" class="menu-item">
-        <i class="fab fa-tiktok"></i>
-        <span data-i18n="menu.tiktok_earn">TikTok Earn</span>
-      </a>
-      
-      <a href="youtube_earn.html" class="menu-item">
-        <i class="fab fa-youtube"></i>
-        <span data-i18n="menu.youtube_earn">YouTube Earn</span>
-      </a>
-      
-      <a href="instagram_earn.html" class="menu-item">
-        <i class="fab fa-instagram"></i>
-        <span data-i18n="menu.instagram_earn">Instagram Earn</span>
-      </a>
-      
-      <a href="trivia.html" class="menu-item">
-        <i class="fas fa-brain"></i>
-        <span data-i18n="menu.trivia">TRIVIA challenge</span>
-      </a>
-      
-      <div class="menu-category" data-i18n="menu.bonus">BONUS</div>
-      <a href="liste_contact.html" class="menu-item">
-        <i class="fas fa-address-book"></i>
-        <span data-i18n="menu.contact_list">Liste de contacts gratuit</span>
-      </a>
-      
-      <a href="booster.html" class="menu-item">
-        <i class="fas fa-rocket"></i>
-        <span data-i18n="menu.visibility_booster">Booster ma visibilité</span>
-      </a>
-      
-      <a href="canva_pro.html" class="menu-item">
-        <i class="fas fa-palette"></i>
-        <span data-i18n="menu.canva_pro">Canva Pro</span>
-      </a>
-      
-      <a href="connexion_gratuite.html" class="menu-item">
-        <i class="fas fa-wifi"></i>
-        <span data-i18n="menu.free_connection">Connexion gratuite</span>
-      </a>
-    </aside>
-
-    <main class="content">
-      <!-- Stats Row 1 - Main Numbers -->
-      <div class="stats-grid">
-        <div class="stat-card" id="solde-card">
-          <div class="stat-card-header">
-            <div>
-              <div class="stat-label" data-i18n="stats.balance">SOLDE</div>
-              <div class="stat-period">Today</div>
-            </div>
-          </div>
-          <div class="stat-value" id="solde-value">0</div>
-          <div class="stat-subtitle">XAF</div>
-        </div>
-
-        <div class="stat-card" id="retire-card">
-          <div class="stat-card-header">
-            <div>
-              <div class="stat-label" data-i18n="stats.withdrawn">RETIRÉ</div>
-              <div class="stat-period">Total</div>
-            </div>
-          </div>
-          <div class="stat-value" id="retire-value">0</div>
-          <div class="stat-subtitle">XAF</div>
-        </div>
-
-        <div class="stat-card" id="parrainage-card">
-          <div class="stat-card-header">
-            <div>
-              <div class="stat-label" data-i18n="stats.referral_earnings">PARRAINAGE</div>
-              <div class="stat-period">Gains</div>
-            </div>
-          </div>
-          <div class="stat-value" id="parrainage-value">0</div>
-          <div class="stat-subtitle">XAF</div>
-        </div>
-
-        <div class="stat-card" id="bonus-agent-card">
-          <div class="stat-card-header">
-            <div>
-              <div class="stat-label" data-i18n="stats.agent_bonus">BONUS AGENT</div>
-              <div class="stat-period">Total</div>
-            </div>
-          </div>
-          <div class="stat-value" id="bonus-agent-value">0</div>
-          <div class="stat-subtitle">XAF</div>
-        </div>
-      </div>
-
-      <!-- Progress Cards Row -->
-      <div class="progress-grid">
-        <div class="progress-card">
-          <div class="circular-progress" id="depense-progress">
-            <svg viewBox="0 0 100 100">
-              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
-              <circle class="progress-circle red" cx="50" cy="50" r="40" 
-                      stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-            </svg>
-            <div class="progress-value" id="depense-percent">0</div>
-          </div>
-          <div class="progress-info">
-            <h3 data-i18n="banner.expense">Dépense</h3>
-            <div class="progress-stats">
-              <div class="progress-stat">
-                <span class="progress-stat-label">Montant</span>
-                <span class="progress-stat-value" id="depense-amount">0 XAF</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="progress-card">
-          <div class="circular-progress" id="profit-progress">
-            <svg viewBox="0 0 100 100">
-              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
-              <circle class="progress-circle green" cx="50" cy="50" r="40" 
-                      stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-            </svg>
-            <div class="progress-value" id="profit-percent">0</div>
-          </div>
-          <div class="progress-info">
-            <h3 data-i18n="banner.profit">Profit</h3>
-            <div class="progress-stats">
-              <div class="progress-stat">
-                <span class="progress-stat-label">Montant</span>
-                <span class="progress-stat-value" id="profit-amount">0 XAF</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="progress-card">
-          <div class="circular-progress" id="volume-progress">
-            <svg viewBox="0 0 100 100">
-              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
-              <circle class="progress-circle yellow" cx="50" cy="50" r="40" 
-                      stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-            </svg>
-            <div class="progress-value" id="volume-percent">0%</div>
-          </div>
-          <div class="progress-info">
-            <h3 data-i18n="stats.volume">Volume</h3>
-            <div class="progress-stats">
-              <div class="progress-stat">
-                <span class="progress-stat-label">Performance</span>
-                <span class="progress-stat-value">Active</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="progress-card">
-          <div class="circular-progress" id="equipe-progress">
-            <svg viewBox="0 0 100 100">
-              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
-              <circle class="progress-circle green" cx="50" cy="50" r="40" 
-                      stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-            </svg>
-            <div class="progress-value" id="equipe-count">0</div>
-          </div>
-          <div class="progress-info">
-            <h3>Équipe</h3>
-            <div class="progress-stats">
-              <div class="progress-stat">
-                <span class="progress-stat-label">Filleuls actifs</span>
-                <span class="progress-stat-value" id="equipe-active">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gains Section -->
-      <div class="gains-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-chart-bar"></i>
-            Aperçu des Gains
-          </h2>
-        </div>
-        <div class="gains-grid">
-          <div class="gain-card" id="whatsapp-gains">
-            <div class="gain-icon whatsapp"><i class="fab fa-whatsapp"></i></div>
-            <div class="gain-label" data-i18n="gains.whatsapp">Gains WhatsApp</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-
-          <div class="gain-card" id="trivia-gains">
-            <div class="gain-icon trivia"><i class="fas fa-brain"></i></div>
-            <div class="gain-label" data-i18n="gains.trivia">Gains Trivia</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-
-          <div class="gain-card" id="advertising-gains">
-            <div class="gain-icon ad"><i class="fas fa-ad"></i></div>
-            <div class="gain-label" data-i18n="gains.advertising">Gains publicitaires</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-
-          <div class="gain-card" id="tiktok-gains">
-            <div class="gain-icon tiktok"><i class="fab fa-tiktok"></i></div>
-            <div class="gain-label" data-i18n="gains.tiktok">Gains TikTok</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-
-          <div class="gain-card" id="youtube-gains">
-            <div class="gain-icon youtube"><i class="fab fa-youtube"></i></div>
-            <div class="gain-label" data-i18n="gains.youtube">Gains YouTube</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-
-          <div class="gain-card" id="instagram-gains">
-            <div class="gain-icon instagram"><i class="fab fa-instagram"></i></div>
-            <div class="gain-label" data-i18n="gains.instagram">Gains Instagram</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-
-          <div class="gain-card" id="depot-solde">
-            <div class="gain-icon deposit"><i class="fas fa-piggy-bank"></i></div>
-            <div class="gain-label" data-i18n="gains.deposit_balance">Solde du dépôt</div>
-            <div class="gain-value">XAF 0</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Referral Section -->
-      <div class="referral-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-link"></i>
-            <span data-i18n="referral.title">Lien de Parrainage</span>
-          </h2>
-        </div>
-        
-        <div class="referral-box">
-          <div class="referral-input" id="referralLink">Chargement du lien...</div>
-          <button class="copy-btn" id="copyLinkBtn">
-            <i class="fas fa-copy"></i>
-            <span data-i18n="referral.copy">Copier</span>
-          </button>
-        </div>
-        
-        <div class="social-share">
-          <div class="social-btn whatsapp" id="shareWhatsApp"><i class="fab fa-whatsapp"></i></div>
-          <div class="social-btn facebook" id="shareFacebook"><i class="fab fa-facebook-f"></i></div>
-          <div class="social-btn twitter" id="shareTwitter"><i class="fab fa-twitter"></i></div>
-          <div class="social-btn telegram" id="shareTelegram"><i class="fab fa-telegram-plane"></i></div>
-        </div>
-        
-        <p class="referral-desc" data-i18n="referral.description">Partagez ce lien avec vos amis et gagnez des commissions sur leurs activités.</p>
-      </div>
-
-      <!-- User Info Section -->
-      <div class="user-info-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-user"></i>
-            <span data-i18n="user_info.title">Informations Utilisateur</span>
-          </h2>
-        </div>
-        
-        <div class="user-info-grid">
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.username">Nom d'utilisateur</div>
-            <div class="info-value" id="info-username">Chargement...</div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.email">Email</div>
-            <div class="info-value" id="info-email">Chargement...</div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.phone">Téléphone</div>
-            <div class="info-value" id="info-phone">Chargement...</div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.country">Pays</div>
-            <div class="info-value" id="info-country">Chargement...</div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.referrer">Parrain</div>
-            <div class="info-value" id="info-parrain">Chargement...</div>
-          </div>
-          
-          <div class="info-item">
-            <div class="info-label" data-i18n="user_info.active_referrals">Parrainage actif</div>
-            <div class="info-value" id="info-parrainage">Chargement...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Calendar Section -->
-      <div class="calendar-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-calendar-alt"></i>
-            <span data-i18n="calendar.title">Calendrier des Tâches</span>
-          </h2>
-        </div>
-        
-        <div class="calendar-header">
-          <div class="calendar-month">Janvier 2026</div>
-          <div class="calendar-nav">
-            <button class="nav-btn" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-            <button class="nav-btn" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
-          </div>
-        </div>
-        
-        <div class="calendar-days">
-          <div class="day-header" data-i18n="calendar.mon">Lun</div>
-          <div class="day-header" data-i18n="calendar.tue">Mar</div>
-          <div class="day-header" data-i18n="calendar.wed">Mer</div>
-          <div class="day-header" data-i18n="calendar.thu">Jeu</div>
-          <div class="day-header" data-i18n="calendar.fri">Ven</div>
-          <div class="day-header" data-i18n="calendar.sat">Sam</div>
-          <div class="day-header" data-i18n="calendar.sun">Dim</div>
-        </div>
-        
-        <div class="calendar-grid">
-          <!-- Generated by JavaScript -->
-        </div>
-        
-        <table class="task-table">
-          <thead>
-            <tr>
-              <th data-i18n="calendar.day">JOUR</th>
-              <th data-i18n="calendar.task">TÂCHE</th>
-              <th data-i18n="calendar.bonus">BONUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="monday-task">
-              <td data-i18n="calendar.monday">LUNDI</td>
-              <td data-i18n="calendar.monday_task">Vidéos TikTok</td>
-              <td data-i18n="calendar.monday_bonus">Liste de contact gratuite, Booster, Visibilité, Roue de la fortune</td>
-            </tr>
-            <tr class="tuesday-task">
-              <td data-i18n="calendar.tuesday">MARDI</td>
-              <td data-i18n="calendar.tuesday_task">Vidéos YouTube</td>
-              <td data-i18n="calendar.tuesday_bonus">Liste de contact gratuite, Canva Pro, Connexion gratuite, Roue de la fortune</td>
-            </tr>
-            <tr class="wednesday-task">
-              <td data-i18n="calendar.wednesday">MERCREDI</td>
-              <td data-i18n="calendar.wednesday_task">Vidéos Instagram</td>
-              <td data-i18n="calendar.wednesday_bonus">Liste de contact gratuite, Booster, Visibilité, Canva Pro</td>
-            </tr>
-            <tr class="thursday-task">
-              <td data-i18n="calendar.thursday">JEUDI</td>
-              <td data-i18n="calendar.thursday_task">Trivia Challenge</td>
-              <td data-i18n="calendar.thursday_bonus">Liste de contact gratuite, Connexion gratuite, Roue de la fortune</td>
-            </tr>
-            <tr class="friday-task">
-              <td data-i18n="calendar.friday">VENDREDI</td>
-              <td data-i18n="calendar.friday_task">Gagner sur WhatsApp</td>
-              <td data-i18n="calendar.friday_bonus">Booster, Visibilité, Canva Pro, Connexion gratuite</td>
-            </tr>
-            <tr class="saturday-task">
-              <td data-i18n="calendar.saturday">SAMEDI</td>
-              <td data-i18n="calendar.saturday_task">Gains Publicitaires</td>
-              <td data-i18n="calendar.saturday_bonus">Liste de contact gratuite, Booster, Visibilité, Roue de la fortune</td>
-            </tr>
-            <tr class="sunday-task" style="opacity: 0.6;">
-              <td data-i18n="calendar.sunday">DIMANCHE</td>
-              <td data-i18n="calendar.sunday_task">Aucune tâche (Repos)</td>
-              <td data-i18n="calendar.sunday_bonus">Connexion gratuite, Roue de la fortune</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
-
-  <!-- Shutdown Notice -->
-  <div class="shutdown-notice">
-    <div class="shutdown-content">
-      <div class="shutdown-icon">⚠️</div>
-      <div class="shutdown-text">
-        <h3>AVIS IMPORTANT</h3>
-        <p><strong>BLOWEARN AGENCIES ne sera plus disponible à partir du 26 Décembre 2025 à 10h00.</strong></p>
-        <p>Veuillez arrêter de parrainer de nouvelles personnes. Si vous avez un solde disponible, veuillez effectuer votre retrait dès maintenant.</p>
+    <!-- Footer -->
+    <div class="footer">
+      <div>© 2025 EARNESIA GROUP. Tous droits réservés.</div>
+      <div class="footer-links">
+        <a href="terms.html">Conditions d'utilisation</a>
+        <a href="privacy.html">Confidentialité</a>
+        <a href="support.html">Support</a>
+        <a href="https://socialboosthorizon.com" target="_blank">Propulsé par Social boost horizon</a>
       </div>
     </div>
   </div>
 
-  <footer class="footer">
-    <div class="footer-links">
-      <a href="terms.html" class="footer-link" data-i18n="footer.terms">Conditions d'utilisation</a>
-      <a href="privacy.html" class="footer-link" data-i18n="footer.privacy">Politique de confidentialité</a>
-      <button class="support-btn" id="supportBtn" data-i18n="footer.support">Support</button>
-      <a href="https://social-boost-horizon-new-sbh.vercel.app" class="footer-link">Propulsé par SBH</a>
-    </div>
-    <div class="footer-text">© 2025 BLOWEARN AGENCIES. <span data-i18n="footer.rights">Tous droits réservés.</span></div>
-  </footer>
+<script type="module">
+/* ---------- IMPORTS FIREBASE (MODULAIRE) ---------- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-<script>
-/******** CONFIG FIREBASE ********/
+/* ---------- CONFIGURATION FIREBASE ---------- */
 const firebaseConfig = {
   apiKey: "AIzaSyCjGisjgbFc2ZE0BFgdhlUao8bCCeuKP1k",
   authDomain: "cash-flowr.firebaseapp.com",
   projectId: "cash-flowr",
-  storageBucket: "cash-flowr.appspot.com",
+  storageBucket: "cash-flowr.firebasestorage.app",
   messagingSenderId: "1091928501310",
   appId: "1:1091928501310:web:4f4de306cde36f378ff56f",
   measurementId: "G-5SF6VDLZCB"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-/******** URL SERVEUR ********/
-const SERVER_URL = 'https://blowearn-agencies.replit.app';
+const SERVER_URL = "https://mulaflowr-exaucenapopolo2.replit.app";
 
-/******** DOM Elements ********/
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
-const themeToggle = document.getElementById('themeToggle');
-const copyLinkBtn = document.getElementById('copyLinkBtn');
-const referralLink = document.getElementById('referralLink');
-const languageSelector = document.getElementById('languageSelector');
-const languageDropdown = document.getElementById('languageDropdown');
-const shareWhatsApp = document.getElementById('shareWhatsApp');
-const shareFacebook = document.getElementById('shareFacebook');
-const shareTwitter = document.getElementById('shareTwitter');
-const shareTelegram = document.getElementById('shareTelegram');
-const prevMonth = document.getElementById('prevMonth');
-const nextMonth = document.getElementById('nextMonth');
-const calendarGrid = document.querySelector('.calendar-grid');
-const calendarMonth = document.querySelector('.calendar-month');
-const sidebarUsername = document.getElementById('sidebarUsername');
-const userAvatar = document.getElementById('userAvatar');
-const infoUsername = document.getElementById('info-username');
-const infoEmail = document.getElementById('info-email');
-const infoPhone = document.getElementById('info-phone');
-const infoCountry = document.getElementById('info-country');
-const infoParrain = document.getElementById('info-parrain');
-const infoParrainage = document.getElementById('info-parrainage');
-const loader = document.getElementById('loader');
-const supportBtn = document.getElementById('supportBtn');
-
-/******** Variables d'état ********/
-let currentDate = new Date();
-let userData = {};
-let currentUser = null;
-let currentLang = 'fr';
-
-/******** SYSTÈME DE CONVERSION DE DEVISES ********/
-const countryCurrencyMap = {
-  'CM': 'XAF', 'GA': 'XAF', 'TD': 'XAF', 'CF': 'XAF', 'CG': 'XAF', 'GQ': 'XAF',
-  'SN': 'XOF', 'CI': 'XOF', 'ML': 'XOF', 'BF': 'XOF', 'BJ': 'XOF', 'TG': 'XOF', 'NE': 'XOF', 'GW': 'XOF',
-  'CD': 'CDF', 'KE': 'KES', 'RW': 'RWF', 'TZ': 'TZS', 'UG': 'UGX',
-  'ZA': 'ZAR', 'NG': 'NGN', 'GH': 'GHS', 'ET': 'ETB', 'MA': 'MAD', 'EG': 'EGP', 'DZ': 'DZD', 'TN': 'TND'
-};
-
-const exchangeRates = {
-  'XAF': 1, 'XOF': 1, 'CDF': 4.74, 'KES': 0.21, 'RWF': 2.11, 'TZS': 4.25,
-  'UGX': 6.29, 'ZAR': 0.031, 'NGN': 2.70, 'GHS': 0.026, 'ETB': 0.19,
-  'MAD': 0.017, 'EGP': 0.083, 'DZD': 0.23, 'TND': 0.0053
-};
-
-const currencyDisplayNames = {
-  'XAF': 'FCFA', 'XOF': 'FCFA', 'CDF': 'FC', 'KES': 'KSh', 'RWF': 'FRw',
-  'TZS': 'TSh', 'UGX': 'USh', 'ZAR': 'R', 'NGN': '₦', 'GHS': 'GH₵',
-  'ETB': 'Br', 'MAD': 'DH', 'EGP': 'E£', 'DZD': 'DA', 'TND': 'DT'
-};
-
-let userCurrency = 'XAF';
-
-function getCurrencyForCountry(countryCode) {
-  if (!countryCode) return 'XAF';
-  return countryCurrencyMap[countryCode.toUpperCase()] || 'XAF';
-}
-
-function convertFromXAF(amountXAF, targetCurrency) {
-  const rate = exchangeRates[targetCurrency] || 1;
-  return Math.round(amountXAF * rate);
-}
-
-function formatCurrencyAmount(amount, currencyCode) {
-  const displayName = currencyDisplayNames[currencyCode] || currencyCode;
-  const formattedAmount = (typeof amount === 'number' && !isNaN(amount)) 
-    ? amount.toLocaleString('fr-FR') 
-    : '0';
-  return `${formattedAmount} ${displayName}`;
-}
-
-function updateUserCurrency() {
-  const countryCode = userData.country || 'CM';
-  userCurrency = getCurrencyForCountry(countryCode);
-}
-
-/******** Système de traduction ********/
-const translations = {
-  fr: {
-    "header.language": "French",
-    "header.night_mode": "Mode nuit",
-    "header.day_mode": "Mode jour",
-    "dashboard.title": "Dashboard >> BLOWEARN AGENCIES",
-    "menu.main": "PRINCIPAL",
-    "menu.dashboard": "Tableau de bord",
-    "menu.deposit": "Dépôt",
-    "menu.welcome_bonus": "Bonus de bienvenue",
-    "menu.accounts": "COMPTES",
-    "menu.withdrawal": "Retrait",
-    "menu.team": "Équipe",
-    "menu.special": "SPÉCIAL",
-    "menu.sbh": "SBH",
-    "menu.challenge": "Challenge and Reward",
-    "menu.products": "PRODUIT / TÂCHE",
-    "menu.whatsapp_earn": "Gagner via Whatsapp",
-    "menu.ad_earnings": "Gains publicitaires",
-    "menu.fortune_wheel": "Roue de la fortune",
-    "menu.tiktok_earn": "TikTok Earn",
-    "menu.youtube_earn": "YouTube Earn",
-    "menu.instagram_earn": "Instagram Earn",
-    "menu.trivia": "TRIVIA challenge",
-    "menu.bonus": "BONUS",
-    "menu.contact_list": "Liste de contacts gratuit",
-    "menu.visibility_booster": "Booster ma visibilité",
-    "menu.canva_pro": "Canva Pro",
-    "menu.free_connection": "Connexion gratuite",
-    "banner.welcome": "Bienvenue,",
-    "banner.expense": "Dépense",
-    "banner.profit": "Profit",
-    "stats.balance": "SOLDE",
-    "stats.withdrawn": "RETIRÉ",
-    "stats.referral_earnings": "PARRAINAGE",
-    "stats.agent_bonus": "BONUS AGENT",
-    "stats.volume": "Volume",
-    "gains.whatsapp": "Gains WhatsApp",
-    "gains.trivia": "Gains Trivia",
-    "gains.advertising": "Gains publicitaires",
-    "gains.tiktok": "Gains TikTok",
-    "gains.youtube": "Gains YouTube",
-    "gains.instagram": "Gains Instagram",
-    "gains.deposit_balance": "Solde du dépôt",
-    "referral.title": "Lien de Parrainage",
-    "referral.copy": "Copier",
-    "referral.description": "Partagez ce lien avec vos amis et gagnez des commissions sur leurs activités.",
-    "user_info.title": "Informations Utilisateur",
-    "user_info.username": "Nom d'utilisateur",
-    "user_info.email": "Email",
-    "user_info.phone": "Téléphone",
-    "user_info.country": "Pays",
-    "user_info.referrer": "Parrain",
-    "user_info.active_referrals": "Parrainage actif",
-    "calendar.title": "Calendrier des Tâches",
-    "calendar.day": "JOUR",
-    "calendar.task": "TÂCHE",
-    "calendar.bonus": "BONUS",
-    "calendar.mon": "Lun",
-    "calendar.tue": "Mar",
-    "calendar.wed": "Mer",
-    "calendar.thu": "Jeu",
-    "calendar.fri": "Ven",
-    "calendar.sat": "Sam",
-    "calendar.sun": "Dim",
-    "calendar.monday": "LUNDI",
-    "calendar.tuesday": "MARDI",
-    "calendar.wednesday": "MERCREDI",
-    "calendar.thursday": "JEUDI",
-    "calendar.friday": "VENDREDI",
-    "calendar.saturday": "SAMEDI",
-    "calendar.sunday": "DIMANCHE",
-    "calendar.monday_task": "Vidéos TikTok",
-    "calendar.tuesday_task": "Vidéos YouTube",
-    "calendar.wednesday_task": "Vidéos Instagram",
-    "calendar.thursday_task": "Trivia Challenge",
-    "calendar.friday_task": "Gagner sur WhatsApp",
-    "calendar.saturday_task": "Gains Publicitaires",
-    "calendar.sunday_task": "Aucune tâche (Repos)",
-    "calendar.monday_bonus": "Liste de contact gratuite, Booster, Visibilité, Roue de la fortune",
-    "calendar.tuesday_bonus": "Liste de contact gratuite, Canva Pro, Connexion gratuite, Roue de la fortune",
-    "calendar.wednesday_bonus": "Liste de contact gratuite, Booster, Visibilité, Canva Pro",
-    "calendar.thursday_bonus": "Liste de contact gratuite, Connexion gratuite, Roue de la fortune",
-    "calendar.friday_bonus": "Booster, Visibilité, Canva Pro, Connexion gratuite",
-    "calendar.saturday_bonus": "Liste de contact gratuite, Booster, Visibilité, Roue de la fortune",
-    "calendar.sunday_bonus": "Connexion gratuite, Roue de la fortune",
-    "footer.terms": "Conditions d'utilisation",
-    "footer.privacy": "Politique de confidentialité",
-    "footer.support": "Support",
-    "footer.rights": "Tous droits réservés.",
-    "notification.success": "Succès",
-    "notification.error": "Erreur",
-    "notification.info": "Information",
-    "security.inactive_account": "Compte inactif",
-    "security.payment_required": "Votre compte n'est pas encore activé. Veuillez effectuer le paiement pour accéder au tableau de bord."
-  },
-  en: {
-    "header.language": "English",
-    "header.night_mode": "Night mode",
-    "header.day_mode": "Day mode",
-    "dashboard.title": "Dashboard >> BLOWEARN AGENCIES",
-    "menu.main": "MAIN",
-    "menu.dashboard": "Dashboard",
-    "menu.deposit": "Deposit",
-    "menu.welcome_bonus": "Welcome Bonus",
-    "menu.accounts": "ACCOUNTS",
-    "menu.withdrawal": "Withdrawal",
-    "menu.team": "Team",
-    "menu.special": "SPECIAL",
-    "menu.sbh": "SBH",
-    "menu.challenge": "Challenge and Reward",
-    "menu.products": "PRODUCT / TASK",
-    "menu.whatsapp_earn": "Earn via Whatsapp",
-    "menu.ad_earnings": "Advertising earnings",
-    "menu.fortune_wheel": "Fortune Wheel",
-    "menu.tiktok_earn": "TikTok Earn",
-    "menu.youtube_earn": "YouTube Earn",
-    "menu.instagram_earn": "Instagram Earn",
-    "menu.trivia": "TRIVIA challenge",
-    "menu.bonus": "BONUS",
-    "menu.contact_list": "Free contact list",
-    "menu.visibility_booster": "Boost my visibility",
-    "menu.canva_pro": "Canva Pro",
-    "menu.free_connection": "Free connection",
-    "banner.welcome": "Welcome,",
-    "banner.expense": "Expense",
-    "banner.profit": "Profit",
-    "stats.balance": "BALANCE",
-    "stats.withdrawn": "WITHDRAWN",
-    "stats.referral_earnings": "REFERRAL",
-    "stats.agent_bonus": "AGENT BONUS",
-    "stats.volume": "Volume",
-    "gains.whatsapp": "WhatsApp Earnings",
-    "gains.trivia": "Trivia Earnings",
-    "gains.advertising": "Advertising Earnings",
-    "gains.tiktok": "TikTok Earnings",
-    "gains.youtube": "YouTube Earnings",
-    "gains.instagram": "Instagram Earnings",
-    "gains.deposit_balance": "Deposit Balance",
-    "referral.title": "Referral Link",
-    "referral.copy": "Copy",
-    "referral.description": "Share this link with your friends and earn commissions on their activities.",
-    "user_info.title": "User Information",
-    "user_info.username": "Username",
-    "user_info.email": "Email",
-    "user_info.phone": "Phone",
-    "user_info.country": "Country",
-    "user_info.referrer": "Referrer",
-    "user_info.active_referrals": "Active referrals",
-    "calendar.title": "Task Calendar",
-    "calendar.day": "DAY",
-    "calendar.task": "TASK",
-    "calendar.bonus": "BONUS",
-    "calendar.mon": "Mon",
-    "calendar.tue": "Tue",
-    "calendar.wed": "Wed",
-    "calendar.thu": "Thu",
-    "calendar.fri": "Fri",
-    "calendar.sat": "Sat",
-    "calendar.sun": "Sun",
-    "calendar.monday": "MONDAY",
-    "calendar.tuesday": "TUESDAY",
-    "calendar.wednesday": "WEDNESDAY",
-    "calendar.thursday": "THURSDAY",
-    "calendar.friday": "FRIDAY",
-    "calendar.saturday": "SATURDAY",
-    "calendar.sunday": "SUNDAY",
-    "calendar.monday_task": "TikTok Videos",
-    "calendar.tuesday_task": "YouTube Videos",
-    "calendar.wednesday_task": "Instagram Videos",
-    "calendar.thursday_task": "Trivia Challenge",
-    "calendar.friday_task": "Earn via WhatsApp",
-    "calendar.saturday_task": "Advertising Earnings",
-    "calendar.sunday_task": "No task (Rest)",
-    "calendar.monday_bonus": "Free contact list, Booster, Visibility, Fortune Wheel",
-    "calendar.tuesday_bonus": "Free contact list, Canva Pro, Free connection, Fortune Wheel",
-    "calendar.wednesday_bonus": "Free contact list, Booster, Visibility, Canva Pro",
-    "calendar.thursday_bonus": "Free contact list, Free connection, Fortune Wheel",
-    "calendar.friday_bonus": "Booster, Visibility, Canva Pro, Free connection",
-    "calendar.saturday_bonus": "Free contact list, Booster, Visibility, Fortune Wheel",
-    "calendar.sunday_bonus": "Free connection, Fortune Wheel",
-    "footer.terms": "Terms of Use",
-    "footer.privacy": "Privacy Policy",
-    "footer.support": "Support",
-    "footer.rights": "All rights reserved.",
-    "notification.success": "Success",
-    "notification.error": "Error",
-    "notification.info": "Information",
-    "security.inactive_account": "Inactive account",
-    "security.payment_required": "Your account is not yet activated. Please make the payment to access the dashboard."
+/* ---------- SYSTÈME DE FEU D'ARTIFICE AMÉLIORÉ ---------- */
+class EnhancedFireworks {
+  constructor() {
+    this.canvas = document.getElementById('fireworks-canvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.particles = [];
+    this.isActive = false;
+    
+    this.resizeCanvas();
+    window.addEventListener('resize', () => this.resizeCanvas());
   }
-};
-
-/******** Fonctions de traduction ********/
-function setLanguage(lang) {
-  currentLang = lang;
-  localStorage.setItem('preferredLanguage', lang);
   
-  document.querySelectorAll('.language-option').forEach(option => {
-    const icon = option.querySelector('i');
-    if (option.dataset.lang === lang) {
-      option.classList.add('active');
-      if (icon) icon.style.opacity = '1';
-    } else {
-      option.classList.remove('active');
-      if (icon) icon.style.opacity = '0';
-    }
-  });
+  resizeCanvas() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
   
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
+  launch() {
+    this.isActive = true;
+    this.canvas.style.display = 'block';
+    
+    // Créer plusieurs explosions avec différents effets
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => {
+        const x = Math.random() * this.canvas.width * 0.8 + this.canvas.width * 0.1;
+        const y = Math.random() * this.canvas.height * 0.4 + this.canvas.height * 0.3;
+        this.createExplosion(x, y);
+        
+        // Ajouter un effet secondaire
+        if (i % 2 === 0) {
+          setTimeout(() => {
+            this.createSecondaryExplosion(x, y);
+          }, 500);
+        }
+      }, i * 400);
     }
-  });
+    
+    // Confetti supplémentaire
+    setTimeout(() => this.createConfetti(), 1000);
+    
+    // Arrêter après 7 secondes
+    setTimeout(() => {
+      this.isActive = false;
+      setTimeout(() => {
+        if (!this.isActive) {
+          this.canvas.style.display = 'none';
+          this.particles = [];
+        }
+      }, 3000);
+    }, 7000);
+    
+    this.animate();
+  }
+  
+  createExplosion(x, y) {
+    const colors = [
+      '#1a73e8', '#00c853', '#ff6d00', '#ff5252', 
+      '#ffd600', '#9c27b0', '#00bcd4', '#4caf50'
+    ];
+    
+    const particleCount = 120 + Math.random() * 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 6 + 3;
+      const radius = Math.random() * 4 + 1;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const life = 120 + Math.random() * 60;
+      const gravity = 0.05 + Math.random() * 0.03;
+      
+      this.particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        radius,
+        color,
+        life,
+        maxLife: life,
+        gravity,
+        opacity: 1,
+        trail: []
+      });
+    }
+  }
+  
+  createSecondaryExplosion(x, y) {
+    const colors = ['#ffd600', '#ff6d00', '#00c853'];
+    
+    for (let i = 0; i < 50; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 3 + 1;
+      const radius = Math.random() * 2 + 0.5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      this.particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        radius,
+        color,
+        life: 80,
+        maxLife: 80,
+        gravity: 0.02,
+        opacity: 1
+      });
+    }
+  }
+  
+  createConfetti() {
+    const colors = ['#1a73e8', '#00c853', '#ff6d00', '#ff5252', '#ffd600'];
+    
+    for (let i = 0; i < 80; i++) {
+      const x = Math.random() * this.canvas.width;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      this.particles.push({
+        x, y: -10,
+        vx: Math.random() * 4 - 2,
+        vy: Math.random() * 3 + 2,
+        radius: Math.random() * 5 + 3,
+        color,
+        life: 150,
+        maxLife: 150,
+        gravity: 0.1,
+        opacity: 1,
+        type: 'confetti',
+        rotation: Math.random() * 360,
+        rotationSpeed: Math.random() * 10 - 5
+      });
+    }
+  }
+  
+  animate() {
+    if (!this.isActive && this.particles.length === 0) return;
+    
+    // Effacer le canvas avec un fondu
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Mettre à jour et dessiner les particules
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const p = this.particles[i];
+      
+      // Mettre à jour la position
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += p.gravity;
+      p.life--;
+      p.opacity = p.life / p.maxLife;
+      
+      if (p.type === 'confetti') {
+        p.rotation += p.rotationSpeed;
+      }
+      
+      // Dessiner la particule
+      this.ctx.save();
+      this.ctx.globalAlpha = p.opacity;
+      this.ctx.fillStyle = p.color;
+      
+      if (p.type === 'confetti') {
+        // Dessiner un rectangle pour les confettis
+        this.ctx.translate(p.x, p.y);
+        this.ctx.rotate(p.rotation * Math.PI / 180);
+        this.ctx.fillRect(-p.radius/2, -p.radius/2, p.radius, p.radius);
+      } else {
+        // Dessiner un cercle pour les particules de feu d'artifice
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        this.ctx.fill();
+        
+        // Effet de brillance
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.radius * 0.5, 0, Math.PI * 2);
+        this.ctx.fillStyle = 'white';
+        this.ctx.globalAlpha = p.opacity * 0.5;
+        this.ctx.fill();
+      }
+      
+      this.ctx.restore();
+      
+      // Supprimer les particules mortes
+      if (p.life <= 0) {
+        this.particles.splice(i, 1);
+      }
+    }
+    
+    this.ctx.globalAlpha = 1;
+    
+    // Continuer l'animation
+    if (this.isActive || this.particles.length > 0) {
+      requestAnimationFrame(() => this.animate());
+    }
+  }
 }
 
-/******** Notifications ********/
-function showNotification(type, title, message, duration = 4000) {
-  const container = document.getElementById('notificationContainer');
+// Initialiser les feux d'artifice améliorés
+const fireworks = new EnhancedFireworks();
+
+/* ---------- HELPERS NOTIFICATIONS ---------- */
+function showNotification(type, title, message, duration = 5000) {
+  const notificationContainer = document.getElementById('notificationContainer');
+  if (!notificationContainer) return;
+  
   const notification = document.createElement('div');
   notification.className = `notification ${type}`;
-  
-  let icon = 'info-circle';
-  if (type === 'success') icon = 'check-circle';
-  if (type === 'error') icon = 'exclamation-circle';
+  const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
   
   notification.innerHTML = `
-    <i class="fas fa-${icon}"></i>
-    <div>
-      <strong>${title}</strong>
-      <div style="font-size: 0.8rem; opacity: 0.9; margin-top: 2px;">${message}</div>
+    <i class="fas ${icon} notification-icon"></i>
+    <div class="notification-content">
+      <div class="notification-title">${title}</div>
+      <div class="notification-message">${message}</div>
     </div>
+    <button class="notification-close"><i class="fas fa-times"></i></button>
+    <div class="notification-progress"></div>
   `;
   
-  container.appendChild(notification);
+  notificationContainer.appendChild(notification);
   
-  setTimeout(() => {
-    notification.style.animation = 'slideIn 0.3s ease reverse';
-    setTimeout(() => notification.remove(), 300);
-  }, duration);
+  const closeNotification = () => {
+    notification.style.animation = 'slideIn 0.3s ease reverse forwards';
+    setTimeout(() => { 
+      if (notificationContainer.contains(notification)) {
+        notificationContainer.removeChild(notification);
+      }
+    }, 300);
+  };
+  
+  notification.querySelector('.notification-close').addEventListener('click', closeNotification);
+  notification.querySelector('.notification-progress').style.animationDuration = `${duration}ms`;
+  setTimeout(closeNotification, duration);
 }
 
-/******** Charger les données utilisateur ********/
-async function loadUserData() {
-  if (!currentUser) return;
+function showError(msg) { 
+  showNotification('error', 'Erreur', msg); 
+}
+
+function showSuccess(msg) { 
+  showNotification('success', 'Succès', msg); 
+  
+  // Lancer les feux d'artifice améliorés pour les succès
+  setTimeout(() => fireworks.launch(), 300);
+}
+
+/* ---------- UTILITAIRES UI / PAYS ---------- */
+function getFlag(countryCode) {
+  const flags = {
+    'ci':'🇨🇮','fr':'🇫🇷','sn':'🇸🇳','cm':'🇨🇲','ml':'🇲🇱','bf':'🇧🇫','ne':'🇳🇪',
+    'tg':'🇹🇬','bj':'🇧🇯','cd':'🇨🇩','td':'🇹🇩','cf':'🇨🇫','cg':'🇨🇬','gq':'🇬🇶',
+    'ga':'🇬🇦','st':'🇸🇹','ng':'🇳🇬','gh':'🇬🇭','gn':'🇬🇳','gw':'🇬🇼','lr':'🇱🇷',
+    'sl':'🇸🇱','gm':'🇬🇲','mr':'🇲🇷','ke':'🇰🇪','ug':'🇺🇬','tz':'🇹🇿','rw':'🇷🇼',
+    'bi':'🇧🇮','et':'🇪🇹','ss':'🇸🇸','sd':'🇸🇩','so':'🇸🇴','dj':'🇩🇯','er':'🇪🇷',
+    'dz':'🇩🇿','eg':'🇪🇬','ly':'🇱🇾','ma':'🇲🇦','tn':'🇹🇳','ao':'🇦🇴','mz':'🇲🇿',
+    'zm':'🇿🇲','zw':'🇿🇼','mw':'🇲🇼','na':'🇳🇦','bw':'🇧🇼','sz':'🇸🇿','ls':'🇱🇸',
+    'mg':'🇲🇬','mu':'🇲🇺','sc':'🇸🇨','cv':'🇨🇻'
+  };
+  return flags[countryCode] || '🇨🇲';
+}
+
+function updateCountryCode() {
+  const countrySelect = document.getElementById('country');
+  const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+  const code = selectedOption?.getAttribute('data-code') || '+237';
+  const flag = getFlag(selectedOption?.value);
+  const countryCodeEl = document.getElementById('countryCode');
+  const selectedFlagEl = document.getElementById('selectedFlag');
+  
+  if (countryCodeEl) countryCodeEl.textContent = code;
+  if (selectedFlagEl) selectedFlagEl.textContent = flag;
+  
+  // Mettre à jour le placeholder du téléphone
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput) {
+    if (code === '+237') {
+      phoneInput.placeholder = '6XX XXX XXX';
+    } else if (code === '+225') {
+      phoneInput.placeholder = '0X XX XX XX';
+    } else if (code === '+221') {
+      phoneInput.placeholder = '7X XXX XX XX';
+    } else {
+      phoneInput.placeholder = 'Votre numéro';
+    }
+  }
+}
+
+/* ---------- RECHERCHE DU PARRAIN PAR USERNAME ---------- */
+async function findSponsorByUsername(username) {
+  if (!username) return null;
+  username = username.trim();
   
   try {
-    const userDoc = await db.collection('users').doc(currentUser.uid).get();
-    if (userDoc.exists) {
-      userData = userDoc.data();
-      updateUserCurrency();
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where('username', '==', username));
+    const qs = await getDocs(q);
+    
+    if (!qs.empty) {
+      const d = qs.docs[0];
+      const data = d.data() || {};
+      return { 
+        uid: d.id, 
+        username: data.username || null, 
+        displayName: data.displayName || data.username || null 
+      };
     }
+    return null;
   } catch (err) {
-    console.error('Erreur chargement données:', err);
-  }
-}
-
-/******** Mettre à jour l'interface ********/
-function updateDashboardUI() {
-  const solde = userData.solde || 0;
-  const retire = userData.retire || userData.totalRetrait || 0;
-  const parrainage = userData.gainsParrainage || userData.referralEarnings || 0;
-  const bonusAgent = userData.bonusAgent || 0;
-  const depense = userData.depense || userData.totalDepense || 3600;
-  const profit = userData.profit || 0;
-  
-  // Update main stats
-  document.getElementById('solde-value').textContent = solde.toLocaleString('fr-FR');
-  document.getElementById('retire-value').textContent = retire.toLocaleString('fr-FR');
-  document.getElementById('parrainage-value').textContent = parrainage.toLocaleString('fr-FR');
-  document.getElementById('bonus-agent-value').textContent = bonusAgent.toLocaleString('fr-FR');
-  
-  // Update circular progress
-  updateCircularProgress('depense-progress', depense, 10000, 'red');
-  document.getElementById('depense-percent').textContent = depense.toLocaleString('fr-FR');
-  document.getElementById('depense-amount').textContent = `${depense.toLocaleString('fr-FR')} XAF`;
-  
-  updateCircularProgress('profit-progress', profit, 50000, 'green');
-  document.getElementById('profit-percent').textContent = profit.toLocaleString('fr-FR');
-  document.getElementById('profit-amount').textContent = `${profit.toLocaleString('fr-FR')} XAF`;
-  
-  // Update gains cards - IMPORTANT: Using whatsappGains field (not gainsWhatsApp)
-  const whatsappGains = userData.whatsappGains || 0;
-  const triviaGains = userData.triviaGains || userData.gainsTriviaTotal || 0;
-  const adGains = userData.advertisingGains || userData.gainsPubTotal || 0;
-  const tiktokGains = userData.tiktokGains || userData.gainsTiktokTotal || 0;
-  const youtubeGains = userData.youtubeGains || userData.gainsYoutubeTotal || 0;
-  const instagramGains = userData.instagramGains || userData.gainsInstagramTotal || 0;
-  const depotSolde = userData.depotSolde || userData.soldeDepot || 0;
-  
-  document.querySelector('#whatsapp-gains .gain-value').textContent = `XAF ${whatsappGains.toLocaleString('fr-FR')}`;
-  document.querySelector('#trivia-gains .gain-value').textContent = `XAF ${triviaGains.toLocaleString('fr-FR')}`;
-  document.querySelector('#advertising-gains .gain-value').textContent = `XAF ${adGains.toLocaleString('fr-FR')}`;
-  document.querySelector('#tiktok-gains .gain-value').textContent = `XAF ${tiktokGains.toLocaleString('fr-FR')}`;
-  document.querySelector('#youtube-gains .gain-value').textContent = `XAF ${youtubeGains.toLocaleString('fr-FR')}`;
-  document.querySelector('#instagram-gains .gain-value').textContent = `XAF ${instagramGains.toLocaleString('fr-FR')}`;
-  document.querySelector('#depot-solde .gain-value').textContent = `XAF ${depotSolde.toLocaleString('fr-FR')}`;
-  
-  // Update team progress
-  const filleuls = userData.filleuls || [];
-  const activeFilleuls = userData.activeFilleuls || filleuls.length;
-  document.getElementById('equipe-count').textContent = filleuls.length;
-  document.getElementById('equipe-active').textContent = activeFilleuls;
-  updateCircularProgress('equipe-progress', filleuls.length, 100, 'green');
-}
-
-function updateCircularProgress(containerId, value, maxValue, colorClass) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  
-  const progressCircle = container.querySelector('.progress-circle');
-  if (!progressCircle) return;
-  
-  const circumference = 251.2;
-  const percentage = Math.min((value / maxValue) * 100, 100);
-  const offset = circumference - (percentage / 100) * circumference;
-  
-  progressCircle.style.strokeDashoffset = offset;
-}
-
-function updateUserInfoUI(user, data) {
-  if (sidebarUsername) sidebarUsername.textContent = data.username || 'Utilisateur';
-  if (userAvatar) userAvatar.textContent = (data.username || 'U').charAt(0).toUpperCase();
-  if (infoUsername) infoUsername.textContent = data.username || 'N/A';
-  if (infoEmail) infoEmail.textContent = user.email || 'N/A';
-  if (infoPhone) infoPhone.textContent = data.phone || data.phoneNumber || 'N/A';
-  if (infoCountry) infoCountry.textContent = data.country || data.pays || 'N/A';
-  if (infoParrain) infoParrain.textContent = data.referredBy || data.parrain || 'Aucun';
-  if (infoParrainage) infoParrainage.textContent = (data.filleuls || []).length + ' filleul(s)';
-}
-
-/******** Calendrier ********/
-function updateCalendar() {
-  const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
-                      'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-  
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  
-  if (calendarMonth) calendarMonth.textContent = `${monthNames[month]} ${year}`;
-  
-  if (!calendarGrid) return;
-  calendarGrid.innerHTML = '';
-  
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const today = new Date();
-  
-  let startDay = firstDay.getDay() - 1;
-  if (startDay < 0) startDay = 6;
-  
-  for (let i = 0; i < startDay; i++) {
-    const emptyDiv = document.createElement('div');
-    emptyDiv.className = 'calendar-date';
-    emptyDiv.style.opacity = '0.3';
-    calendarGrid.appendChild(emptyDiv);
-  }
-  
-  for (let day = 1; day <= lastDay.getDate(); day++) {
-    const dateDiv = document.createElement('div');
-    dateDiv.className = 'calendar-date';
-    dateDiv.textContent = day;
-    
-    const checkDate = new Date(year, month, day);
-    const dayOfWeek = checkDate.getDay();
-    
-    if (today.getDate() === day && today.getMonth() === month && today.getFullYear() === year) {
-      dateDiv.classList.add('active');
-    }
-    
-    if (dayOfWeek === 5) {
-      dateDiv.classList.add('today-task');
-    }
-    
-    calendarGrid.appendChild(dateDiv);
-  }
-  
-  highlightTodayTask();
-}
-
-function highlightTodayTask() {
-  const today = new Date();
-  const dayOfWeek = today.getDay();
-  const dayClasses = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  
-  document.querySelectorAll('.task-table tbody tr').forEach(row => {
-    row.classList.remove('today-task');
-  });
-  
-  const todayRow = document.querySelector(`.${dayClasses[dayOfWeek]}-task`);
-  if (todayRow) {
-    todayRow.classList.add('today-task');
-  }
-}
-
-/******** Lien de parrainage ********/
-async function requestReferralLinkFromServer(username) {
-  try {
-    const response = await fetch(`${SERVER_URL}/api/referral-link`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username })
-    });
-    return await response.json();
-  } catch (err) {
-    console.error('Erreur récupération lien:', err);
+    console.error('findSponsorByUsername error', err);
     return null;
   }
 }
 
-/******** Event Listeners ********/
-if (hamburgerBtn) {
-  hamburgerBtn.addEventListener('click', () => {
-    hamburgerBtn.classList.toggle('open');
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('active');
-  });
-}
-
-if (overlay) {
-  overlay.addEventListener('click', () => {
-    hamburgerBtn.classList.remove('open');
-    sidebar.classList.remove('open');
-    overlay.classList.remove('active');
-  });
-}
-
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    
-    if (currentUser && userData) {
-      db.collection('users').doc(currentUser.uid).update({ theme: isDark ? 'dark' : 'light' });
-    }
-  });
-}
-
-if (languageSelector) {
-  languageSelector.addEventListener('click', (e) => {
-    e.stopPropagation();
-    languageDropdown.classList.toggle('active');
-  });
-}
-
-document.querySelectorAll('.language-option').forEach(option => {
-  option.addEventListener('click', () => {
-    setLanguage(option.dataset.lang);
-    languageDropdown.classList.remove('active');
-  });
-});
-
-document.addEventListener('click', () => {
-  if (languageDropdown) languageDropdown.classList.remove('active');
-});
-
-if (copyLinkBtn) {
-  copyLinkBtn.addEventListener('click', async () => {
-    const link = referralLink.textContent;
-    try {
-      await navigator.clipboard.writeText(link);
-      showNotification('success', translations[currentLang]['notification.success'], 'Lien copié !');
-    } catch (err) {
-      showNotification('error', translations[currentLang]['notification.error'], 'Erreur lors de la copie');
-    }
-  });
-}
-
-if (shareWhatsApp) {
-  shareWhatsApp.addEventListener('click', () => {
-    const link = referralLink.textContent;
-    const text = encodeURIComponent(`Rejoins BLOWEARN AGENCIES et gagne de l'argent ! ${link}`);
-    window.open(`https://wa.me/?text=${text}`, '_blank');
-  });
-}
-
-if (shareFacebook) {
-  shareFacebook.addEventListener('click', () => {
-    const link = encodeURIComponent(referralLink.textContent);
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${link}`, '_blank');
-  });
-}
-
-if (shareTwitter) {
-  shareTwitter.addEventListener('click', () => {
-    const link = encodeURIComponent(referralLink.textContent);
-    const text = encodeURIComponent('Rejoins BLOWEARN AGENCIES et gagne de l\'argent !');
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${link}`, '_blank');
-  });
-}
-
-if (shareTelegram) {
-  shareTelegram.addEventListener('click', () => {
-    const link = encodeURIComponent(referralLink.textContent);
-    const text = encodeURIComponent('Rejoins BLOWEARN AGENCIES et gagne de l\'argent !');
-    window.open(`https://t.me/share/url?url=${link}&text=${text}`, '_blank');
-  });
-}
-
-if (prevMonth) {
-  prevMonth.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    updateCalendar();
-  });
-}
-
-if (nextMonth) {
-  nextMonth.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    updateCalendar();
-  });
-}
-
-if (supportBtn) {
-  supportBtn.addEventListener('click', () => {
-    window.open('https://wa.me/237690000000', '_blank');
-  });
-}
-
-/******** Watcher de statut ********/
-function startStatusWatcherAndTriggerProcessing() {
-  try {
-    if (!currentUser) return;
-    
-    db.collection('users').doc(currentUser.uid).onSnapshot(async (doc) => {
-      if (!doc.exists) return;
-      
-      const newData = doc.data();
-      const oldStatus = userData.status || userData.statut || '';
-      const newStatus = newData.status || newData.statut || '';
-      
-      userData = newData;
-      updateDashboardUI();
-      updateUserInfoUI(currentUser, userData);
-      
-      if (oldStatus !== 'active' && newStatus === 'active') {
-        showNotification('success', 'Compte activé !', 'Votre compte est maintenant actif.');
-        
-        try {
-          const idToken = await currentUser.getIdToken();
-          const response = await fetch(`${SERVER_URL}/api/process-referral-on-paid`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idToken })
-          });
-          
-          const json = await response.json();
-          if (json.ok) {
-            showNotification('success', translations[currentLang]['notification.success'], 'Gains partagés aux parrains.');
-            await loadUserData();
-            updateDashboardUI();
-            updateUserInfoUI(currentUser, userData);
-          }
-        } catch (err) {
-          console.error('Erreur process-referral-on-paid:', err);
-        }
-      }
-    });
-  } catch (err) {
-    console.error('startStatusWatcherAndTriggerProcessing erreur:', err);
-  }
-}
-
-/******** Sécurité ********/
-function checkUserStatusAndRedirect(userStatus) {
-  const status = (userStatus || '').toString().toLowerCase().trim();
+/* ---------- VÉRIFICATION UNICITÉ USERNAME ---------- */
+async function checkUsernameExists(username) {
+  if (!username) return false;
   
-  if (status !== 'active') {
-    console.log('🚫 SÉCURITÉ: Utilisateur NON ACTIF. Status:', status);
-    
-    showNotification('error', 
-      translations[currentLang]['security.inactive_account'] || 'Compte inactif', 
-      translations[currentLang]['security.payment_required'] || 'Votre compte n\'est pas encore activé.',
-      5000
-    );
-    
-    setTimeout(() => {
-      auth.signOut().then(() => {
-        window.location.href = 'login.html';
-      }).catch(() => {
-        window.location.href = 'login.html';
-      });
-    }, 2000);
-    
+  try {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where('username', '==', username));
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+  } catch (err) {
+    console.error('checkUsernameExists error', err);
     return false;
   }
-  
-  console.log('✅ SÉCURITÉ: Utilisateur ACTIF');
-  return true;
 }
 
-/******** Auth state change ********/
-auth.onAuthStateChanged(async (user) => {
-  if (user) {
-    currentUser = user;
+/* ---------- GESTION DU FORMULAIRE / ENREGISTREMENT ---------- */
+let sponsorData = null;
+let isSubmitting = false;
+
+const registrationForm = document.getElementById('registrationForm');
+if (!registrationForm) throw new Error('Formulaire non trouvé (#registrationForm).');
+
+registrationForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  // Empêcher la double soumission
+  if (isSubmitting) {
+    console.log('⚠️ Soumission déjà en cours, ignorée');
+    return;
+  }
+  
+  // Récupérer les valeurs du formulaire
+  const username = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const country = document.getElementById('country').value;
+  const phone = document.getElementById('phone').value.trim();
+  const countryCode = document.getElementById('countryCode')?.textContent || '+237';
+  const termsCheck = document.getElementById('terms').checked;
+
+  // Validations basiques
+  if (!username) { 
+    showError("Choisissez un nom d'utilisateur."); 
+    return; 
+  }
+  
+  if (!termsCheck) {
+    showError("Veuillez accepter les conditions.");
+    return;
+  }
+  
+  if (password !== confirmPassword) { 
+    showError("Les mots de passe ne correspondent pas."); 
+    return; 
+  }
+  
+  if (password.length < 8) { 
+    showError("Le mot de passe doit contenir au moins 8 caractères."); 
+    return; 
+  }
+
+  // Vérification unicité username
+  const exists = await checkUsernameExists(username);
+  if (exists) { 
+    showError("Ce nom d'utilisateur est déjà pris."); 
+    return; 
+  }
+
+  // Gestion UI : désactiver le bouton
+  const submitBtn = this.querySelector('button[type="submit"]');
+  const originalText = submitBtn.innerHTML;
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création en cours...';
+  submitBtn.disabled = true;
+  isSubmitting = true;
+
+  try {
+    console.log('📝 Création du compte Firebase Auth...');
+    // 1) Création du compte dans Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // 2) Mise à jour profile displayName
+    await updateProfile(user, { 
+      displayName: username 
+    });
+
+    // 3) Obtenir le token d'authentification
+    const idToken = await user.getIdToken();
+
+    // 4) Préparer les données pour l'API du serveur
+    const sponsorUsername = sponsorData ? (sponsorData.username || '') : '';
+    const fullPhoneNumber = countryCode + phone;
+
+    console.log('📤 Envoi au serveur:', { 
+      email, 
+      username, 
+      sponsorUsername, 
+      country, 
+      fullPhoneNumber 
+    });
+
+    // 5) Appeler l'endpoint du serveur pour enregistrer avec le système de parrainage
+    const registerResponse = await fetch(`${SERVER_URL}/api/register-with-referral`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${idToken}`
+      },
+      body: JSON.stringify({
+        email: email,
+        displayName: username,
+        sponsorUsername: sponsorUsername,
+        country: country,
+        phoneNumber: fullPhoneNumber,
+        uid: user.uid
+      })
+    });
+
+    const registerData = await registerResponse.json();
+
+    if (!registerResponse.ok) {
+      throw new Error(registerData.error || 'Erreur lors de l\'enregistrement sur le serveur');
+    }
+
+    console.log('✅ Inscription serveur réussie:', registerData);
+
+    // Animation de succès
+    submitBtn.innerHTML = '<i class="fas fa-check"></i> Compte créé !';
+    submitBtn.classList.add('success-animation');
+    submitBtn.style.background = 'linear-gradient(135deg, #00c853 0%, #00b248 100%)';
+    
+    // Lancer les feux d'artifice améliorés
+    setTimeout(() => fireworks.launch(), 300);
+    
+    showSuccess("🎉 Félicitations ! Votre compte a été créé avec succès ! Redirection vers la page de paiement...");
+    
+    setTimeout(() => window.location.assign('paiement.html'), 4000);
+
+  } catch (err) {
+    console.error('❌ Registration error:', err);
+    
+    let message = "Une erreur s'est produite lors de l'inscription.";
+    if (err.code === 'auth/email-already-in-use') {
+      message = "Cette adresse email est déjà utilisée par un autre compte.";
+    } else if (err.code === 'auth/invalid-email') {
+      message = "L'adresse email n'est pas valide.";
+    } else if (err.code === 'auth/weak-password') {
+      message = "Le mot de passe est trop faible (min 8 caractères).";
+    } else {
+      message = err.message || message;
+    }
+    
+    showError(message);
+    
+    // Réactiver le bouton
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
+    isSubmitting = false;
+  }
+});
+
+/* ---------- INITIALISATION AU CHARGEMENT ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  // Initialise country select UI
+  try { 
+    document.getElementById('country').value = 'cm'; 
+  } catch (e) {
+    console.error('Erreur d\'initialisation du pays:', e);
+  }
+  updateCountryCode();
+
+  // Param d'URL: on regarde 'ref' puis 'par'
+  const urlParams = new URLSearchParams(window.location.search);
+  const refParam = urlParams.get('ref') || urlParams.get('par') || '';
+
+  const parInput = document.getElementById('par');
+  const parInputGroup = document.getElementById('parInputGroup');
+
+  if (refParam) {
+    console.log('🔍 Recherche du parrain:', refParam);
+    
+    // Désactiver le champ si un lien de parrainage existe
+    if (parInputGroup) parInputGroup.classList.add('disabled');
+    
+    // On cherche le parrain par username dans Firestore
     try {
-      await loadUserData();
-      
-      const userStatus = userData.status || userData.statut || '';
-      const isAuthorized = checkUserStatusAndRedirect(userStatus);
-      
-      if (!isAuthorized) return;
-      
-      const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
-      setLanguage(savedLang);
-      
-      updateDashboardUI();
-      updateUserInfoUI(currentUser, userData);
-      
-      if (userData.theme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-      }
-      
-      if (userData.username && referralLink) {
-        const linkData = await requestReferralLinkFromServer(userData.username);
-        if (linkData && linkData.referralLink) {
-          referralLink.textContent = linkData.referralLink;
-        } else {
-          referralLink.textContent = `https://blowearn-agencies.vercel.app/index.html?ref=${userData.username}`;
+      const found = await findSponsorByUsername(refParam);
+      if (found) {
+        sponsorData = found;
+        const display = found.displayName || found.username;
+        if (parInput) {
+          parInput.value = display;
+          parInput.disabled = true;
         }
+        console.log('✅ Parrain trouvé:', found);
+      } else {
+        // Pas trouvé: on affiche le param brut mais le champ reste désactivé
+        if (parInput) {
+          parInput.value = refParam;
+          parInput.disabled = true;
+        }
+        console.warn('⚠️ Parrain non trouvé avec username:', refParam);
       }
-      
-      updateCalendar();
-      startStatusWatcherAndTriggerProcessing();
-      
-      if (loader) loader.classList.add('hidden');
-      
     } catch (err) {
-      console.error('Erreur chargement dashboard:', err);
-      showNotification('error', translations[currentLang]['notification.error'], 'Erreur lors du chargement.');
-      if (loader) loader.classList.add('hidden');
+      console.error('❌ Erreur lors de la recherche du parrain:', err);
+      if (parInput) {
+        parInput.value = refParam;
+        parInput.disabled = true;
+      }
     }
   } else {
-    window.location.href = 'login.html';
+    // Aucun param: garde le champ par vide et désactivé
+    if (parInput) { 
+      parInput.value = ''; 
+      parInput.placeholder = 'Aucun parrain détecté'; 
+      parInput.disabled = true;
+    }
   }
+
+  // Écoute changement de pays
+  const countrySelect = document.getElementById('country');
+  if (countrySelect) {
+    countrySelect.addEventListener('change', updateCountryCode);
+  }
+  
+  // Animation d'entrée des éléments
+  setTimeout(() => {
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach((group, index) => {
+      group.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+    });
+  }, 300);
+  
+  // Effet sur les inputs au focus
+  const inputs = document.querySelectorAll('input, select');
+  inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentElement.style.transform = 'skewX(var(--skew)) translateY(-5px)';
+    });
+    
+    input.addEventListener('blur', function() {
+      this.parentElement.style.transform = 'skewX(var(--skew)) translateY(0)';
+    });
+  });
+  
+  // Animation du logo au chargement
+  const logoImg = document.querySelector('.logo-img');
+  if (logoImg) {
+    setTimeout(() => {
+      logoImg.style.transform = 'scale(1.1) rotate(5deg)';
+      setTimeout(() => {
+        logoImg.style.transform = 'scale(1) rotate(0deg)';
+      }, 500);
+    }, 500);
+  }
+  
+  // Vérification en temps réel du nom d'utilisateur
+  const usernameInput = document.getElementById('username');
+  if (usernameInput) {
+    let timeout;
+    usernameInput.addEventListener('input', function() {
+      clearTimeout(timeout);
+      timeout = setTimeout(async () => {
+        const username = this.value.trim();
+        if (username.length > 2) {
+          const exists = await checkUsernameExists(username);
+          if (exists) {
+            this.parentElement.style.borderColor = '#ff5252';
+            showError('Ce nom d\'utilisateur est déjà pris.');
+          } else {
+            this.parentElement.style.borderColor = '#00c853';
+          }
+        }
+      }, 600);
+    });
+  }
+  
+  // Animation de validation en temps réel des mots de passe
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  
+  function validatePassword() {
+    if (passwordInput.value && confirmPasswordInput.value) {
+      if (passwordInput.value === confirmPasswordInput.value) {
+        passwordInput.parentElement.style.borderColor = '#00c853';
+        confirmPasswordInput.parentElement.style.borderColor = '#00c853';
+      } else {
+        passwordInput.parentElement.style.borderColor = '#ff5252';
+        confirmPasswordInput.parentElement.style.borderColor = '#ff5252';
+      }
+    }
+  }
+  
+  if (passwordInput && confirmPasswordInput) {
+    passwordInput.addEventListener('input', validatePassword);
+    confirmPasswordInput.addEventListener('input', validatePassword);
+  }
+  
+  // Effet de chargement progressif plus professionnel
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.6s ease';
+  
+  // Animation séquentielle des éléments
+  setTimeout(() => {
+    document.body.style.opacity = '1';
+    
+    // Animation séquentielle des éléments du formulaire
+    const formElements = document.querySelectorAll('.form-group, .checkbox-group, .btn, .login-link');
+    formElements.forEach((el, index) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 300 + (index * 100));
+    });
+  }, 200);
 });
 </script>
 </body>
