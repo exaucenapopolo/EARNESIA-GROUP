@@ -2,147 +2,173 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#3a86ff">
+  <meta name="description" content="Connexion EARNESIA - Accédez à votre tableau de bord">
+  
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>EARNESIA - Connexion</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* ===== VARIABLES ET RESET ===== */
     :root {
-      --primary: #1a73e8;
-      --primary-dark: #0d62d9;
-      --secondary: #00c853;
-      --accent: #ff6d00;
+      --primary: #3a86ff;
+      --primary-dark: #2667cc;
+      --primary-light: #6ba3ff;
+      --secondary: #00b4d8;
+      --accent: #00cc88;
+      --warning: #ffd166;
+      --danger: #ff6b6b;
+      --success: #00cc88;
+      
       --light: #ffffff;
-      --light-gray: #f5f7fa;
-      --gray: #e1e5eb;
-      --dark-gray: #5f6368;
-      --text: #202124;
-      --shadow: 0 8px 25px rgba(26, 115, 232, 0.12);
-      --shadow-hover: 0 15px 40px rgba(26, 115, 232, 0.2);
-      --transition: all 0.3s ease;
-      --radius: 10px;
-      --skew: -3deg;
-      --soft-blue: #e8f0fe;
+      --light-gray: #f8f9fa;
+      --gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --text: #1a1a2e;
+      --text-light: #4a4a68;
+      
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 20px 50px rgba(58, 134, 255, 0.2);
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+    
+    .dark-mode {
+      --light: #0f172a;
+      --light-gray: #1e293b;
+      --gray: #334155;
+      --dark-gray: #94a3b8;
+      --text: #f1f5f9;
+      --text-light: #cbd5e1;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 20px 50px rgba(58, 134, 255, 0.3);
     }
     
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
     
-    /* ===== ANIMATIONS ===== */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
     }
     
-    @keyframes slideIn {
-      from { transform: translateX(-20px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes professionalAppear {
-      0% { 
-        opacity: 0; 
-        transform: translateY(40px) scale(0.95); 
-      }
-      60% { 
-        opacity: 1; 
-        transform: translateY(-5px) scale(1); 
-      }
-      100% { 
-        opacity: 1; 
-        transform: translateY(0) scale(1); 
-      }
-    }
-    
-    @keyframes formElementAppear {
-      0% { 
-        opacity: 0; 
-        transform: translateX(-15px); 
-      }
-      100% { 
-        opacity: 1; 
-        transform: translateX(0); 
-      }
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    @keyframes successPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7); }
-      70% { box-shadow: 0 0 0 25px rgba(0, 200, 83, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
-    }
-    
-    /* ===== ANIMATIONS CONFETTIS ===== */
-    @keyframes confettiFall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-    
-    /* ===== STYLES GÉNÉRAUX ===== */
     body {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6B8DD6 100%);
+      background-attachment: fixed;
       color: var(--text);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      position: relative;
-      overflow-x: hidden;
+      transition: background 0.5s ease;
     }
     
-    /* Effets de fond subtils */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 15% 20%, rgba(26, 115, 232, 0.05) 0%, transparent 25%),
-        radial-gradient(circle at 85% 80%, rgba(0, 200, 83, 0.05) 0%, transparent 25%),
-        radial-gradient(circle at 50% 50%, var(--soft-blue) 0%, transparent 70%);
-      z-index: -1;
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
     }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
     
     .container {
       width: 100%;
-      max-width: 450px;
+      max-width: 440px;
       margin: 0 auto;
-      animation: professionalAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: fadeIn 0.6s ease-out;
+      position: relative;
     }
     
-    /* ===== HEADER ET LOGO ===== */
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+    
+    .lang-btn {
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: var(--light);
+      border: 2px solid var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .lang-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    .theme-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--light);
+      border: 2px solid var(--gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 1.2rem;
+    }
+    
+    .theme-btn:hover {
+      transform: scale(1.1) rotate(15deg);
+      border-color: var(--primary);
+    }
+    
     .logo-header {
       text-align: center;
       margin-bottom: 30px;
-      animation: fadeIn 0.6s ease-out;
     }
     
     .logo-container {
@@ -150,56 +176,50 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 15px;
-      flex-direction: column;
+      gap: 12px;
     }
     
     .logo-img {
       height: 70px;
-      width: auto;
-      filter: drop-shadow(0 4px 10px rgba(26, 115, 232, 0.2));
+      width: 70px;
+      object-fit: cover;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 8px;
+      box-shadow: var(--shadow);
       transition: var(--transition);
     }
     
     .logo-img:hover {
-      transform: scale(1.08);
+      transform: scale(1.1) rotate(5deg);
     }
     
     .logo-text {
       font-size: 2.5rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #1a73e8 0%, #00c853 100%);
+      background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-top: 10px;
       font-family: 'Poppins', sans-serif;
-      letter-spacing: -0.5px;
+      letter-spacing: -1px;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     
     .tagline {
-      font-size: 1.1rem;
-      color: var(--dark-gray);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.9);
       font-weight: 500;
-      margin-top: 8px;
-      font-style: italic;
     }
     
-    /* ===== CARTE PRINCIPALE ===== */
     .card {
-      background-color: var(--light);
+      background: var(--light);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      overflow: hidden;
-      padding: 40px 35px;
+      padding: 35px 30px;
       position: relative;
       transition: var(--transition);
-      border: 1px solid rgba(26, 115, 232, 0.1);
-      background-image: linear-gradient(to bottom, transparent 95%, var(--soft-blue) 100%);
-    }
-    
-    .card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .card::before {
@@ -209,216 +229,169 @@
       left: 0;
       right: 0;
       height: 5px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite linear;
+      border-radius: var(--radius) var(--radius) 0 0;
     }
     
-    .card-header {
+    .section-header {
       text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 28px;
     }
     
-    .card-header h1 {
+    .section-header h1 {
       color: var(--text);
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-family: 'Poppins', sans-serif;
     }
     
-    .card-header p {
-      color: var(--dark-gray);
-      font-size: 1.05rem;
+    .section-header p {
+      color: var(--text-light);
+      font-size: 0.95rem;
     }
     
-    /* ===== FORMULAIRES ===== */
     .form-group {
-      margin-bottom: 25px;
-      animation: formElementAppear 0.5s ease-out;
-      animation-fill-mode: both;
+      margin-bottom: 22px;
     }
     
-    .form-group:nth-child(1) { animation-delay: 0.1s; }
-    .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .form-group:nth-child(3) { animation-delay: 0.3s; }
-    
-    label {
+    .form-group label {
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-weight: 600;
       color: var(--text);
-      font-size: 1rem;
-      transition: var(--transition);
-      padding-left: 5px;
-    }
-    
-    label:hover {
-      color: var(--primary);
+      font-size: 0.9rem;
     }
     
     .input-group {
       display: flex;
       align-items: center;
-      background-color: var(--light-gray);
-      border-radius: 8px;
-      overflow: hidden;
+      background: var(--light-gray);
+      border-radius: var(--radius-sm);
       border: 2px solid var(--gray);
       transition: var(--transition);
       position: relative;
-      transform: skewX(var(--skew));
-      background-image: linear-gradient(to right, var(--light-gray) 0%, #f9fbfd 100%);
-    }
-    
-    .input-group::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(26, 115, 232, 0.08) 0%, rgba(0, 200, 83, 0.08) 100%);
-      opacity: 0;
-      transition: var(--transition);
+      overflow: hidden;
     }
     
     .input-group:focus-within {
       border-color: var(--primary);
-      background-color: white;
-      box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
-      transform: skewX(var(--skew)) translateY(-3px);
-      background-image: linear-gradient(to right, white 0%, #fefeff 100%);
+      background: var(--light);
+      box-shadow: 0 0 0 4px rgba(58, 134, 255, 0.15);
     }
     
-    .input-group:focus-within::before {
-      opacity: 1;
+    .input-group.error {
+      border-color: var(--danger);
+      animation: shake 0.5s;
     }
     
     .input-icon {
-      padding: 0 18px;
+      padding: 0 16px;
       color: var(--dark-gray);
-      font-size: 1.2rem;
-      min-width: 55px;
+      font-size: 1.1rem;
+      min-width: 50px;
       text-align: center;
-      transition: var(--transition);
-      z-index: 1;
     }
     
     .input-group:focus-within .input-icon {
       color: var(--primary);
-      transform: scale(1.1);
     }
     
     input {
       width: 100%;
-      padding: 18px 12px;
+      padding: 16px 12px;
       border: none;
       background: transparent;
       color: var(--text);
-      font-size: 1.05rem;
-      outline: none;
+      font-size: 1rem;
       font-weight: 500;
-      transform: skewX(calc(var(--skew) * -1));
-      z-index: 1;
+      outline: none;
+      font-family: inherit;
     }
     
     input::placeholder {
-      color: #9aa0a6;
+      color: var(--dark-gray);
       font-weight: 400;
     }
     
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0px 1000px var(--light-gray) inset;
+      -webkit-text-fill-color: var(--text);
+    }
+    
     .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
       background: none;
       border: none;
       color: var(--dark-gray);
       cursor: pointer;
-      padding: 0 18px;
-      font-size: 1.2rem;
+      padding: 8px;
+      border-radius: 50%;
       transition: var(--transition);
-      transform: skewX(calc(var(--skew) * -1));
-      z-index: 1;
     }
     
     .password-toggle:hover {
+      background: rgba(0, 0, 0, 0.05);
       color: var(--primary);
     }
     
-    /* Options du formulaire */
     .form-options {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
-      font-size: 0.95rem;
-      animation: formElementAppear 0.5s ease-out;
-      animation-fill-mode: both;
-      animation-delay: 0.3s;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
     }
     
-    .remember-me {
+    .checkbox-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       cursor: pointer;
     }
     
-    .remember-me input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--secondary);
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
       cursor: pointer;
-    }
-    
-    .remember-me span {
-      color: var(--dark-gray);
-      font-weight: 500;
     }
     
     .forgot-password {
       color: var(--primary);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
       transition: var(--transition);
-      position: relative;
-      padding: 0 5px;
     }
     
-    .forgot-password::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 5px;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: width 0.3s ease;
+    .forgot-password:hover {
+      text-decoration: underline;
+      color: var(--primary-dark);
     }
     
-    .forgot-password:hover::after {
-      width: calc(100% - 10px);
-    }
-    
-    /* Bouton de connexion */
     .btn {
-      display: block;
       width: 100%;
-      padding: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 24px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      font-weight: 700;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
-      text-align: center;
+      font-family: 'Poppins', sans-serif;
       position: relative;
       overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-      letter-spacing: 0.5px;
-      transform: skewX(var(--skew));
-      box-shadow: 0 8px 20px rgba(26, 115, 232, 0.25);
-      animation: formElementAppear 0.5s ease-out;
-      animation-fill-mode: both;
-      animation-delay: 0.4s;
     }
     
     .btn::before {
@@ -429,81 +402,125 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-      transition: left 0.7s ease;
+      transition: left 0.6s ease;
     }
     
     .btn:hover {
-      transform: skewX(var(--skew)) translateY(-4px);
-      box-shadow: 0 12px 30px rgba(26, 115, 232, 0.35);
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
     }
     
     .btn:hover::before {
       left: 100%;
     }
     
-    .btn:active:not(:disabled) {
-      transform: skewX(var(--skew)) translateY(0);
+    .btn:active {
+      transform: translateY(-1px);
     }
     
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: skewX(var(--skew)) !important;
+      transform: none !important;
     }
     
-    .btn i {
-      margin-right: 12px;
+    .loading {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
     }
     
-    /* Lien d'inscription */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 24px 0;
+      color: var(--text-light);
+      font-size: 0.8rem;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray);
+    }
+    
+    .divider span {
+      padding: 0 16px;
+    }
+    
     .register-link {
       text-align: center;
-      margin-top: 30px;
-      font-size: 1.05rem;
-      color: var(--dark-gray);
-      padding-top: 20px;
-      border-top: 1px solid var(--gray);
-      animation: formElementAppear 0.5s ease-out;
-      animation-fill-mode: both;
-      animation-delay: 0.5s;
+      font-size: 0.9rem;
+      color: var(--text-light);
     }
     
     .register-link a {
       color: var(--primary);
       text-decoration: none;
-      font-weight: 700;
-      position: relative;
-      padding: 0 5px;
+      font-weight: 600;
+      transition: var(--transition);
     }
     
-    .register-link a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 5px;
-      width: 0;
-      height: 2px;
-      background: var(--primary);
-      transition: width 0.3s ease;
+    .register-link a:hover {
+      text-decoration: underline;
     }
     
-    .register-link a:hover::after {
-      width: calc(100% - 10px);
+    .notification-system {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 350px;
     }
     
-    /* Footer */
-    .footer {
-      margin-top: 40px;
-      text-align: center;
+    .notification {
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: fadeSlideIn 0.4s ease;
+      background: var(--light);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .notification.success { border-left-color: var(--success); }
+    .notification.error { border-left-color: var(--danger); }
+    .notification.warning { border-left-color: var(--warning); }
+    .notification.info { border-left-color: var(--secondary); }
+    
+    .notification-info { flex: 1; }
+    .notification-title { font-weight: 600; color: var(--text); margin-bottom: 4px; font-size: 0.9rem; }
+    .notification-message { color: var(--text-light); font-size: 0.85rem; }
+    
+    .notification-close {
+      background: none;
+      border: none;
       color: var(--dark-gray);
-      font-size: 0.9rem;
-      padding-top: 20px;
-      border-top: 1px solid var(--gray);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+    }
+    
+    .footer {
+      margin-top: 25px;
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.8rem;
     }
     
     .footer-links {
-      margin-top: 15px;
+      margin-top: 12px;
       display: flex;
       justify-content: center;
       gap: 20px;
@@ -511,569 +528,430 @@
     }
     
     .footer-links a {
-      color: var(--dark-gray);
+      color: rgba(255,255,255,0.8);
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
-      position: relative;
-      padding: 0 5px;
-    }
-    
-    .footer-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 5px;
-      width: 0;
-      height: 1px;
-      background: var(--primary);
-      transition: width 0.3s ease;
     }
     
     .footer-links a:hover {
-      color: var(--primary);
+      color: white;
     }
     
-    .footer-links a:hover::after {
-      width: calc(100% - 10px);
-    }
-    
-    /* Messages d'erreur/succès */
-    .error-message, .success-message {
-      padding: 18px;
-      border-radius: 8px;
-      margin-bottom: 25px;
-      font-size: 0.95rem;
-      display: none;
-      animation: fadeIn 0.4s ease;
-      transform: skewX(var(--skew));
-    }
-    
-    .error-message {
-      color: #721c24;
-      background-color: #ffebee;
-      border: 2px solid #ffcdd2;
-    }
-    
-    .success-message {
-      color: #155724;
-      background-color: #e8f5e9;
-      border: 2px solid #c8e6c9;
-    }
-    
-    .error-message.show, .success-message.show {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    /* ===== ÉLÉMENTS FLOTTANTS ===== */
-    .floating-element {
-      position: absolute;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(26, 115, 232, 0.10), rgba(0, 200, 83, 0.10));
-      opacity: 0.1;
-      filter: blur(25px);
-      animation: float 25s ease-in-out infinite;
-      z-index: -1;
-    }
-    
-    .floating-element:nth-child(1) {
-      width: 250px;
-      height: 250px;
-      top: 10%;
-      left: 5%;
-    }
-    
-    .floating-element:nth-child(2) {
-      width: 180px;
-      height: 180px;
-      top: 60%;
-      right: 10%;
-      animation-delay: 12s;
-    }
-    
-    .floating-element:nth-child(3) {
-      width: 120px;
-      height: 120px;
-      bottom: 20%;
-      left: 15%;
-      animation-delay: 6s;
-    }
-    
-    /* ===== ANIMATIONS DE SUCCÈS ===== */
-    .success-animation {
-      animation: successPulse 2s ease-out;
-    }
-    
-    /* ===== CONFETTIS ===== */
-    .confetti-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9997;
-      display: none;
-    }
-    
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      animation: confettiFall 3s linear forwards;
-    }
-    
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .container {
-        max-width: 100%;
-        padding: 10px;
-      }
-      
-      .card {
-        padding: 30px 25px;
-      }
-      
-      .logo-text {
-        font-size: 2.2rem;
-      }
-      
-      .logo-img {
-        height: 65px;
-      }
-      
-      .card-header h1 {
-        font-size: 1.8rem;
-      }
-      
-      .btn {
-        padding: 18px;
-        font-size: 1.1rem;
-      }
-      
-      .footer-links {
-        gap: 15px;
-      }
-      
-      .input-group {
-        transform: skewX(-1.5deg);
-      }
-      
-      .btn, .form-options {
-        transform: skewX(-1.5deg);
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .card {
-        padding: 25px 20px;
-      }
-      
-      .logo-text {
-        font-size: 2rem;
-      }
-      
-      .logo-img {
-        height: 60px;
-      }
-      
-      .logo-container {
-        margin-bottom: 10px;
-      }
-      
-      .tagline {
-        font-size: 1rem;
-      }
-      
-      .card-header h1 {
-        font-size: 1.6rem;
-      }
-      
-      .form-options {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-      }
-      
-      .footer-links {
-        flex-direction: column;
-        gap: 12px;
-      }
-      
-      .input-group, .btn, .form-options {
-        transform: skewX(0deg);
-      }
-      
-      input, .password-toggle {
-        transform: skewX(0deg);
-      }
+    @media (max-width: 520px) {
+      body { padding: 15px; align-items: flex-start; padding-top: 80px; }
+      .container { max-width: 100%; }
+      .card { padding: 25px 20px; border-radius: 16px; }
+      .logo-text { font-size: 2rem; }
+      .logo-img { height: 55px; width: 55px; }
+      .section-header h1 { font-size: 1.4rem; }
+      .form-options { flex-direction: column; gap: 12px; align-items: flex-start; }
+      .lang-toggle { top: 15px; left: 15px; }
+      .theme-toggle { top: 15px; right: 15px; }
+      .theme-btn { width: 42px; height: 42px; }
+      .notification-system { top: 70px; right: 15px; left: 15px; max-width: none; }
     }
   </style>
 </head>
 <body>
-  <!-- Éléments de fond flottants -->
-  <div class="floating-element"></div>
-  <div class="floating-element"></div>
-  <div class="floating-element"></div>
+  <div class="lang-toggle">
+    <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">
+      <i class="fas fa-globe"></i>
+      <span id="langText">FR</span>
+    </button>
+  </div>
+
+  <div class="theme-toggle">
+    <button class="theme-btn" id="themeToggle" aria-label="Changer de theme">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
   
-  <!-- Conteneur de confettis -->
-  <div class="confetti-container" id="confettiContainer"></div>
+  <div class="notification-system" id="notificationSystem"></div>
 
   <div class="container">
-    <!-- En-tête avec logo -->
     <div class="logo-header">
       <div class="logo-container">
-        <img src="https://raw.githubusercontent.com/exaucenapopolo/EARNESIA-GROUP/refs/heads/main/c8f725a49c3742ea90f599a9ca96329a.jpg" alt="EARNESIA Logo" class="logo-img">
+        <img src="https://raw.githubusercontent.com/exaucenapopolo/EARNESIA-GROUP/refs/heads/main/c8f725a49c3742ea90f599a9ca96329a.jpg" 
+             alt="EARNESIA Logo" 
+             class="logo-img"
+             loading="lazy">
         <span class="logo-text">EARNESIA</span>
       </div>
-      <div class="tagline">Accédez à votre univers financier</div>
+      <div class="tagline" data-i18n="tagline">Ton futur en route</div>
     </div>
 
-    <!-- Carte principale -->
     <div class="card">
-      <div class="card-header">
-        <h1>Connexion</h1>
-        <p>Bienvenue de retour</p>
+      <div class="section-header">
+        <h1 data-i18n="login_title">Connexion</h1>
+        <p data-i18n="login_subtitle">Connectez-vous pour accéder à votre tableau de bord</p>
       </div>
 
-      <!-- Messages d'erreur/succès -->
-      <div id="errorMessage" class="error-message">
-        <i class="fas fa-exclamation-circle"></i>
-        <span id="errorText">Une erreur est survenue</span>
-      </div>
-
-      <div id="successMessage" class="success-message">
-        <i class="fas fa-check-circle"></i>
-        <span id="successText">Opération réussie</span>
-      </div>
-
-      <!-- Formulaire de connexion -->
       <form id="loginForm">
-        <!-- Email -->
         <div class="form-group">
-          <label for="email">Adresse e-mail</label>
+          <label for="email" data-i18n="email_label">Adresse e-mail *</label>
           <div class="input-group">
             <div class="input-icon"><i class="fas fa-envelope"></i></div>
-            <input type="email" id="email" name="email" required placeholder="votre@email.com">
+            <input type="email" id="email" name="email" required 
+                   placeholder="exemple@email.com" autocomplete="email">
           </div>
         </div>
 
-        <!-- Mot de passe -->
         <div class="form-group">
-          <label for="password">Mot de passe</label>
+          <label for="password" data-i18n="password_label">Mot de passe *</label>
           <div class="input-group">
             <div class="input-icon"><i class="fas fa-lock"></i></div>
-            <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
-            <button type="button" class="password-toggle" id="togglePassword">
+            <input type="password" id="password" name="password" required 
+                   placeholder="Votre mot de passe" autocomplete="current-password">
+            <button type="button" class="password-toggle" onclick="togglePassword('password')">
               <i class="fas fa-eye"></i>
             </button>
           </div>
         </div>
 
-        <!-- Options du formulaire -->
         <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" id="rememberMe">
-            <span>Se souvenir de moi</span>
-          </label>
-          <a href="#" class="forgot-password" id="forgotPasswordLink">Mot de passe oublié ?</a>
+          <div class="checkbox-group">
+            <input type="checkbox" id="rememberMe" name="rememberMe">
+            <label for="rememberMe" data-i18n="remember_me">Se souvenir de moi</label>
+          </div>
+          <a href="#" class="forgot-password" onclick="forgotPassword(event)" data-i18n="forgot_password">Mot de passe oublié ?</a>
         </div>
 
-        <!-- Bouton de connexion -->
-        <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i>Se connecter</button>
+        <button type="submit" class="btn" id="submitBtn">
+          <span id="btnText" data-i18n="login_button">Se connecter</span>
+        </button>
       </form>
 
-      <!-- Lien d'inscription -->
-      <div class="register-link">Pas encore de compte ? <a href="index (1).html">S'inscrire ici</a></div>
+      <div class="divider">
+        <span data-i18n="or">ou</span>
+      </div>
+
+      <p class="register-link">
+        <span data-i18n="no_account">Pas encore de compte ?</span> 
+        <a href="index.html" data-i18n="register_link">Créer un compte</a>
+      </p>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
-      <div>© 2025 EARNESIA GROUP. Tous droits réservés.</div>
+      <div>&copy; 2025 EARNESIA GROUP. <span data-i18n="rights">Tous droits réservés.</span></div>
       <div class="footer-links">
-        <a href="terms.html">Conditions d'utilisation</a>
-        <a href="privacy.html">Confidentialité</a>
-        <a href="support.html">Support</a>
+        <a href="#" onclick="openTermsModal(); return false;" data-i18n="terms_link">Conditions</a>
+        <a href="#" onclick="openPrivacyModal(); return false;" data-i18n="privacy_link">Confidentialité</a>
+        <a href="https://social-boost-horizon-new-sbh.vercel.app" target="_blank">Propulsé par SBH</a>
       </div>
     </div>
   </div>
 
-<script>
-/* ---------- CONFIGURATION FIREBASE ---------- */
-const firebaseConfig = {
-  apiKey: "AIzaSyCjGisjgbFc2ZE0BFgdhlUao8bCCeuKP1k",
-  authDomain: "cash-flowr.firebaseapp.com",
-  projectId: "cash-flowr",
-  storageBucket: "cash-flowr.firebasestorage.app",
-  messagingSenderId: "1091928501310",
-  appId: "1:1091928501310:web:4f4de306cde36f378ff56f",
-  measurementId: "G-5SF6VDLZCB"
-};
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjGisjgbFc2ZE0BFgdhlUao8bCCeuKP1k",
+      authDomain: "cash-flowr.firebaseapp.com",
+      projectId: "cash-flowr",
+      storageBucket: "cash-flowr.appspot.com",
+      messagingSenderId: "1091928501310",
+      appId: "1:1091928501310:web:4f4de306cde36f378ff56f"
+    };
 
-/* ---------- EFFETS CONFETTIS ---------- */
-function createConfetti() {
-  const confettiContainer = document.getElementById('confettiContainer');
-  confettiContainer.style.display = 'block';
-  
-  const colors = ['#1a73e8', '#00c853', '#ff6d00', '#ff5252', '#ffd600', '#9c27b0'];
-  
-  for (let i = 0; i < 150; i++) {
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    
-    // Position aléatoire
-    const left = Math.random() * 100;
-    const size = Math.random() * 10 + 5;
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const animationDuration = Math.random() * 2 + 2;
-    const animationDelay = Math.random() * 1;
-    
-    confetti.style.left = `${left}%`;
-    confetti.style.width = `${size}px`;
-    confetti.style.height = `${size}px`;
-    confetti.style.backgroundColor = color;
-    confetti.style.animationDuration = `${animationDuration}s`;
-    confetti.style.animationDelay = `${animationDelay}s`;
-    
-    // Forme aléatoire (cercle ou carré)
-    if (Math.random() > 0.5) {
-      confetti.style.borderRadius = '50%';
-    } else {
-      confetti.style.borderRadius = '2px';
-    }
-    
-    confettiContainer.appendChild(confetti);
-    
-    // Supprimer après l'animation
-    setTimeout(() => {
-      if (confetti.parentNode) {
-        confetti.parentNode.removeChild(confetti);
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const translations = {
+      fr: {
+        tagline: "Ton futur en route",
+        login_title: "Connexion",
+        login_subtitle: "Connectez-vous pour accéder à votre tableau de bord",
+        email_label: "Adresse e-mail *",
+        password_label: "Mot de passe *",
+        remember_me: "Se souvenir de moi",
+        forgot_password: "Mot de passe oublié ?",
+        login_button: "Se connecter",
+        or: "ou",
+        no_account: "Pas encore de compte ?",
+        register_link: "Créer un compte",
+        rights: "Tous droits réservés.",
+        terms_link: "Conditions",
+        privacy_link: "Confidentialité",
+        success: "Succès",
+        error: "Erreur",
+        warning: "Attention",
+        info: "Information",
+        field_required: "Veuillez remplir tous les champs",
+        invalid_email: "Format d'email invalide",
+        login_success: "Connexion réussie ! Redirection...",
+        login_error: "Échec de la connexion",
+        user_not_found: "Aucun compte trouvé avec cet email",
+        wrong_password: "Mot de passe incorrect",
+        too_many_requests: "Trop de tentatives. Réessayez plus tard",
+        account_inactive: "Compte non activé. Redirection vers le paiement...",
+        reset_email_sent: "Email de réinitialisation envoyé",
+        reset_error: "Erreur lors de l'envoi de l'email"
+      },
+      en: {
+        tagline: "Your future on track",
+        login_title: "Login",
+        login_subtitle: "Sign in to access your dashboard",
+        email_label: "Email address *",
+        password_label: "Password *",
+        remember_me: "Remember me",
+        forgot_password: "Forgot password?",
+        login_button: "Sign in",
+        or: "or",
+        no_account: "Don't have an account?",
+        register_link: "Create account",
+        rights: "All rights reserved.",
+        terms_link: "Terms",
+        privacy_link: "Privacy",
+        success: "Success",
+        error: "Error",
+        warning: "Warning",
+        info: "Information",
+        field_required: "Please fill in all fields",
+        invalid_email: "Invalid email format",
+        login_success: "Login successful! Redirecting...",
+        login_error: "Login failed",
+        user_not_found: "No account found with this email",
+        wrong_password: "Incorrect password",
+        too_many_requests: "Too many attempts. Try again later",
+        account_inactive: "Account not activated. Redirecting to payment...",
+        reset_email_sent: "Reset email sent",
+        reset_error: "Error sending email"
       }
-    }, (animationDuration + animationDelay) * 1000);
-  }
-  
-  // Cacher le conteneur après 5 secondes
-  setTimeout(() => {
-    confettiContainer.style.display = 'none';
-  }, 5000);
-}
+    };
 
-/* ---------- GESTION DE L'INTERFACE ---------- */
-const loginForm = document.getElementById('loginForm');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const togglePassword = document.getElementById('togglePassword');
-const submitBtn = document.querySelector('.btn');
-const errorMessage = document.getElementById('errorMessage');
-const errorText = document.getElementById('errorText');
-const successMessage = document.getElementById('successMessage');
-const successText = document.getElementById('successText');
-const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    let currentLang = localStorage.getItem('earnesia_lang') || 'fr';
+    let isSubmitting = false;
 
-function showError(message) {
-  errorText.textContent = message;
-  errorMessage.classList.add('show');
-  successMessage.classList.remove('show');
-}
-
-function showSuccess(message) {
-  successText.textContent = message;
-  successMessage.classList.add('show');
-  errorMessage.classList.remove('show');
-}
-
-function hideMessages() {
-  errorMessage.classList.remove('show');
-  successMessage.classList.remove('show');
-}
-
-function setLoading(loading) {
-  if (loading) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion en cours...';
-  } else {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
-  }
-}
-
-/* ---------- BASCULE VISIBILITÉ MOT DE PASSE ---------- */
-togglePassword.addEventListener('click', () => {
-  const type = passwordInput.type === 'password' ? 'text' : 'password';
-  passwordInput.type = type;
-  togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-});
-
-/* ---------- RÉINITIALISATION MOT DE PASSE ---------- */
-forgotPasswordLink.addEventListener('click', async (e) => {
-  e.preventDefault();
-  const email = emailInput.value.trim();
-  
-  if (!email) {
-    showError('Veuillez entrer votre adresse email pour réinitialiser le mot de passe.');
-    return;
-  }
-
-  try {
-    await auth.sendPasswordResetEmail(email);
-    showSuccess('Un email de réinitialisation a été envoyé à ' + email);
-  } catch (error) {
-    console.error('Erreur reset password:', error);
-    showError('Erreur lors de l\'envoi de l\'email. Vérifiez l\'adresse.');
-  }
-});
-
-/* ---------- CONNEXION ---------- */
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  hideMessages();
-  
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  
-  if (!email || !password) {
-    showError('Veuillez remplir tous les champs.');
-    return;
-  }
-  
-  setLoading(true);
-  
-  try {
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
-    const user = userCredential.user;
-    
-    const userDoc = await db.collection('users').doc(user.uid).get();
-    
-    if (userDoc.exists) {
-      const userData = userDoc.data();
-      const status = (userData.status || userData.statut || '').toString().toLowerCase().trim();
-      
-      if (status === 'active') {
-        // Lancer l'effet confettis
-        createConfetti();
-        
-        showSuccess('Connexion réussie ! Redirection...');
-        submitBtn.classList.add('success-animation');
-        submitBtn.style.background = 'linear-gradient(135deg, #00c853 0%, #00b248 100%)';
-        
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 2000);
-      } else {
-        showError('Votre compte n\'est pas encore activé. Veuillez effectuer le paiement d\'activation.');
-        setTimeout(() => {
-          window.location.href = 'paiement.html';
-        }, 2000);
-      }
-    } else {
-      showError('Compte utilisateur introuvable. Veuillez vous inscrire.');
-      await auth.signOut();
+    function t(key) {
+      return translations[currentLang][key] || translations['fr'][key] || key;
     }
-  } catch (error) {
-    console.error('Erreur connexion:', error);
-    
-    let errorMsg = 'Une erreur est survenue lors de la connexion.';
-    
-    switch (error.code) {
-      case 'auth/user-not-found':
-        errorMsg = 'Aucun compte trouvé avec cet email.';
-        break;
-      case 'auth/wrong-password':
-        errorMsg = 'Mot de passe incorrect.';
-        break;
-      case 'auth/invalid-email':
-        errorMsg = 'Adresse email invalide.';
-        break;
-      case 'auth/too-many-requests':
-        errorMsg = 'Trop de tentatives. Réessayez plus tard.';
-        break;
-      case 'auth/invalid-credential':
-        errorMsg = 'Email ou mot de passe incorrect.';
-        break;
-    }
-    
-    showError(errorMsg);
-  } finally {
-    setLoading(false);
-  }
-});
 
-/* ---------- VÉRIFICATION ÉTAT CONNEXION ---------- */
-auth.onAuthStateChanged((user) => {
-  if (user) {
-    db.collection('users').doc(user.uid).get().then((doc) => {
-      if (doc.exists) {
-        const userData = doc.data();
-        const status = (userData.status || userData.statut || '').toString().toLowerCase().trim();
-        if (status === 'active') {
-          window.location.href = 'dashboard.html';
+    function applyTranslations() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+          el.textContent = translations[currentLang][key];
         }
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[currentLang][key]) {
+          el.placeholder = translations[currentLang][key];
+        }
+      });
+      document.getElementById('langText').textContent = currentLang.toUpperCase();
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      localStorage.setItem('earnesia_lang', currentLang);
+      applyTranslations();
+    }
+
+    const savedTheme = localStorage.getItem('earnesia_theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+      document.body.classList.add('dark-mode');
+      document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      this.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      localStorage.setItem('earnesia_theme', isDark ? 'dark' : 'light');
+    });
+
+    function showNotification(type, title, message) {
+      const container = document.getElementById('notificationSystem');
+      const icons = { 
+        success: 'fa-check-circle', 
+        error: 'fa-exclamation-circle', 
+        warning: 'fa-exclamation-triangle', 
+        info: 'fa-info-circle' 
+      };
+      const el = document.createElement('div');
+      el.className = 'notification ' + type;
+      el.innerHTML = `
+        <div class="notification-info">
+          <div class="notification-title">
+            <i class="fas ${icons[type]}"></i> ${title}
+          </div>
+          <div class="notification-message">${message}</div>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      container.appendChild(el);
+      setTimeout(() => { if (el.parentElement) el.remove(); }, 5000);
+    }
+
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      const icon = input.parentElement.querySelector('.password-toggle i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    function setLoading(loading) {
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      
+      if (loading) {
+        submitBtn.disabled = true;
+        btnText.innerHTML = '<span class="loading"></span>';
+        isSubmitting = true;
+      } else {
+        submitBtn.disabled = false;
+        btnText.textContent = t('login_button');
+        isSubmitting = false;
+      }
+    }
+
+    async function forgotPassword(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      
+      if (!email) {
+        showNotification('error', t('error'), t('field_required'));
+        return;
+      }
+
+      try {
+        await auth.sendPasswordResetEmail(email);
+        showNotification('success', t('success'), t('reset_email_sent'));
+      } catch (error) {
+        console.error('Reset password error:', error);
+        showNotification('error', t('error'), t('reset_error'));
+      }
+    }
+
+    function openTermsModal() {
+      showNotification('info', t('info'), 'Fonctionnalité à venir');
+    }
+
+    function openPrivacyModal() {
+      showNotification('info', t('info'), 'Fonctionnalité à venir');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+
+      if (!email || !password) {
+        showNotification('error', t('error'), t('field_required'));
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const persistence = rememberMe ? 
+          firebase.auth.Auth.Persistence.LOCAL : 
+          firebase.auth.Auth.Persistence.SESSION;
+        
+        await auth.setPersistence(persistence);
+        
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        const userDoc = await db.collection('users').where('uid', '==', user.uid).get();
+        
+        if (userDoc.empty) {
+          showNotification('error', t('error'), t('user_not_found'));
+          await auth.signOut();
+          setLoading(false);
+          return;
+        }
+
+        const userData = userDoc.docs[0].data();
+        const status = (userData.status || userData.statut || '').toString().toLowerCase().trim();
+
+        if (status === 'active') {
+          showNotification('success', t('success'), t('login_success'));
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 1000);
+        } else {
+          showNotification('warning', t('warning'), t('account_inactive'));
+          setTimeout(() => {
+            window.location.href = 'paiement.html';
+          }, 2000);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        
+        let errorMsg = t('login_error');
+        
+        switch (error.code) {
+          case 'auth/user-not-found':
+            errorMsg = t('user_not_found');
+            break;
+          case 'auth/wrong-password':
+            errorMsg = t('wrong_password');
+            break;
+          case 'auth/invalid-email':
+            errorMsg = t('invalid_email');
+            break;
+          case 'auth/too-many-requests':
+            errorMsg = t('too_many_requests');
+            break;
+          case 'auth/invalid-credential':
+            errorMsg = t('wrong_password');
+            break;
+        }
+        
+        showNotification('error', t('error'), errorMsg);
+        setLoading(false);
       }
     });
-  }
-});
 
-/* ---------- INITIALISATION ANIMATIONS ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  // Animation d'entrée
-  setTimeout(() => {
-    const formGroups = document.querySelectorAll('.form-group');
-    formGroups.forEach((group, index) => {
-      group.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        db.collection('users').where('uid', '==', user.uid).get().then((snapshot) => {
+          if (!snapshot.empty) {
+            const userData = snapshot.docs[0].data();
+            const status = (userData.status || userData.statut || '').toString().toLowerCase().trim();
+            if (status === 'active') {
+              window.location.href = 'dashboard.html';
+            }
+          }
+        });
+      }
     });
-  }, 300);
-  
-  // Effet sur les inputs au focus
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
-    input.addEventListener('focus', function() {
-      this.parentElement.style.transform = 'skewX(var(--skew)) translateY(-5px)';
-    });
-    
-    input.addEventListener('blur', function() {
-      this.parentElement.style.transform = 'skewX(var(--skew)) translateY(0)';
-    });
-  });
-  
-  // Animation du logo
-  const logoImg = document.querySelector('.logo-img');
-  if (logoImg) {
-    setTimeout(() => {
-      logoImg.style.transform = 'scale(1.1) rotate(5deg)';
-      setTimeout(() => {
-        logoImg.style.transform = 'scale(1) rotate(0deg)';
-      }, 500);
-    }, 500);
-  }
-  
-  // Effet de chargement progressif
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.6s ease';
-  
-  setTimeout(() => {
-    document.body.style.opacity = '1';
-    
-    // Animation séquentielle des éléments
-    const formElements = document.querySelectorAll('.form-group, .form-options, .btn, .register-link');
-    formElements.forEach((el, index) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+    document.addEventListener('DOMContentLoaded', function() {
+      applyTranslations();
       
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, 300 + (index * 100));
+      const urlParams = new URLSearchParams(window.location.search);
+      const refParam = urlParams.get('ref') || urlParams.get('par') || '';
+      
+      if (refParam) {
+        showNotification('info', t('info'), `Parrain détecté: ${refParam}`);
+      }
     });
-  }, 200);
-});
-</script>
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !isSubmitting) {
+        document.getElementById('loginForm').requestSubmit();
+      }
+    });
+  </script>
 </body>
 </html>
