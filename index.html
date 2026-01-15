@@ -221,13 +221,14 @@
       display: flex;
       justify-content: center;
       gap: 40px;
-      margin-bottom: 25px;
+      margin-bottom: 55px;
       position: relative;
+      z-index: 10;
     }
     
     .progress-step {
       position: relative;
-      z-index: 2;
+      z-index: 11;
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -275,6 +276,7 @@
       color: rgba(255,255,255,0.8);
       white-space: nowrap;
       font-weight: 600;
+      z-index: 12;
     }
     
     .card {
@@ -1361,7 +1363,7 @@
 
     var usernameTimeout;
     document.getElementById('username').addEventListener('input', function() {
-      var username = this.value.trim();
+      var username = this.value.trim().toLowerCase();
       var hint = document.getElementById('usernameHint');
       clearTimeout(usernameTimeout);
       
@@ -1375,9 +1377,10 @@
       hint.style.color = 'var(--dark-gray)';
 
       usernameTimeout = setTimeout(function() {
-        db.collection('users').where('username', '==', username).get()
-          .then(function(snapshot) {
-            if (snapshot.empty) {
+        fetch(SERVER_URL + '/api/check-username/' + encodeURIComponent(username))
+          .then(function(response) { return response.json(); })
+          .then(function(data) {
+            if (data.available) {
               hint.innerHTML = '<i class="fas fa-check"></i> ' + t('username_available');
               hint.style.color = '#00cc88';
             } else {
@@ -1451,87 +1454,57 @@
       var countryCode = document.getElementById('countryCode').value;
       var phone = document.getElementById('phone').value.trim();
 
-      db.collection('users').where('username', '==', username).get()
-        .then(function(snapshot) {
-          if (!snapshot.empty) {
-            throw new Error(t('username_taken'));
+      fetch(SERVER_URL + '/api/register-complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+          country: country,
+          phone: phone,
+          countryCode: countryCode,
+          sponsorUsername: sponsorData ? sponsorData.username : ''
+        })
+      })
+      .then(function(response) {
+        return response.json().then(function(data) {
+          if (!response.ok || !data.ok) {
+            throw { code: data.code || 'SERVER_ERROR', message: data.error || 'Erreur serveur' };
           }
-          return auth.createUserWithEmailAndPassword(email, password);
-        })
-        .then(function(userCredential) {
-          var user = userCredential.user;
-          return user.updateProfile({ displayName: firstName + ' ' + lastName })
-            .then(function() { return user.sendEmailVerification(); })
-            .then(function() { return user; });
-        })
-        .then(function(user) {
-          return db.collection('users').doc(username).set({
-            uid: user.uid,
-            username: username,
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
-            displayName: firstName + ' ' + lastName,
-            country: country,
-            phone: phone,
-            fullPhone: countryCode + phone,
-            referredBy: sponsorData ? sponsorData.username : '',
-            parrain: sponsorData ? sponsorData.username : '',
-            status: 'pending',
-            activated: false,
-            solde: 0,
-            profit: 0,
-            totalWithdrawn: 0,
-            referralEarnings: 0,
-            agentBonus: 0,
-            whatsappGains: 0,
-            triviaGains: 0,
-            adGains: 0,
-            tiktokGains: 0,
-            youtubeGains: 0,
-            instagramGains: 0,
-            depositBalance: 0,
-            filleuls: [],
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          }).then(function() { return user; });
-        })
-        .then(function(user) {
-          return fetch(SERVER_URL + '/api/register-with-referral', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              uid: user.uid,
-              email: email,
-              displayName: username,
-              firstName: firstName,
-              lastName: lastName,
-              sponsorUsername: sponsorData ? sponsorData.username : '',
-              country: country,
-              phoneNumber: countryCode + phone
-            })
-          }).catch(function(e) { console.warn('Server registration failed:', e); });
-        })
-        .then(function() {
-          submitBtn.innerHTML = '<i class="fas fa-check"></i> ' + t('account_created');
-          showNotification('success', t('success'), t('account_created'));
-          triggerConfetti();
-          setTimeout(function() {
-            window.location.href = 'paiement.html';
-          }, 2500);
-        })
-        .catch(function(error) {
-          console.error('Registration error:', error);
-          var errorMsg = error.message;
-          if (error.code === 'auth/email-already-in-use') errorMsg = 'Cette adresse email est deja utilisee';
-          else if (error.code === 'auth/weak-password') errorMsg = 'Mot de passe trop faible';
-          else if (error.code === 'auth/invalid-email') errorMsg = 'Adresse email invalide';
-          
-          showNotification('error', t('error'), errorMsg);
-          submitBtn.innerHTML = originalText;
-          submitBtn.disabled = false;
-          isSubmitting = false;
+          return data;
         });
+      })
+      .then(function(data) {
+        console.log('Inscription reussie:', data);
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> ' + t('account_created');
+        showNotification('success', t('success'), t('account_created'));
+        triggerConfetti();
+        
+        localStorage.setItem('earnesia_username', data.username);
+        localStorage.setItem('earnesia_uid', data.uid);
+        
+        setTimeout(function() {
+          window.location.href = 'paiement.html';
+        }, 2500);
+      })
+      .catch(function(error) {
+        console.error('Registration error:', error);
+        var errorMsg = error.message || 'Erreur lors de l\'inscription';
+        
+        if (error.code === 'EMAIL_EXISTS') errorMsg = 'Cette adresse email est deja utilisee';
+        else if (error.code === 'USERNAME_TAKEN') errorMsg = 'Ce nom d\'utilisateur est deja pris';
+        else if (error.code === 'WEAK_PASSWORD') errorMsg = 'Mot de passe trop faible (min 8 caracteres)';
+        else if (error.code === 'INVALID_EMAIL') errorMsg = 'Adresse email invalide';
+        else if (error.code === 'MISSING_FIELDS') errorMsg = 'Tous les champs obligatoires doivent etre remplis';
+        
+        showNotification('error', t('error'), errorMsg);
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        isSubmitting = false;
+      });
     });
 
     document.addEventListener('DOMContentLoaded', function() {
